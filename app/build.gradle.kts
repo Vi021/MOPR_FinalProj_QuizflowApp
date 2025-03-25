@@ -44,9 +44,8 @@ dependencies {
     // added dependencies
     implementation(libs.circleimageview)
     implementation(libs.glide)
-    implementation(libs.glideCompiler)
     implementation(libs.glideTransformations)
-    implementation(libs.chipNavbar)
+    annotationProcessor(libs.glideCompiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
