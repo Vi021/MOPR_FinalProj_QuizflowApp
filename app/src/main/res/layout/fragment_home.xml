@@ -27,13 +27,15 @@
                 android:id="@+id/circleImg_pfp"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:src="@drawable/ic_default_pfp_blues"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/txt_hello"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -78,7 +80,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_action_plus_white" />
+                    android:contentDescription="@string/app_name"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_action_plus_white"
+                    tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -99,12 +105,15 @@
             app:layout_constraintTop_toBottomOf="@id/consL_profileBar">
 
             <LinearLayout
+                android:id="@+id/lineL_createQuiz"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="3"
                 android:background="@drawable/rounded_bordered_bg_main"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true" >
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -126,6 +135,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lineL_singlePlayer"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -152,6 +162,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lineL_multiPlayers"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
@@ -204,16 +215,20 @@
                 app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
 
             <TextView
+                android:id="@+id/txt_viewCategories"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="2dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="View All"
                 android:textColor="@color/xanh_botro3"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
                 app:layout_constraintEnd_toEndOf="@+id/consL_categoryBar"
-                app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
+                app:layout_constraintTop_toTopOf="@+id/consL_categoryBar"
+                tools:ignore="TouchTargetSizeCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- categories, row 1 -->
@@ -224,6 +239,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/consL_categoryBar">
@@ -244,7 +261,7 @@
                     android:id="@+id/img_category1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.45"
                     android:padding="10dp"
                     android:src="@drawable/ic_category_science" />
 
@@ -252,8 +269,8 @@
                     android:id="@+id/txt_category1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
-                    android:gravity="center"
+                    android:layout_weight="0.55"
+                    android:gravity="center_vertical"
                     android:text="Science"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -267,6 +284,8 @@
                 android:layout_marginStart="7dp"
                 android:background="@drawable/rounded_bordered_bg_main"
                 android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintBottom_toTopOf="@id/lineL_category4"
                 app:layout_constraintEnd_toEndOf="@id/lineL_categoryContainer1"
                 app:layout_constraintTop_toTopOf="@id/lineL_categoryContainer1">
@@ -275,7 +294,7 @@
                     android:id="@+id/img_category2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.45"
                     android:padding="10dp"
                     android:src="@drawable/ic_category_history" />
 
@@ -283,8 +302,8 @@
                     android:id="@+id/txt_category2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
-                    android:gravity="center"
+                    android:layout_weight="0.55"
+                    android:gravity="center_vertical"
                     android:text="History"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -313,6 +332,8 @@
                 android:background="@drawable/rounded_bordered_bg_main"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="@id/lineL_categoryContainer1"
                 app:layout_constraintStart_toStartOf="@id/lineL_categoryContainer1">
 
@@ -320,7 +341,7 @@
                     android:id="@+id/img_category3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.45"
                     android:padding="10dp"
                     android:src="@drawable/ic_category_sport" />
 
@@ -328,8 +349,8 @@
                     android:id="@+id/txt_category3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
-                    android:gravity="center"
+                    android:layout_weight="0.55"
+                    android:gravity="center_vertical"
                     android:text="Sport"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -344,6 +365,8 @@
                 android:background="@drawable/rounded_bordered_bg_main"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="@id/lineL_categoryContainer1"
                 app:layout_constraintEnd_toEndOf="@id/lineL_categoryContainer1">
 
@@ -351,7 +374,7 @@
                     android:id="@+id/img_category4"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.45"
                     android:padding="10dp"
                     android:src="@drawable/ic_category_art" />
 
@@ -359,8 +382,8 @@
                     android:id="@+id/txt_category4"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
-                    android:gravity="center"
+                    android:layout_weight="0.55"
+                    android:gravity="center_vertical"
                     android:text="Art"
                     android:textColor="@color/white"
                     android:textSize="18sp" />

@@ -2,25 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/chipNav_home"
+        android:id="@+id/chipNav_homeTab"
         android:icon="@drawable/ic_nav_home_white"
         android:title="Home"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />
     <item
-        android:id="@+id/chipNav_ranking"
+        android:id="@+id/chipNav_rankingTab"
         android:icon="@drawable/ic_nav_medal_white"
         android:title="Ranking"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />
     <item
-        android:id="@+id/chipNav_collection"
+        android:id="@+id/chipNav_collectionTab"
         android:icon="@drawable/ic_nav_save_white"
         android:title="Collection"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />
     <item
-        android:id="@+id/chipNav_settings"
+        android:id="@+id/chipNav_settingsTab"
         android:icon="@drawable/ic_nav_settings_white"
         android:title="Settings"
         app:cnb_backgroundColor="@color/xanh_botro6"
