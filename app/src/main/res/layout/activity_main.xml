@@ -8,10 +8,13 @@
     android:background="@drawable/main_bg_gradient"
     tools:context=".activities.MainActivity" >
 
+    <!-- fragment container -->
     <FrameLayout
-        android:id="@+id/framL_container"
+        android:id="@+id/framL_fragContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
