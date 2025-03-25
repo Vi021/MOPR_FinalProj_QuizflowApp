@@ -26,6 +26,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Fragment selectedFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.framL_container, selectedFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.framL_fragContainer, selectedFragment).commit();
     }
 }

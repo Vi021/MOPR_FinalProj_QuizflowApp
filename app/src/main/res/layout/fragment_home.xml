@@ -1,389 +1,438 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
 
-    <!-- profile utilities -->
+    <!-- Home content -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/consL_profileBar"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImg_pfp"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:src="@drawable/ic_default_pfp_blues"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Hello!"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
-            app:layout_constraintStart_toEndOf="@+id/circleImg_pfp"
-            app:layout_constraintTop_toTopOf="@+id/consL_profileBar" />
-
-        <LinearLayout
-            android:id="@+id/lineL_coinBar"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="horizontal"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
-            android:weightSum="10"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
-            app:layout_constraintEnd_toEndOf="@+id/consL_profileBar"
-            app:layout_constraintTop_toTopOf="@+id/consL_profileBar">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="3"
-                android:src="@drawable/ic_coin" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="4"
-                android:text="0"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/img_coinAdd"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:src="@drawable/ic_plus_white" />
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- actions -->
-    <LinearLayout
-        android:id="@+id/lineL_actionBar"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:orientation="horizontal"
-        android:weightSum="9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/consL_profileBar">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="3"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_margin="15dp"
-                android:src="@drawable/ic_plus_white" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Create Quiz"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_margin="15dp"
-                android:padding="10dp"
-                android:src="@drawable/ic_singleplayer" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Single Player"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_weight="3"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_margin="15dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_multiplayers" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Multi Players"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- category bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/consL_categoryBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lineL_actionBar">
+        android:paddingBottom="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:text="Categories"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
-            app:layout_constraintStart_toStartOf="@+id/consL_categoryBar"
-            app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="2dp"
-            android:text="View All"
-            android:textColor="@color/xanh_botro3"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
-            app:layout_constraintEnd_toEndOf="@+id/consL_categoryBar"
-            app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- categories -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/consL_categoryContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/consL_categoryBar">
-
-        <LinearLayout
-            android:id="@+id/lineL_category1"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/lineL_category3"
-            app:layout_constraintStart_toStartOf="@id/consL_categoryContainer"
-            app:layout_constraintTop_toTopOf="@id/consL_categoryContainer">
-
-            <ImageView
-                android:id="@+id/img_category1"
-                android:layout_width="64dp"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/ic_category_science" />
-
-            <TextView
-                android:id="@+id/txt_category1"
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Science"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lineL_category2"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/lineL_category4"
-            app:layout_constraintEnd_toEndOf="@id/consL_categoryContainer"
-            app:layout_constraintTop_toTopOf="@id/consL_categoryContainer">
-
-            <ImageView
-                android:id="@+id/img_category2"
-                android:layout_width="64dp"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/ic_category_history" />
-
-            <TextView
-                android:id="@+id/txt_category2"
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="History"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lineL_category3"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/consL_categoryContainer"
-            app:layout_constraintStart_toStartOf="@id/consL_categoryContainer">
-
-            <ImageView
-                android:id="@+id/img_category3"
-                android:layout_width="64dp"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/ic_category_sport" />
-
-            <TextView
-                android:id="@+id/txt_category3"
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Sport"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lineL_category4"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:background="@drawable/rounded_bordered_bg_main"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/consL_categoryContainer"
-            app:layout_constraintEnd_toEndOf="@id/consL_categoryContainer">
-
-            <ImageView
-                android:id="@+id/img_category4"
-                android:layout_width="64dp"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/ic_category_art" />
-
-            <TextView
-                android:id="@+id/txt_category4"
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Art"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- earncoin bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/consL_earncoinsBar"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="6dp"
-        android:background="@drawable/rounded_earncoin_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/consL_categoryContainer">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/globs_nobg"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <!-- profile utilities -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/consL_profileBar"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/txt_completeToEarn"
-            android:layout_width="250dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImg_pfp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/ic_default_pfp_blues"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Hello!"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
+                app:layout_constraintStart_toEndOf="@+id/circleImg_pfp"
+                app:layout_constraintTop_toTopOf="@+id/consL_profileBar" />
+
+            <LinearLayout
+                android:id="@+id/lineL_coinBar"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="horizontal"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
+                app:layout_constraintEnd_toEndOf="@+id/consL_profileBar"
+                app:layout_constraintTop_toTopOf="@+id/consL_profileBar">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="0.3"
+                    android:src="@drawable/ic_coin" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="0.4"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/img_coinAdd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:src="@drawable/ic_action_plus_white" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- actions -->
+        <LinearLayout
+            android:id="@+id/lineL_actionBar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            android:text="Complete All Levels To Earn 1000 Coins!"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal"
+            android:weightSum="9"
+            android:baselineAligned="false"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        
-        <ImageView
-            android:id="@+id/img_coins"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
-            android:padding="20dp"
-            android:src="@drawable/ic_coins"
-            app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
-            app:layout_constraintEnd_toEndOf="@id/consL_earncoinsBar"
-            app:layout_constraintTop_toTopOf="@id/consL_earncoinsBar"/>
+            app:layout_constraintTop_toBottomOf="@id/consL_profileBar">
 
-        <TextView
-            android:id="@+id/txt_startNow"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:background="@drawable/rounded_btn_bg_blue"
-            android:text="Start Now"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
-            app:layout_constraintStart_toStartOf="@id/txt_completeToEarn" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_margin="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_action_plus_white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Create Quiz"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_action_singleplayer_white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Single Player"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="3"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_margin="10dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_action_multiplayers_white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Multi Players"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- category bar -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/consL_categoryBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lineL_actionBar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:text="Categories"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
+                app:layout_constraintStart_toStartOf="@+id/consL_categoryBar"
+                app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="2dp"
+                android:text="View All"
+                android:textColor="@color/xanh_botro3"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
+                app:layout_constraintEnd_toEndOf="@+id/consL_categoryBar"
+                app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- categories, row 1 -->
+        <LinearLayout
+            android:id="@+id/lineL_categoryContainer1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/consL_categoryBar">
+
+            <LinearLayout
+                android:id="@+id/lineL_category1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:layout_marginEnd="7dp"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/lineL_category3"
+                app:layout_constraintStart_toStartOf="@id/lineL_categoryContainer1"
+                app:layout_constraintTop_toTopOf="@id/lineL_categoryContainer1">
+
+                <ImageView
+                    android:id="@+id/img_category1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_category_science" />
+
+                <TextView
+                    android:id="@+id/txt_category1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:text="Science"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lineL_category2"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="0.5"
+                android:layout_marginStart="7dp"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/lineL_category4"
+                app:layout_constraintEnd_toEndOf="@id/lineL_categoryContainer1"
+                app:layout_constraintTop_toTopOf="@id/lineL_categoryContainer1">
+
+                <ImageView
+                    android:id="@+id/img_category2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_category_history" />
+
+                <TextView
+                    android:id="@+id/txt_category2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:text="History"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- categories, row 2 -->
+        <LinearLayout
+            android:id="@+id/lineL_categoryContainer2"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:baselineAligned="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lineL_categoryContainer1">
+
+            <LinearLayout
+                android:id="@+id/lineL_category3"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="0.5"
+                android:layout_marginEnd="7dp"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                app:layout_constraintBottom_toBottomOf="@id/lineL_categoryContainer1"
+                app:layout_constraintStart_toStartOf="@id/lineL_categoryContainer1">
+
+                <ImageView
+                    android:id="@+id/img_category3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_category_sport" />
+
+                <TextView
+                    android:id="@+id/txt_category3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:text="Sport"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lineL_category4"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="0.5"
+                android:layout_marginStart="7dp"
+                android:background="@drawable/rounded_bordered_bg_main"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                app:layout_constraintBottom_toBottomOf="@id/lineL_categoryContainer1"
+                app:layout_constraintEnd_toEndOf="@id/lineL_categoryContainer1">
+
+                <ImageView
+                    android:id="@+id/img_category4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_category_art" />
+
+                <TextView
+                    android:id="@+id/txt_category4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:text="Art"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- earncoin bar -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/consL_earncoinsBar"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/rounded_earncoin_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lineL_categoryContainer2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/globs_nobg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_completeToEarn"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.77"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Complete All Levels To Earn 1000 Coins!"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/img_coins"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.4"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:paddingTop="40dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:src="@drawable/ic_coins"
+                app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
+                app:layout_constraintEnd_toEndOf="@id/consL_earncoinsBar"
+                app:layout_constraintTop_toTopOf="@id/consL_earncoinsBar" />
+
+            <TextView
+                android:id="@+id/txt_startNow"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.4"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_btn_bg_blue"
+                android:gravity="center"
+                android:text="Start Now"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
+                app:layout_constraintStart_toStartOf="@id/txt_completeToEarn" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
