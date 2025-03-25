@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 
 import com.example.quizflow.R;
 
-public class RankingFragment extends Fragment {
+public class CollectionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate layout
-        View view = inflater.inflate(R.layout.fragment_ranking, container, false);
+        View view =inflater.inflate(R.layout.fragment_collection, container, false);
 
         // do sth
 

@@ -10,9 +10,14 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.quizflow.R;
+import com.example.quizflow.fragments.CollectionFragment;
 import com.example.quizflow.fragments.HomeFragment;
+import com.example.quizflow.fragments.RankingFragment;
+import com.example.quizflow.fragments.SettingsFragment;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
+    private ChipNavigationBar chipNav_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,30 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Fragment selectedFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.framL_fragContainer, selectedFragment).commit();
+        chipNav_menu = findViewById(R.id.chipNav_menu);
+        chipNav_menu.setOnItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
+
+            if (item == R.id.chipNav_homeTab) {
+                selectedFragment = new HomeFragment();
+            } else if (item == R.id.chipNav_rankingTab) {
+                selectedFragment = new RankingFragment();
+            } else if (item == R.id.chipNav_collectionTab) {
+                selectedFragment = new CollectionFragment();
+            } else if (item == R.id.chipNav_settingsTab) {
+                selectedFragment = new SettingsFragment();
+            }
+
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.framL_fragContainer, selectedFragment).commit();
+            }
+        });
+
+        if (savedInstanceState == null) {
+            chipNav_menu.setItemSelected(R.id.chipNav_homeTab, true);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.framL_fragContainer, new HomeFragment())
+                    .commit();
+        }
     }
 }
