@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.example.quizflow.R;
 import com.example.quizflow.fragments.CollectionFragment;
 import com.example.quizflow.fragments.HomeFragment;
+import com.example.quizflow.fragments.RankingFragment;
 import com.example.quizflow.fragments.SettingsFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             if (item == R.id.chipNav_homeTab) {
                 selectedFragment = new HomeFragment();
             } else if (item == R.id.chipNav_rankingTab) {
-                //selectedFragment = new RankingFragment();
+                selectedFragment = new RankingFragment();
             } else if (item == R.id.chipNav_collectionTab) {
                 selectedFragment = new CollectionFragment();
             } else if (item == R.id.chipNav_settingsTab) {
