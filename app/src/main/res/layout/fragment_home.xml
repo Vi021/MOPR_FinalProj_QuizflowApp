@@ -50,7 +50,7 @@
                 android:id="@+id/lineL_coinBar"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="horizontal"
                 android:paddingStart="6dp"
                 android:paddingEnd="6dp"
@@ -110,7 +110,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="3"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="vertical"
                 android:clickable="true"
                 android:focusable="true" >
@@ -139,7 +139,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="vertical">
 
                 <ImageView
@@ -167,7 +167,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_weight="3"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="vertical">
 
                 <ImageView
@@ -251,7 +251,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:layout_marginEnd="7dp"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/lineL_category3"
                 app:layout_constraintStart_toStartOf="@id/lineL_categoryContainer1"
@@ -282,7 +282,7 @@
                 android:layout_height="64dp"
                 android:layout_weight="0.5"
                 android:layout_marginStart="7dp"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:focusable="true"
@@ -329,7 +329,7 @@
                 android:layout_height="64dp"
                 android:layout_weight="0.5"
                 android:layout_marginEnd="7dp"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
                 android:clickable="true"
@@ -362,7 +362,7 @@
                 android:layout_height="64dp"
                 android:layout_weight="0.5"
                 android:layout_marginStart="7dp"
-                android:background="@drawable/rounded_bordered_bg_main"
+                android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="horizontal"
                 android:baselineAligned="false"
                 android:clickable="true"
