@@ -448,7 +448,7 @@
                 app:layout_constraintWidth_percent="0.4"
                 android:layout_height="40dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_btn_bg_blue"
+                android:background="@drawable/rounded_bg_blue_clickable"
                 android:gravity="center"
                 android:text="Start Now"
                 android:textColor="@color/white"

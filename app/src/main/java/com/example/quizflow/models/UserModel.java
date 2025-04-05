@@ -4,15 +4,15 @@ public class UserModel {
     private int id;
     private String username;
     private String pfp;
-    private long score;
+    private long coins;
 
     public UserModel() {}
 
-    public UserModel(int id, String username, String pfp, long score) {
+    public UserModel(int id, String username, String pfp, long coins) {
         this.id = id;
         this.username = username;
         this.pfp = pfp;
-        this.score = score;
+        this.coins = coins;
     }
 
     public int getId() {
@@ -36,10 +36,10 @@ public class UserModel {
         this.pfp = pfp;
     }
 
-    public long getScore() {
-        return score;
+    public long getCoins() {
+        return coins;
     }
-    public void setScore(long score) {
-        this.score = score;
+    public void setCoins(long coins) {
+        this.coins = coins;
     }
 }

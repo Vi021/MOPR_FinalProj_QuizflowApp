@@ -16,7 +16,7 @@
     <item
         android:id="@+id/chipNav_collectionTab"
         android:icon="@drawable/ic_nav_save_white"
-        android:title="Collection"
+        android:title="Collections"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />
     <item

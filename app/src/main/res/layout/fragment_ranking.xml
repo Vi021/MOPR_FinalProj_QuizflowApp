@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RankingFragment" >
+    tools:context=".fragments.TopingFragment" >
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -14,6 +14,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="Rankings"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,7 +37,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="48dp"
                     android:layout_weight="0.333"
                     android:background="@drawable/blue_bg"
                     android:text="Weekly"
@@ -39,7 +48,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="48dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="0.333"
                     android:background="@drawable/white_bg"
@@ -51,13 +59,13 @@
                     style="@android:style/Widget.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="48dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="24dp"
                     android:layout_weight="0.333"
                     android:background="@drawable/white_bg"
                     android:text="All Time"
                     android:textColor="@color/xanh_ngoc" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -76,7 +84,7 @@
                         android:layout_height="200dp">
 
                         <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/pic3"
+                            android:id="@+id/img_pfpTop3"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:padding="2dp"
@@ -91,25 +99,25 @@
 
                         <TextView
                             android:id="@+id/textView91"
-                            android:layout_width="21dp"
-                            android:layout_height="21dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:background="@drawable/circle_top3"
                             android:gravity="center"
-                            android:text="3"
+                            android:text="#3"
                             android:textColor="@color/white"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/pic3"
-                            app:layout_constraintEnd_toEndOf="@+id/pic3"
-                            app:layout_constraintStart_toStartOf="@+id/pic3"
-                            app:layout_constraintTop_toBottomOf="@+id/pic3" />
+                            app:layout_constraintBottom_toBottomOf="@+id/img_pfpTop3"
+                            app:layout_constraintEnd_toEndOf="@+id/img_pfpTop3"
+                            app:layout_constraintStart_toStartOf="@+id/img_pfpTop3"
+                            app:layout_constraintTop_toBottomOf="@+id/img_pfpTop3" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/titleTop3Txt"
+                        android:id="@+id/txt_usernameTop3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="title"
+                        android:text="#3"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -126,20 +134,20 @@
 
                         <ImageView
                             android:id="@+id/imageView92"
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
 
                             android:layout_marginStart="4dp"
-                            app:srcCompat="@drawable/garnet" />
+                            app:srcCompat="@drawable/ic_coin" />
 
                         <TextView
-                            android:id="@+id/scoreTxt3"
+                            android:id="@+id/txt_coinsTop3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
-                            android:text="0000"
+                            android:text="0"
                             android:textColor="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
@@ -155,9 +163,9 @@
                         android:layout_height="200dp">
 
                         <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/pic1"
-                            android:layout_width="137dp"
-                            android:layout_height="137dp"
+                            android:id="@+id/img_pfpTop1"
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
                             android:padding="2dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -165,39 +173,39 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:shapeAppearanceOverlay="@style/CircleImageview"
                             app:strokeColor="#febb3a"
-                            app:strokeWidth="3dp" />
+                            app:strokeWidth="3dp"/>
 
                         <ImageView
                             android:id="@+id/imageView8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="-2dp"
-                            app:layout_constraintBottom_toTopOf="@+id/pic1"
-                            app:layout_constraintEnd_toEndOf="@+id/pic1"
-                            app:layout_constraintStart_toStartOf="@+id/pic1"
+                            app:layout_constraintBottom_toTopOf="@+id/img_pfpTop1"
+                            app:layout_constraintEnd_toEndOf="@+id/img_pfpTop1"
+                            app:layout_constraintStart_toStartOf="@+id/img_pfpTop1"
                             app:srcCompat="@drawable/crown" />
 
                         <TextView
                             android:id="@+id/textView93"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:background="@drawable/circle_top1"
                             android:gravity="center"
-                            android:text="1"
+                            android:text="#1"
                             android:textColor="@color/white"
-                            android:textSize="23sp"
+                            android:textSize="22sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/pic1"
-                            app:layout_constraintEnd_toEndOf="@+id/pic1"
-                            app:layout_constraintStart_toStartOf="@+id/pic1"
-                            app:layout_constraintTop_toBottomOf="@+id/pic1" />
+                            app:layout_constraintBottom_toBottomOf="@+id/img_pfpTop1"
+                            app:layout_constraintEnd_toEndOf="@+id/img_pfpTop1"
+                            app:layout_constraintStart_toStartOf="@+id/img_pfpTop1"
+                            app:layout_constraintTop_toBottomOf="@+id/img_pfpTop1" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/titleTop1Txt"
+                        android:id="@+id/txt_usernameTop1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="title"
+                        android:text="#1"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -214,20 +222,20 @@
 
                         <ImageView
                             android:id="@+id/imageView93"
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
 
                             android:layout_marginStart="4dp"
-                            app:srcCompat="@drawable/garnet" />
+                            app:srcCompat="@drawable/ic_coin" />
 
                         <TextView
-                            android:id="@+id/scoreTxt1"
+                            android:id="@+id/txt_coinsTop1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
-                            android:text="0000"
+                            android:text="0"
                             android:textColor="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
@@ -243,7 +251,7 @@
                         android:layout_height="200dp">
 
                         <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/pic2"
+                            android:id="@+id/img_pfpTop2"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:padding="2dp"
@@ -258,25 +266,25 @@
 
                         <TextView
                             android:id="@+id/textView9"
-                            android:layout_width="21dp"
-                            android:layout_height="21dp"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
                             android:background="@drawable/circle_top2"
                             android:gravity="center"
-                            android:text="2"
+                            android:text="#2"
                             android:textColor="@color/white"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/pic2"
-                            app:layout_constraintEnd_toEndOf="@+id/pic2"
-                            app:layout_constraintStart_toStartOf="@+id/pic2"
-                            app:layout_constraintTop_toBottomOf="@+id/pic2" />
+                            app:layout_constraintBottom_toBottomOf="@+id/img_pfpTop2"
+                            app:layout_constraintEnd_toEndOf="@+id/img_pfpTop2"
+                            app:layout_constraintStart_toStartOf="@+id/img_pfpTop2"
+                            app:layout_constraintTop_toBottomOf="@+id/img_pfpTop2" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/titleTop2Txt"
+                        android:id="@+id/txt_usernameTop2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="title"
+                        android:text="#2"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -293,27 +301,27 @@
 
                         <ImageView
                             android:id="@+id/imageView9"
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
 
                             android:layout_marginStart="4dp"
-                            app:srcCompat="@drawable/garnet" />
+                            app:srcCompat="@drawable/ic_coin" />
 
                         <TextView
-                            android:id="@+id/scoreTxt2"
+                            android:id="@+id/txt_coinsTop2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="1"
-                            android:text="0000"
+                            android:text="0"
                             android:textColor="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/leaderView"
+                android:id="@+id/recycler_rankings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
