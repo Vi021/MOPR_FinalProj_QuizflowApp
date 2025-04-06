@@ -18,12 +18,6 @@ import com.example.quizflow.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
-    private CircleImageView circleImg_pfp;
-    private ImageView img_coinAdd;
-    private TextView txt_hello, txt_viewCategories, txt_startNow;
-    private LinearLayout lineL_createQuiz, lineL_singlePlayer, lineL_multiPlayers , lineL_category1, lineL_category2, lineL_category3, lineL_category4;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,45 +26,44 @@ public class HomeFragment extends Fragment {
 
         initFindView(view);
 
-        //txt_hello.setText("Hello, " + "?" + "!");
-
         return view;
     }
 
     private void initFindView(View view) {
-        circleImg_pfp = view.findViewById(R.id.circleImg_pfp);
+        CircleImageView circleImg_pfp = view.findViewById(R.id.circleImg_pfp);
         circleImg_pfp.setOnClickListener(this::noService);
 
-        img_coinAdd = view.findViewById(R.id.img_coinAdd);
+        ImageView img_coinAdd = view.findViewById(R.id.img_coinAdd);
         img_coinAdd.setOnClickListener(this::noService);
 
-        txt_hello = view.findViewById(R.id.txt_hello);
+        TextView txt_hello = view.findViewById(R.id.txt_hello);
+        txt_hello.setText("Hello, " + "?" + "!");
 
-        txt_viewCategories = view.findViewById(R.id.txt_viewCategories);
+        TextView txt_viewCategories = view.findViewById(R.id.txt_viewCategories);
         txt_viewCategories.setOnClickListener(this::noCategories);
 
-        txt_startNow = view.findViewById(R.id.txt_startNow);
+        TextView txt_startNow = view.findViewById(R.id.txt_startNow);
         txt_startNow.setOnClickListener(this::noQuizzes);
 
-        lineL_createQuiz = view.findViewById(R.id.lineL_createQuiz);
+        LinearLayout lineL_createQuiz = view.findViewById(R.id.lineL_createQuiz);
         lineL_createQuiz.setOnClickListener(this::noService);
 
-        lineL_singlePlayer = view.findViewById(R.id.lineL_singlePlayer);
+        LinearLayout lineL_singlePlayer = view.findViewById(R.id.lineL_singlePlayer);
         lineL_singlePlayer.setOnClickListener(this::noService);
 
-        lineL_multiPlayers = view.findViewById(R.id.lineL_multiPlayers);
+        LinearLayout lineL_multiPlayers = view.findViewById(R.id.lineL_multiPlayers);
         lineL_multiPlayers.setOnClickListener(this::noService);
 
-        lineL_category1 = view.findViewById(R.id.lineL_category1);
+        LinearLayout lineL_category1 = view.findViewById(R.id.lineL_category1);
         lineL_category1.setOnClickListener(this::noQuizzes);
 
-        lineL_category2 = view.findViewById(R.id.lineL_category2);
+        LinearLayout lineL_category2 = view.findViewById(R.id.lineL_category2);
         lineL_category2.setOnClickListener(this::noQuizzes);
 
-        lineL_category3 = view.findViewById(R.id.lineL_category3);
+        LinearLayout lineL_category3 = view.findViewById(R.id.lineL_category3);
         lineL_category3.setOnClickListener(this::noQuizzes);
 
-        lineL_category4 = view.findViewById(R.id.lineL_category4);
+        LinearLayout lineL_category4 = view.findViewById(R.id.lineL_category4);
         lineL_category4.setOnClickListener(this::noQuizzes);
     }
 

@@ -51,9 +51,7 @@ public class SettingsFragment extends Fragment {
             txt_EN.setBackgroundResource(android.R.color.transparent);
             Toast.makeText(getContext(), "I dunno Vietnamese!", Toast.LENGTH_SHORT).show();
             Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                txt_EN.performClick();
-            }, 700);
+            handler.postDelayed(() -> txt_EN.performClick(), 700);
         });
 
         // sound
