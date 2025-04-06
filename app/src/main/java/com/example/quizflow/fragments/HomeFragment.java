@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,12 +76,18 @@ public class HomeFragment extends Fragment {
 
     // defaults
     public void noCategories(View view) {
-        Toast.makeText(requireContext(), "No more categories available!", Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(requireContext(), "No more categories available!", Toast.LENGTH_SHORT);
+        toast.show();
+        new Handler().postDelayed(toast::cancel, 500);
     }
     public void noService(View view) {
-        Toast.makeText(requireContext(), "Service unavailable!", Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(requireContext(), "Service unavailable!", Toast.LENGTH_SHORT);
+        toast.show();
+        new Handler().postDelayed(toast::cancel, 500);
     }
     public void noQuizzes(View view) {
-        Toast.makeText(requireContext(), "No quizzes found!", Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(requireContext(), "No quizzes found!", Toast.LENGTH_SHORT);
+        toast.show();
+        new Handler().postDelayed(toast::cancel, 500);
     }
 }

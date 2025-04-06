@@ -32,7 +32,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button1"
+                    android:id="@+id/ACBtn_weekly"
                     style="@android:style/Widget.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -40,31 +40,34 @@
                     android:layout_weight="0.333"
                     android:background="@drawable/blue_bg"
                     android:text="Weekly"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button2"
+                    android:id="@+id/ACBtn_monthly"
                     style="@android:style/Widget.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="0.333"
-                    android:background="@drawable/white_bg"
+                    android:background="@drawable/rounded_bg_white_clickable"
                     android:text="Monthly"
-                    android:textColor="@color/xanh_ngoc" />
+                    android:textColor="@color/xanh_ngoc"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button3"
+                    android:id="@+id/ACBtn_allTime"
                     style="@android:style/Widget.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="24dp"
                     android:layout_weight="0.333"
-                    android:background="@drawable/white_bg"
+                    android:background="@drawable/rounded_bg_white_clickable"
                     android:text="All Time"
-                    android:textColor="@color/xanh_ngoc" />
+                    android:textColor="@color/xanh_ngoc"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

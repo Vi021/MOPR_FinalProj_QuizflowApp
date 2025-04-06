@@ -2,6 +2,7 @@ package com.example.quizflow.fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,9 +21,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class RankingFragment extends Fragment {
+    AppCompatButton ACBtn_weekly, ACBtn_monthly, ACBtn_allTime;
     RecyclerView recycler_rankings;
     ArrayList<UserModel> rankings;
 
@@ -46,7 +46,35 @@ public class RankingFragment extends Fragment {
     }
 
     private void initViews(View view) {
+        ACBtn_weekly = view.findViewById(R.id.ACBtn_weekly);
+        ACBtn_monthly = view.findViewById(R.id.ACBtn_monthly);
+        ACBtn_allTime = view.findViewById(R.id.ACBtn_allTime);
         recycler_rankings = view.findViewById(R.id.recycler_rankings);
+
+        ACBtn_weekly.setOnClickListener(v -> {
+            ACBtn_weekly.setBackgroundResource(R.drawable.blue_bg);
+            ACBtn_weekly.setTextColor(requireContext().getColor(R.color.white));
+            ACBtn_monthly.setBackgroundResource(R.drawable.rounded_bg_white_clickable);
+            ACBtn_monthly.setTextColor(requireContext().getColor(R.color.xanh_ngoc));
+            ACBtn_allTime.setBackgroundResource(R.drawable.rounded_bg_white_clickable);
+            ACBtn_allTime.setTextColor(requireContext().getColor(R.color.xanh_ngoc));
+        });
+        ACBtn_monthly.setOnClickListener(v -> {
+            ACBtn_weekly.setBackgroundResource(R.drawable.rounded_bg_white_clickable);
+            ACBtn_weekly.setTextColor(requireContext().getColor(R.color.xanh_ngoc));
+            ACBtn_monthly.setBackgroundResource(R.drawable.blue_bg);
+            ACBtn_monthly.setTextColor(requireContext().getColor(R.color.white));
+            ACBtn_allTime.setBackgroundResource(R.drawable.rounded_bg_white_clickable);
+            ACBtn_allTime.setTextColor(requireContext().getColor(R.color.xanh_ngoc));
+        });
+        ACBtn_allTime.setOnClickListener(v -> {
+            ACBtn_weekly.setBackgroundResource(R.drawable.rounded_bg_white_clickable);
+            ACBtn_weekly.setTextColor(requireContext().getColor(R.color.xanh_ngoc));
+            ACBtn_monthly.setBackgroundResource(R.drawable.rounded_bg_white_clickable);
+            ACBtn_monthly.setTextColor(requireContext().getColor(R.color.xanh_ngoc));
+            ACBtn_allTime.setBackgroundResource(R.drawable.blue_bg);
+            ACBtn_allTime.setTextColor(requireContext().getColor(R.color.white));
+        });
     }
 
     private void exampleData() {
