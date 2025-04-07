@@ -9,14 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quizflow.R;
 
 public class SettingsFragment extends Fragment {
-    TextView txt_EN, txt_VI, txt_soundOn, txt_soundOff, txt_vibrateOn, txt_vibrateOff, txt_notifyOn, txt_notifyOff, txt_ver;
-    ImageView img_logout;
+    private TextView txt_EN, txt_VI, txt_soundOn, txt_soundOff, txt_vibrateOn, txt_vibrateOff, txt_notifyOn, txt_notifyOff, txt_ver;
+    private LinearLayout lineL_languageSwitch, lineL_soundSwitch, lineL_vibrateSwitch, lineL_notifySwitch;
+    private ImageView img_logout;
+
+    private final boolean[] isEnglish = {true}; // default language is English
+    private final boolean[] isSoundOn = {true}; // default sound is ON
+    private final boolean[] isVibrateOn = {true}; // default vibration is ON
+    private final boolean[] isNotifyOn = {true}; // default notification is ON
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,49 +46,67 @@ public class SettingsFragment extends Fragment {
         txt_notifyOn = view.findViewById(R.id.txt_notifyOn);
         txt_notifyOff = view.findViewById(R.id.txt_notifyOff);
         txt_ver = view.findViewById(R.id.txt_ver);
+        lineL_languageSwitch = view.findViewById(R.id.lineL_languageSwitch);
+        lineL_soundSwitch = view.findViewById(R.id.lineL_soundSwitch);
+        lineL_vibrateSwitch = view.findViewById(R.id.lineL_vibrateSwitch);
+        lineL_notifySwitch = view.findViewById(R.id.lineL_notifySwitch);
         img_logout = view.findViewById(R.id.img_logout);
 
         // language
-        txt_EN.setOnClickListener(v -> {
-            txt_EN.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_VI.setBackgroundResource(android.R.color.transparent);
-        });
-        txt_VI.setOnClickListener(v -> {
-            txt_VI.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_EN.setBackgroundResource(android.R.color.transparent);
-            Toast.makeText(getContext(), "I dunno Vietnamese!", Toast.LENGTH_SHORT).show();
-            Handler handler = new Handler();
-            handler.postDelayed(() -> txt_EN.performClick(), 700);
+        lineL_languageSwitch.setOnClickListener(v -> {
+            isEnglish[0] = !isEnglish[0]; // toggle language
+
+            if (isEnglish[0]) {
+                txt_EN.setBackgroundResource(R.drawable.rounded_bg_white);
+                txt_VI.setBackgroundResource(android.R.color.transparent);
+            } else {
+                txt_EN.setBackgroundResource(android.R.color.transparent);
+                txt_VI.setBackgroundResource(R.drawable.rounded_bg_white);
+
+                Toast toast = Toast.makeText(getContext(), "I dunno Vietnamese!", Toast.LENGTH_SHORT);
+                toast.show();
+                new Handler().postDelayed(() -> {
+                    lineL_languageSwitch.performClick();
+                    toast.cancel();
+                }, 800);
+            }
         });
 
         // sound
-        txt_soundOn.setOnClickListener(v -> {
-            txt_soundOn.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_soundOff.setBackgroundResource(android.R.color.transparent);
-        });
-        txt_soundOff.setOnClickListener(v -> {
-            txt_soundOff.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_soundOn.setBackgroundResource(android.R.color.transparent);
+        lineL_soundSwitch.setOnClickListener(v -> {;
+            isSoundOn[0] = !isSoundOn[0]; // toggle sound
+
+            if (isSoundOn[0]) {
+                txt_soundOn.setBackgroundResource(R.drawable.rounded_bg_white);
+                txt_soundOff.setBackgroundResource(android.R.color.transparent);
+            } else {
+                txt_soundOff.setBackgroundResource(R.drawable.rounded_bg_white);
+                txt_soundOn.setBackgroundResource(android.R.color.transparent);
+            }
         });
 
         // vibration
-        txt_vibrateOn.setOnClickListener(v -> {
-            txt_vibrateOn.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_vibrateOff.setBackgroundResource(android.R.color.transparent);
-        });
-        txt_vibrateOff.setOnClickListener(v -> {
-            txt_vibrateOff.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_vibrateOn.setBackgroundResource(android.R.color.transparent);
+        lineL_vibrateSwitch.setOnClickListener(v -> {
+            isVibrateOn[0] = !isVibrateOn[0]; // toggle vibration
+            if (isVibrateOn[0]) {
+                txt_vibrateOn.setBackgroundResource(R.drawable.rounded_bg_white);
+                txt_vibrateOff.setBackgroundResource(android.R.color.transparent);
+            } else {
+                txt_vibrateOff.setBackgroundResource(R.drawable.rounded_bg_white);
+                txt_vibrateOn.setBackgroundResource(android.R.color.transparent);
+            }
         });
 
         // notification
-        txt_notifyOn.setOnClickListener(v -> {
-            txt_notifyOn.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_notifyOff.setBackgroundResource(android.R.color.transparent);
-        });
-        txt_notifyOff.setOnClickListener(v -> {
-            txt_notifyOff.setBackgroundResource(R.drawable.rounded_bg_white);
-            txt_notifyOn.setBackgroundResource(android.R.color.transparent);
+        lineL_notifySwitch.setOnClickListener(v -> {
+            isNotifyOn[0] = !isNotifyOn[0]; // toggle notification
+            if (isNotifyOn[0]) {
+                txt_notifyOn.setBackgroundResource(R.drawable.rounded_bg_white);
+                txt_notifyOff.setBackgroundResource(android.R.color.transparent);
+            } else {
+                txt_notifyOff.setBackgroundResource(R.drawable.rounded_bg_white);
+                txt_notifyOn.setBackgroundResource(android.R.color.transparent);
+            }
         });
 
         // about

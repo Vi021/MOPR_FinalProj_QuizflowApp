@@ -62,12 +62,15 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
                 <LinearLayout
+                    android:id="@+id/lineL_languageSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:ignore="UselessParent">
 
                     <TextView
@@ -76,8 +79,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_bg_white"
                         android:backgroundTint="@color/xanh_botro8"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="EN"
@@ -90,8 +91,6 @@
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/xanh_botro8"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="VI"
@@ -129,12 +128,15 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
                 <LinearLayout
+                    android:id="@+id/lineL_soundSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:ignore="UselessParent">
 
                     <TextView
@@ -143,8 +145,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_bg_white"
                         android:backgroundTint="@color/xanh_botro6"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="ON"
@@ -157,8 +157,6 @@
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/do_botro"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="OFF"
@@ -196,12 +194,15 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
                 <LinearLayout
+                    android:id="@+id/lineL_vibrateSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:ignore="UselessParent">
 
                     <TextView
@@ -210,8 +211,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_bg_white"
                         android:backgroundTint="@color/xanh_botro6"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="ON"
@@ -224,8 +223,6 @@
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/do_botro"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="OFF"
@@ -263,12 +260,15 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
                 <LinearLayout
+                    android:id="@+id/lineL_notifySwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:ignore="UselessParent">
 
                     <TextView
@@ -277,8 +277,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_bg_white"
                         android:backgroundTint="@color/xanh_botro6"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="ON"
@@ -291,8 +289,6 @@
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/do_botro"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="OFF"

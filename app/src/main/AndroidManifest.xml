@@ -20,9 +20,6 @@
             android:name=".activities.QuestionActivity"
             android:exported="false" />
         <activity
-            android:name=".fragments.RankingFragment"
-            android:exported="false" />
-        <activity
             android:name=".activities.IntroActivity"
             android:exported="true" >
             <intent-filter>
