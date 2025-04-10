@@ -200,6 +200,8 @@
             android:background="@drawable/rounded_bg_white_clickable"
             android:backgroundTint="@color/xanh_botro9"
             android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="@id/consL"
             app:layout_constraintStart_toStartOf="@id/consL"
             app:layout_constraintTop_toBottomOf="@id/lineL_divider">

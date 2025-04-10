@@ -40,12 +40,6 @@ public class HomeFragment extends Fragment {
         initFindView(view);
         validate();
 
-        view.findViewById(R.id.lineL_singlePlayer).setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), QuestionActivity.class);
-            intent.putParcelableArrayListExtra("list", new ArrayList<>(questionList()));
-            startActivity(intent);
-        });
-
         return view;
     }
 
@@ -115,6 +109,12 @@ public class HomeFragment extends Fragment {
 
         LinearLayout lineL_category4 = view.findViewById(R.id.lineL_category4);
         lineL_category4.setOnClickListener(this::noQuizzes);
+
+        view.findViewById(R.id.lineL_singlePlayer).setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), QuestionActivity.class);
+            intent.putParcelableArrayListExtra("list", new ArrayList<>(questionList()));
+            startActivity(intent);
+        });
     }
 
     private void validate() {

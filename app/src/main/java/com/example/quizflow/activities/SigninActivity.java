@@ -62,6 +62,7 @@ public class SigninActivity extends AppCompatActivity {
             } else {
                 eTxt_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 img_eye.setImageResource(R.drawable.ic_eyeon_white);
+                // TODO: fix eye-on icon "disapear"
             }
             isPasswordVisible = !isPasswordVisible;
             eTxt_password.setSelection(eTxt_password.length()); // keep cursor at end
@@ -74,9 +75,9 @@ public class SigninActivity extends AppCompatActivity {
         // forget password redirect
         txt_ForgetPassword = findViewById(R.id.txt_ForgetPassword);
         txt_ForgetPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(SigninActivity.this, PasswordActivity.class);
+            Intent intent = new Intent(SigninActivity.this, PasswordActivity.class);    // TODO: OTP then reset password
             startActivity(intent);
-            finish();
+            //finish();
         });
 
         // sign up redirect
@@ -89,6 +90,7 @@ public class SigninActivity extends AppCompatActivity {
     private void signIn(View view) {
         // TODO: validate email and handle password
         //  implement sign-in logic
+        //  don't create new intent
         Intent intent = new Intent(SigninActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
