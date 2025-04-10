@@ -12,13 +12,56 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp">
 
+        <!-- account utilities -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/consL_accountBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/xt_wannaCreateQuiz"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:text="Wanna create your own quiz?"
+                android:textColor="@color/xanh_botro7"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/consL_accountBar"
+                app:layout_constraintEnd_toStartOf="@id/txt_btnSignInSignUp"
+                app:layout_constraintStart_toStartOf="@id/consL_accountBar"
+                app:layout_constraintTop_toTopOf="@id/consL_accountBar" />
+            <TextView
+                android:id="@+id/txt_btnSignInSignUp"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/rounded_bg_white_clickable"
+                android:backgroundTint="@color/xanh_botro6"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:paddingHorizontal="5dp"
+                android:text="Sign in/Sign up"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/consL_accountBar"
+                app:layout_constraintEnd_toEndOf="@id/consL_accountBar"
+                app:layout_constraintStart_toEndOf="@id/xt_wannaCreateQuiz"
+                app:layout_constraintTop_toTopOf="@id/consL_accountBar"
+                tools:ignore="TouchTargetSizeCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <!-- profile utilities -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/consL_profileBar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -32,8 +75,8 @@
                 android:src="@drawable/ic_default_pfp_blues"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
             <TextView
                 android:id="@+id/txt_hello"
                 android:layout_width="wrap_content"
@@ -94,15 +137,14 @@
             android:id="@+id/lineL_actionBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="70dp"
             android:orientation="horizontal"
             android:weightSum="9"
             android:baselineAligned="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/consL_profileBar">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:id="@+id/lineL_createQuiz"
@@ -117,7 +159,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
+                    android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_action_plus_white" />
@@ -125,9 +167,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="3dp"
                     android:text="Create Quiz"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -144,7 +185,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
+                    android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:padding="10dp"
                     android:src="@drawable/ic_action_singleplayer_white" />
@@ -152,9 +193,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="3dp"
                     android:text="Single Player"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -172,7 +212,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
+                    android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_action_multiplayers_white" />
@@ -180,9 +220,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="3dp"
                     android:text="Multi Players"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -195,9 +234,8 @@
             android:id="@+id/consL_categoryBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lineL_actionBar">
@@ -236,9 +274,9 @@
             android:id="@+id/lineL_categoryContainer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
+            android:baselineAligned="false"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -315,9 +353,8 @@
             android:id="@+id/lineL_categoryContainer2"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
             android:baselineAligned="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -394,10 +431,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/consL_earncoinsBar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="6dp"
+            android:layout_height="180dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="6dp"
             android:background="@drawable/rounded_earncoin_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -445,16 +481,18 @@
             <TextView
                 android:id="@+id/txt_startNow"
                 android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.4"
                 android:layout_height="40dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_bg_blue_clickable"
+                android:background="@drawable/rounded_bg_white_clickable"
+                android:backgroundTint="@color/xanh_botro6"
+                android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:text="Start Now"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
-                app:layout_constraintStart_toStartOf="@id/txt_completeToEarn" />
+                app:layout_constraintStart_toStartOf="@id/txt_completeToEarn"
+                app:layout_constraintWidth_percent="0.4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

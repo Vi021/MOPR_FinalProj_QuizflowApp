@@ -23,7 +23,7 @@
         android:id="@+id/consL_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="105dp"
+        android:layout_marginBottom="75dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
@@ -326,7 +326,7 @@
                 android:layout_marginEnd="3dp"
                 android:padding="10dp"
                 android:gravity="center|end"
-                android:text="ver1.0"
+                android:text="v1.0"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".activities.SigninActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/consL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/white" >
 
+        <!-- Decor IMG -->
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/img_decorImg"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:scaleType="fitCenter"
             android:src="@drawable/img_quizshow"
             app:layout_constraintEnd_toEndOf="@id/consL"
-            app:layout_constraintStart_toStartOf="@id/consL" />
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Decor TEXT -->
         <TextView
-            android:id="@+id/txt_Login"
+            android:id="@+id/txt_decorSignIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
@@ -35,19 +38,20 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/consL"
             app:layout_constraintStart_toStartOf="@id/consL"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/img_decorImg" />
 
+        <!-- username/email input field -->
         <LinearLayout
             android:id="@+id/lineL_emailField"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingHorizontal="20dp"
             android:layout_marginTop="10dp"
+            android:paddingHorizontal="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@id/consL"
             app:layout_constraintStart_toStartOf="@id/consL"
-            app:layout_constraintTop_toBottomOf="@id/txt_Login">
+            app:layout_constraintTop_toBottomOf="@id/txt_decorSignIn">
 
             <ImageView
                 android:layout_width="25dp"
@@ -59,13 +63,15 @@
                 android:id="@+id/eTxt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
                 android:hint="Email or Username"
                 android:inputType="textEmailAddress|text"
+                android:paddingHorizontal="10dp"
                 android:textColor="@color/xanh_botro7"
-                android:textColorHint="@color/gray40" />
+                android:textColorHint="@color/gray40"
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
+        <!-- password input field -->
         <LinearLayout
             android:id="@+id/lineL_passwordField"
             android:layout_width="match_parent"
@@ -88,11 +94,14 @@
                 android:id="@+id/eTxt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:hint="Password"
                 android:inputType="textPassword"
+                android:paddingHorizontal="10dp"
                 android:textColor="@color/xanh_botro7"
-                android:textColorHint="@color/gray40" />
+                android:textColorHint="@color/gray40"
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
         <ImageView
@@ -106,28 +115,31 @@
             app:layout_constraintEnd_toEndOf="@id/lineL_passwordField"
             app:layout_constraintTop_toTopOf="@id/lineL_passwordField" />
 
+        <!-- forget password redirect -->
         <TextView
             android:id="@+id/txt_ForgetPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingHorizontal="20dp"
-            android:gravity="center_vertical|end"
-            android:text="Forget Password?"
-            android:textColor="@color/xanh_ngoc"
-            android:textSize="16sp"
             android:clickable="true"
             android:focusable="true"
+            android:gravity="center_vertical|end"
+            android:paddingHorizontal="20dp"
+            android:text="Forget Password?"
+            android:textColor="@color/xanh_ngoc"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/consL"
             app:layout_constraintStart_toStartOf="@id/consL"
-            app:layout_constraintTop_toBottomOf="@id/lineL_passwordField" />
+            app:layout_constraintTop_toBottomOf="@id/lineL_passwordField"
+            tools:ignore="TouchTargetSizeCheck" />
 
+        <!-- Sign in button -->
         <TextView
-            android:id="@+id/txt_btnLogin"
+            android:id="@+id/txt_btnSignUp"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
             android:gravity="center"
             android:background="@drawable/rounded_bg_white_clickable"
             android:backgroundTint="@color/xanh_botro1"
@@ -135,10 +147,13 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_ForgetPassword" />
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toBottomOf="@id/txt_ForgetPassword" />
 
+        <!-- Decor divider -->
         <LinearLayout
             android:id="@+id/lineL_divider"
             android:layout_width="match_parent"
@@ -150,7 +165,7 @@
             android:paddingVertical="16dp"
             app:layout_constraintEnd_toEndOf="@id/consL"
             app:layout_constraintStart_toStartOf="@id/consL"
-            app:layout_constraintTop_toBottomOf="@id/txt_btnLogin">
+            app:layout_constraintTop_toBottomOf="@id/txt_btnSignUp">
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="0dp"
@@ -173,10 +188,11 @@
                 app:dividerColor="@color/gray20" />
         </LinearLayout>
 
+        <!-- Google sign in -->
         <LinearLayout
             android:id="@+id/lineL_btnGoogleLogin"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
@@ -186,8 +202,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@id/consL"
             app:layout_constraintStart_toStartOf="@id/consL"
-            app:layout_constraintTop_toBottomOf="@+id/lineL_divider">
-
+            app:layout_constraintTop_toBottomOf="@id/lineL_divider">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -197,13 +212,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Sign in with Google"
                 android:textColor="@color/xanh_botro7"
                 android:textSize="18sp" />
         </LinearLayout>
 
+        <!-- Facebook sign in -->
+
+        <!-- Sign up redirect -->
         <TextView
-            android:id="@+id/txt_signup"
+            android:id="@+id/txt_signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
@@ -217,4 +236,4 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
