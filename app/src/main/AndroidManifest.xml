@@ -20,6 +20,9 @@
             android:name=".activities.PasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".ScoreActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.QuestionActivity"
             android:exported="false" />
         <activity

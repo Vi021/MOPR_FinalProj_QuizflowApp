@@ -181,7 +181,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:background="@drawable/rounded_bordered_bg_clickable"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="match_parent"
