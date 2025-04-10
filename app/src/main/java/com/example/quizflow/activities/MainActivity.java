@@ -55,5 +55,6 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.framL_fragContainer, new HomeFragment())
                     .commit();
         }
+
     }
 }
