@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="do_botro">#C0483F</color>
     <color name="xanh_ngoc">#FF1f6b91</color>
     <color name="xanh_botro1">#FF49b0cf</color>
     <color name="xanh_botro2">#FF5ed1f4</color>
@@ -9,4 +10,7 @@
     <color name="xanh_botro4">#FF0a516c</color>
     <color name="xanh_botro5">#FF35546a</color>
     <color name="xanh_botro6">#FF038ecf</color>
+    <color name="xanh_botro7">#08384A</color>
+    <color name="xanh_botro8">#408AAE</color>
+
 </resources>

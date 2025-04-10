@@ -1,23 +1,376 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SettingsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Settings"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+    <LinearLayout
+        android:id="@+id/consL_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="105dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rounded_bordered_bg_main"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Language -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:text="Settings Page"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
+            <!-- text part -->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="Language"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <!-- switch en-vi -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <LinearLayout
+                    android:id="@+id/lineL_languageSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/rounded_bg_white"
+                    android:backgroundTint="#55000000"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:ignore="UselessParent">
 
-</ScrollView>
+                    <TextView
+                        android:id="@+id/txt_EN"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_bg_white"
+                        android:backgroundTint="@color/xanh_botro8"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="EN"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/txt_VI"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/xanh_botro8"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="VI"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Sound -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
+            <!-- text part -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="Sound"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <!-- switch on-off -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <LinearLayout
+                    android:id="@+id/lineL_soundSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/rounded_bg_white"
+                    android:backgroundTint="#55000000"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:ignore="UselessParent">
+
+                    <TextView
+                        android:id="@+id/txt_soundOn"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_bg_white"
+                        android:backgroundTint="@color/xanh_botro6"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="ON"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/txt_soundOff"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/do_botro"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="OFF"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Vibration -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
+            <!-- text part -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="Vibration"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <!-- switch on-off -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <LinearLayout
+                    android:id="@+id/lineL_vibrateSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/rounded_bg_white"
+                    android:backgroundTint="#55000000"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:ignore="UselessParent">
+
+                    <TextView
+                        android:id="@+id/txt_vibrateOn"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_bg_white"
+                        android:backgroundTint="@color/xanh_botro6"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="ON"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/txt_vibrateOff"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/do_botro"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="OFF"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Notification -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
+            <!-- text part -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="Notification"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <!-- switch on-off -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <LinearLayout
+                    android:id="@+id/lineL_notifySwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/rounded_bg_white"
+                    android:backgroundTint="#55000000"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:ignore="UselessParent">
+
+                    <TextView
+                        android:id="@+id/txt_notifyOn"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_bg_white"
+                        android:backgroundTint="@color/xanh_botro6"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="ON"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/txt_notifyOff"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/do_botro"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="OFF"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- About -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
+            <!-- text part 1 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="About"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <!-- text part 2 -->
+            <TextView
+                android:id="@+id/txt_ver"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginEnd="3dp"
+                android:padding="10dp"
+                android:gravity="center|end"
+                android:text="ver1.0"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Logout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="horizontal">
+            <!-- text part -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="Logout"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <!-- button logout -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_logout"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/app_name"
+                    android:focusable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_logout_white"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
