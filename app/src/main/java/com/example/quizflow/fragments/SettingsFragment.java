@@ -136,7 +136,6 @@ public class SettingsFragment extends Fragment {
         img_logout.setOnClickListener(v -> {
             // TODO:
             //  show "u sure?" dialog, maybe?
-            //  logout and return to login screen
 
             startActivity(new Intent(requireContext(), SigninActivity.class));
             requireActivity().finish();

@@ -79,7 +79,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: implement sign-up logic (if alr signed up, move to sign in and preload email if possible)
+        // TODO: implement sign-up logic (if alr signed up, move to sign in)
 
         Intent intent = new Intent(SignupActivity.this, MainActivity.class);
         // TODO: getUserInfo() instead of passing data

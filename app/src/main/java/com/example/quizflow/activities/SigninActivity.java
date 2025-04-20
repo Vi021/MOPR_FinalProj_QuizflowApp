@@ -115,7 +115,7 @@ public class SigninActivity extends AppCompatActivity {
         }
 
         // TODO: handle password
-        //  implement sign-in logic (if not signed up yet, move to sign up and preload email if possible)
+        //  implement sign-in logic (if not signed up yet, move to sign up)
 
         startActivity(new Intent(SigninActivity.this, MainActivity.class));
         finish();
