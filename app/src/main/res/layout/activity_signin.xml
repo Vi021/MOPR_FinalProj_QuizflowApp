@@ -22,7 +22,8 @@
             android:src="@drawable/img_quizshow"
             app:layout_constraintEnd_toEndOf="@id/consL"
             app:layout_constraintStart_toStartOf="@id/consL"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <!-- Decor TEXT -->
         <TextView
@@ -57,12 +58,14 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/ic_at_white"
-                android:backgroundTint="@color/xanh_botro7" />
+                android:backgroundTint="@color/xanh_botro8"
+                tools:ignore="ContentDescription" />
 
             <EditText
                 android:id="@+id/eTxt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints="emailAddress|username"
                 android:hint="Email or Username"
                 android:inputType="textEmailAddress|text"
                 android:paddingHorizontal="10dp"
@@ -88,12 +91,14 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/ic_lock_white"
-                android:backgroundTint="@color/xanh_botro7" />
+                android:backgroundTint="@color/xanh_botro8"
+                tools:ignore="ContentDescription" />
 
             <EditText
                 android:id="@+id/eTxt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:hint="Password"
@@ -110,10 +115,11 @@
             android:layout_height="25dp"
             android:layout_marginEnd="25dp"
             android:background="@drawable/ic_eyeon_white"
-            android:backgroundTint="@color/xanh_botro7"
+            android:backgroundTint="@color/xanh_botro8"
             app:layout_constraintBottom_toBottomOf="@id/lineL_passwordField"
             app:layout_constraintEnd_toEndOf="@id/lineL_passwordField"
-            app:layout_constraintTop_toTopOf="@id/lineL_passwordField" />
+            app:layout_constraintTop_toTopOf="@id/lineL_passwordField"
+            tools:ignore="ContentDescription" />
 
         <!-- forget password redirect -->
         <TextView
@@ -207,7 +213,8 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_google" />
+                android:src="@drawable/ic_google"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:layout_width="wrap_content"

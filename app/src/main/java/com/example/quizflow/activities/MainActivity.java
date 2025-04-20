@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        signedIn = getIntent().getBooleanExtra("okay", false);
+
         // bottom nav bar
         chipNav_menu = findViewById(R.id.chipNav_menu);
         chipNav_menu.setOnItemSelectedListener(item -> {
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // display default fragment
         if (savedInstanceState == null) {
             chipNav_menu.setItemSelected(R.id.chipNav_homeTab, true);
-            updateStatusBarTheme();
+            //updateStatusBarTheme();
         }
     }
 
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         if (settingsFragment.isAdded()) ft.hide(settingsFragment);
 
         // replace fragment based on tag
-        Fragment currentFragment = null;
+        Fragment currentFragment;
         switch (FTAG) {
             case FTAG_RANKING:
                 currentFragment = rankingFragment;
@@ -176,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     switchTab(previousFTAG);
                 }
             } else {
+                switchTab(FTAG_HOME);
                 super.onBackPressed();
             }
         }

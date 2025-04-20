@@ -1,8 +1,11 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Quizflow" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/xanh_botro1</item>
+        <!-- <item name="colorPrimaryVariant">@color/xanh_ngoc</item> -->
+        <item name="colorSecondary">@color/xanh_botro1</item>
+        <item name="editTextStyle">@style/CustomEditText</item>
     </style>
 
     <style name="Theme.Quizflow" parent="Base.Theme.Quizflow" />

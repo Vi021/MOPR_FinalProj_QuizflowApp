@@ -1,5 +1,6 @@
 package com.example.quizflow.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quizflow.R;
+import com.example.quizflow.activities.SigninActivity;
 
 public class SettingsFragment extends Fragment {
     private TextView txt_EN, txt_VI, txt_soundOn, txt_soundOff, txt_vibrateOn, txt_vibrateOff, txt_notifyOn, txt_notifyOff, txt_ver;
@@ -73,7 +75,7 @@ public class SettingsFragment extends Fragment {
         });
 
         // sound
-        lineL_soundSwitch.setOnClickListener(v -> {;
+        lineL_soundSwitch.setOnClickListener(v -> {
             isSoundOn[0] = !isSoundOn[0]; // toggle sound
 
             if (isSoundOn[0]) {
@@ -135,9 +137,12 @@ public class SettingsFragment extends Fragment {
             // TODO:
             //  show "u sure?" dialog, maybe?
             //  logout and return to login screen
-            Toast toast = Toast.makeText(requireContext(), "Nuh uh!", Toast.LENGTH_SHORT);
-            toast.show();
-            new Handler().postDelayed(toast::cancel, 500);
+
+            startActivity(new Intent(requireContext(), SigninActivity.class));
+            requireActivity().finish();
+//            Toast toast = Toast.makeText(requireContext(), "Nuh uh!", Toast.LENGTH_SHORT);
+//            toast.show();
+//            new Handler().postDelayed(toast::cancel, 500);
         });
     }
 }

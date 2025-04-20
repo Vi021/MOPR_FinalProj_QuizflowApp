@@ -45,7 +45,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
     public void onBindViewHolder(@NonNull RankingAdapter.RankingViewHolder holder, int position) {
         if (rankings != null && position < rankings.size()) {
             UserModel user = rankings.get(position);
-            holder.txt_rank.setText("#" + ((int)position+4));    // from 4th rank downwards
+            holder.txt_rank.setText("#" + (position+4));    // from 4th rank downwards
             holder.txt_username.setText(user.getUsername());
             holder.cImg_pfp.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
             holder.txt_coinCount.setText(String.valueOf(user.getCoins()));

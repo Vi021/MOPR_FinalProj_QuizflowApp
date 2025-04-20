@@ -95,18 +95,19 @@
                 android:layout_height="40dp"
                 android:background="@drawable/rounded_bordered_bg_clickable"
                 android:orientation="horizontal"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
+                android:paddingHorizontal="6dp"
                 app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
                 app:layout_constraintEnd_toEndOf="@+id/consL_profileBar"
                 app:layout_constraintTop_toTopOf="@+id/consL_profileBar">
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_coin" />
+                    android:padding="3dp"
+                    android:src="@drawable/ic_coin"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -121,8 +122,9 @@
                 <ImageView
                     android:id="@+id/img_coinAdd"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.3"
+                    android:padding="3dp"
                     android:contentDescription="@string/app_name"
                     android:clickable="true"
                     android:focusable="true"
@@ -162,7 +164,8 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_plus_white" />
+                    android:src="@drawable/ic_action_plus_white"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -190,7 +193,8 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_action_singleplayer_white" />
+                    android:src="@drawable/ic_action_singleplayer_white"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -217,7 +221,8 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:padding="5dp"
-                    android:src="@drawable/ic_action_multiplayers_white" />
+                    android:src="@drawable/ic_action_multiplayers_white"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -303,7 +308,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.45"
                     android:padding="10dp"
-                    android:src="@drawable/ic_category_science" />
+                    android:src="@drawable/ic_category_science"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/txt_category1"
@@ -336,7 +342,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.45"
                     android:padding="10dp"
-                    android:src="@drawable/ic_category_history" />
+                    android:src="@drawable/ic_category_history"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/txt_category2"
@@ -382,7 +389,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.45"
                     android:padding="10dp"
-                    android:src="@drawable/ic_category_sport" />
+                    android:src="@drawable/ic_category_sport"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/txt_category3"
@@ -415,7 +423,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.45"
                     android:padding="10dp"
-                    android:src="@drawable/ic_category_art" />
+                    android:src="@drawable/ic_category_art"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/txt_category4"
@@ -449,7 +458,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/txt_completeToEarn"
@@ -478,7 +488,8 @@
                 android:src="@drawable/ic_coins"
                 app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
                 app:layout_constraintEnd_toEndOf="@id/consL_earncoinsBar"
-                app:layout_constraintTop_toTopOf="@id/consL_earncoinsBar" />
+                app:layout_constraintTop_toTopOf="@id/consL_earncoinsBar"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/txt_startNow"

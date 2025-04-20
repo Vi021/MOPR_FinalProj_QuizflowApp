@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.quizflow.R;
 import com.example.quizflow.activities.SigninActivity;
-import com.example.quizflow.activities.MainActivity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.domains.QuestionModel;
 
@@ -38,7 +37,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initFindView(view);
-        validate();
+        validate(); // TODO: getUser() to validate
 
         return view;
     }
@@ -64,6 +63,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void initFindView(View view) {
+        signedIn = requireActivity().getIntent().getBooleanExtra("okay", false);
+        String fullname = requireActivity().getIntent().getStringExtra("fullname");
+        String username = requireActivity().getIntent().getStringExtra("username");
+
         consL_accountBar = view.findViewById(R.id.consL_accountBar);
         consL_profileBar = view.findViewById(R.id.consL_profileBar);
 
@@ -81,7 +84,13 @@ public class HomeFragment extends Fragment {
         img_coinAdd.setOnClickListener(this::noService);
 
         TextView txt_hello = view.findViewById(R.id.txt_hello);
-        txt_hello.setText("Hello, " + "?" + "!");
+        if (fullname != null && !fullname.isEmpty()) {
+            txt_hello.setText("Hello, " + fullname + "!");
+        } else if (username != null && !username.isEmpty()) {
+            txt_hello.setText("Hello, " + username + "!");
+        } else {
+            txt_hello.setText("Hello!");
+        }
 
         TextView txt_viewCategories = view.findViewById(R.id.txt_viewCategories);
         txt_viewCategories.setOnClickListener(this::noCategories);

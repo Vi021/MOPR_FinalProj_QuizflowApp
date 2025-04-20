@@ -1,4 +1,4 @@
-package com.example.quizflow;
+package com.example.quizflow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.TextView;
 import android.widget.Button;
 
-import com.example.quizflow.activities.MainActivity;
+import com.example.quizflow.R;
 
 public class ScoreActivity extends AppCompatActivity {
 

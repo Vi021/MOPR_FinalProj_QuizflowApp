@@ -141,11 +141,12 @@
                             android:layout_height="wrap_content"
 
                             android:layout_marginStart="4dp"
-                            app:srcCompat="@drawable/ic_coin" />
+                            app:srcCompat="@drawable/ic_coin"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/txt_coinsTop3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
@@ -186,7 +187,8 @@
                             app:layout_constraintBottom_toTopOf="@+id/img_pfpTop1"
                             app:layout_constraintEnd_toEndOf="@+id/img_pfpTop1"
                             app:layout_constraintStart_toStartOf="@+id/img_pfpTop1"
-                            app:srcCompat="@drawable/crown" />
+                            app:srcCompat="@drawable/crown"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView93"
@@ -229,11 +231,12 @@
                             android:layout_height="wrap_content"
 
                             android:layout_marginStart="4dp"
-                            app:srcCompat="@drawable/ic_coin" />
+                            app:srcCompat="@drawable/ic_coin"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/txt_coinsTop1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
@@ -308,11 +311,12 @@
                             android:layout_height="wrap_content"
 
                             android:layout_marginStart="4dp"
-                            app:srcCompat="@drawable/ic_coin" />
+                            app:srcCompat="@drawable/ic_coin"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/txt_coinsTop2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"

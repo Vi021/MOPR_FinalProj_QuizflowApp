@@ -3,6 +3,7 @@ package com.example.quizflow.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,6 +25,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
+import com.example.quizflow.utils.Validators;
 
 public class SigninActivity extends AppCompatActivity {
     private EditText eTxt_email, eTxt_password;
@@ -42,7 +45,7 @@ public class SigninActivity extends AppCompatActivity {
             return insets;
         });
 
-        // for UI
+        // for UI (status bar stuff)
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
@@ -51,18 +54,23 @@ public class SigninActivity extends AppCompatActivity {
 
     private void initViews() {
         eTxt_email = findViewById(R.id.eTxt_email);
+        eTxt_email.setText(getIntent().getStringExtra("email"));
+
         eTxt_password = findViewById(R.id.eTxt_password);
 
         // password visibility toggle
         img_eye = findViewById(R.id.img_eye);
         img_eye.setOnClickListener(v -> {
+            // animate
+            img_eye.setAlpha(0.5f);
+            new Handler().postDelayed(() -> img_eye.setAlpha(1.0f), 200);
+
             if (isPasswordVisible) {
                 eTxt_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                img_eye.setImageResource(R.drawable.ic_eyeoff_white);
+                img_eye.setBackground(AppCompatResources.getDrawable(this, R.drawable.ic_eyeoff_white));
             } else {
                 eTxt_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                img_eye.setImageResource(R.drawable.ic_eyeon_white);
-                // TODO: fix eye-on icon "disapear"
+                img_eye.setBackground(AppCompatResources.getDrawable(this, R.drawable.ic_eyeon_white));
             }
             isPasswordVisible = !isPasswordVisible;
             eTxt_password.setSelection(eTxt_password.length()); // keep cursor at end
@@ -75,7 +83,18 @@ public class SigninActivity extends AppCompatActivity {
         // forget password redirect
         txt_ForgetPassword = findViewById(R.id.txt_ForgetPassword);
         txt_ForgetPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(SigninActivity.this, PasswordActivity.class);    // TODO: OTP then reset password
+            // animate
+            txt_ForgetPassword.setAlpha(0.5f);
+            new Handler().postDelayed(() -> txt_ForgetPassword.setAlpha(1.0f), 200);
+
+            // validate email
+            if (validateEmail()) {
+                return;
+            }
+
+            Intent intent = new Intent(SigninActivity.this, PasswordActivity.class);
+            intent.putExtra("email", eTxt_email.getText().toString());
+            intent.putExtra("isForget", true);
             startActivity(intent);
             //finish();
         });
@@ -88,11 +107,17 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     private void signIn(View view) {
-        // TODO: validate email and handle password
-        //  implement sign-in logic
-        //  don't create new intent
-        Intent intent = new Intent(SigninActivity.this, MainActivity.class);
-        startActivity(intent);
+        if (validateEmailOrUsername()) {
+            return;
+        }
+        if (validatePassword()) {
+            return;
+        }
+
+        // TODO: handle password
+        //  implement sign-in logic (if not signed up yet, move to sign up and preload email if possible)
+
+        startActivity(new Intent(SigninActivity.this, MainActivity.class));
         finish();
     }
 
@@ -102,14 +127,19 @@ public class SigninActivity extends AppCompatActivity {
         SpannableString spannable = new SpannableString("New to Quizflow? Sign up now!");
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
-            public void onClick(View widget) {
+            public void onClick(@NonNull View widget) {
+                // animate
+                txt_signUp.setAlpha(0.5f);
+                new Handler().postDelayed(() -> txt_signUp.setAlpha(1.0f), 100);
+
                 Intent intent = new Intent(SigninActivity.this, SignupActivity.class);
+                intent.putExtra("email", eTxt_email.getText().toString());
                 startActivity(intent);
                 finish();
             }
 
             @Override
-            public void updateDrawState(TextPaint ds) {
+            public void updateDrawState(@NonNull TextPaint ds) {
                 super.updateDrawState(ds);
                 ds.setUnderlineText(true);      // ensure underline
                 ds.setColor(getResources().getColor(R.color.xanh_ngoc));    // to change text color
@@ -118,5 +148,44 @@ public class SigninActivity extends AppCompatActivity {
 
         spannable.setSpan(clickableSpan, 17, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
+    }
+
+    private boolean validateEmailOrUsername() {
+        String email = eTxt_email.getText().toString();
+        if (email.isEmpty()) {
+            eTxt_email.setError("Please enter your email or username");
+            return true;
+        } // TODO: email/username existence check
+
+        eTxt_email.setError(null);
+        return false;
+    }
+
+    private boolean validateEmail() {
+        String email = eTxt_email.getText().toString();
+        if (email.isEmpty()) {
+            eTxt_email.setError("Please enter your email");
+            return true;
+        } else if (Validators.isNotValidEmail(email)) {
+            eTxt_email.setError("Please enter a valid email");
+            return true;
+        } // TODO: email existence check
+
+        eTxt_email.setError(null);
+        return false;
+    }
+
+    private boolean validatePassword() {
+        String password = eTxt_password.getText().toString();
+        if (password.isEmpty()) {
+            eTxt_password.setError("Please enter your password");
+            return true;
+        } else if (Validators.isNotValidPassword(password)) {
+            eTxt_password.setError("Password must be at least 6 characters and contain at least one digit, one lowercase letter, one uppercase letter, and one special character");
+            return true;
+        }
+
+        eTxt_password.setError(null);
+        return false;
     }
 }

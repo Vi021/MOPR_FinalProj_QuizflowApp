@@ -30,13 +30,15 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="8dp"
-                    app:srcCompat="@drawable/back" />
+                    app:srcCompat="@drawable/back"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="Single Player"
                     android:textColor="@color/white"
                     android:textStyle="bold"
@@ -68,14 +70,16 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="12dp"
-                    app:srcCompat="@drawable/left_arrow" />
+                    app:srcCompat="@drawable/left_arrow"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/rightArrow"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="12dp"
-                    app:srcCompat="@drawable/right_arrow" />
+                    app:srcCompat="@drawable/right_arrow"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -112,7 +116,8 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                app:srcCompat="@drawable/usa" />
+                app:srcCompat="@drawable/usa"
+                tools:ignore="ContentDescription" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/questionList"
