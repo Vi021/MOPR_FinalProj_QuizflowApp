@@ -7,4 +7,241 @@
     android:layout_height="match_parent"
     tools:context=".activities.SigninActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" >
+
+        <!-- Decor IMG -->
+        <ImageView
+            android:id="@+id/img_decorImg"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_quizshow"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <!-- Decor TEXT -->
+        <TextView
+            android:id="@+id/txt_decorSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp"
+            android:text="Sign in"
+            android:textColor="@color/xanh_botro7"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toBottomOf="@+id/img_decorImg" />
+
+        <!-- username/email input field -->
+        <LinearLayout
+            android:id="@+id/lineL_emailField"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toBottomOf="@id/txt_decorSignIn">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ic_at_white"
+                android:backgroundTint="@color/xanh_botro8"
+                tools:ignore="ContentDescription" />
+
+            <EditText
+                android:id="@+id/eTxt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress|username"
+                android:hint="Email or Username"
+                android:inputType="textEmailAddress|text"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/xanh_botro7"
+                android:textColorHint="@color/gray40"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <!-- password input field -->
+        <LinearLayout
+            android:id="@+id/lineL_passwordField"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineL_emailField">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ic_lock_white"
+                android:backgroundTint="@color/xanh_botro8"
+                tools:ignore="ContentDescription" />
+
+            <EditText
+                android:id="@+id/eTxt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/xanh_botro7"
+                android:textColorHint="@color/gray40"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_eye"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/ic_eyeon_white"
+            android:backgroundTint="@color/xanh_botro8"
+            app:layout_constraintBottom_toBottomOf="@id/lineL_passwordField"
+            app:layout_constraintEnd_toEndOf="@id/lineL_passwordField"
+            app:layout_constraintTop_toTopOf="@id/lineL_passwordField"
+            tools:ignore="ContentDescription" />
+
+        <!-- forget password redirect -->
+        <TextView
+            android:id="@+id/txt_ForgetPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical|end"
+            android:paddingHorizontal="20dp"
+            android:text="Forget Password?"
+            android:textColor="@color/xanh_ngoc"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toBottomOf="@id/lineL_passwordField"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <!-- Sign in button -->
+        <TextView
+            android:id="@+id/txt_btnSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:background="@drawable/rounded_bg_white_clickable"
+            android:backgroundTint="@color/xanh_botro1"
+            android:text="Sign in"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toBottomOf="@id/txt_ForgetPassword" />
+
+        <!-- Decor divider -->
+        <LinearLayout
+            android:id="@+id/lineL_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="16dp"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toBottomOf="@id/txt_btnSignUp">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                app:dividerColor="@color/gray20" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="OR"
+                android:textColor="@color/gray40" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                app:dividerColor="@color/gray20" />
+        </LinearLayout>
+
+        <!-- Google sign in -->
+        <LinearLayout
+            android:id="@+id/lineL_btnGoogleLogin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="10dp"
+            android:gravity="center"
+            android:background="@drawable/rounded_bg_white_clickable"
+            android:backgroundTint="@color/xanh_botro9"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="@id/consL"
+            app:layout_constraintStart_toStartOf="@id/consL"
+            app:layout_constraintTop_toBottomOf="@id/lineL_divider">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_google"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Sign in with Google"
+                android:textColor="@color/xanh_botro7"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!-- Facebook sign in -->
+
+        <!-- Sign up redirect -->
+        <TextView
+            android:id="@+id/txt_signUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="New to Quizflow? Sign up now!"
+            android:textColor="@color/gray50"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

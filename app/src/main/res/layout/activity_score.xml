@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_bg_gradient"
-    tools:context=".ScoreActivity">
+    tools:context=".activities.ScoreActivity">
 
     <ImageView
         android:id="@+id/imageView10"
@@ -16,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/trophy" />
+        app:srcCompat="@drawable/trophy"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView11"

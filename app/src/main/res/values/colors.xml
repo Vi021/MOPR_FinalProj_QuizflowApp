@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="gray50">#80000000</color>
+    <color name="gray40">#66000000</color>
+    <color name="gray20">#33000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="do_botro">#C0483F</color>
     <color name="xanh_ngoc">#FF1f6b91</color>
@@ -10,13 +13,13 @@
     <color name="xanh_botro4">#FF0a516c</color>
     <color name="xanh_botro5">#FF35546a</color>
     <color name="xanh_botro6">#FF038ecf</color>
+    <color name="xanh_botro7">#08384A</color>
+    <color name="xanh_botro8">#408AAE</color>
     <color name="orange">#ff5f1f</color>
     <color name="orangeMid">#fecdc0</color>
     <color name="orangeLight">#fecdc0</color>
     <color name="lightOrange">#feecec</color>
     <color name="lightGrey">#eeeced</color>
     <color name="grey">#d7d6d7</color>
-    <color name="xanh_botro7">#08384A</color>
-    <color name="xanh_botro8">#408AAE</color>
 
 </resources>

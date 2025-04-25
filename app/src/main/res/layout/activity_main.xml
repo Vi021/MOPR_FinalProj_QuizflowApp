@@ -12,18 +12,17 @@
     <FrameLayout
         android:id="@+id/framL_fragContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp" />
+        android:layout_height="match_parent" />
 
     <!-- bottom chip navigation -->
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chipNav_menu"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_margin="15dp"
         android:background="@drawable/rounded_chipnav_bg"
         app:cnb_iconColor="@color/white"
-        app:cnb_iconSize="24dp"
+        app:cnb_iconSize="16dp"
         app:cnb_textColor="@color/white"
         app:cnb_menuResource="@menu/bot_chipnav_menu"
         app:cnb_orientationMode="horizontal"

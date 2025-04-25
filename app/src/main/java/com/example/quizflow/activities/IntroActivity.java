@@ -34,7 +34,7 @@ public class IntroActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            startActivity(new Intent(IntroActivity.this, MainActivity.class));
+            startActivity(new Intent(IntroActivity.this, SigninActivity.class));
             finish();
         }, 2000);
     }

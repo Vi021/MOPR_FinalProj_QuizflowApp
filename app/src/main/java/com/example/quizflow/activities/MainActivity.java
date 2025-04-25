@@ -1,13 +1,16 @@
 package com.example.quizflow.activities;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionFragment collectionFragment;
     private SettingsFragment settingsFragment;
 
+    private boolean signedIn = false;
     private long backPressedTime = 0;
     private Stack<String> fragmentStack = new Stack<>();
 
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        signedIn = getIntent().getBooleanExtra("okay", false);
 
         // bottom nav bar
         chipNav_menu = findViewById(R.id.chipNav_menu);
@@ -63,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
         // display default fragment
         if (savedInstanceState == null) {
             chipNav_menu.setItemSelected(R.id.chipNav_homeTab, true);
+            //updateStatusBarTheme();
+        }
+    }
+
+    // for UI
+    private void updateStatusBarTheme() {
+        if (!signedIn && chipNav_menu.getSelectedItemId() == R.id.chipNav_homeTab) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+            new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
+        } else {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
+            new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(!((this.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES));
         }
     }
 
@@ -110,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         if (settingsFragment.isAdded()) ft.hide(settingsFragment);
 
         // replace fragment based on tag
-        Fragment currentFragment = null;
+        Fragment currentFragment;
         switch (FTAG) {
             case FTAG_RANKING:
                 currentFragment = rankingFragment;
@@ -138,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         // now do it
         ft.commit();
+        updateStatusBarTheme();
     }
 
     // press back twice to exit app
@@ -159,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     switchTab(previousFTAG);
                 }
             } else {
+                switchTab(FTAG_HOME);
                 super.onBackPressed();
             }
         }

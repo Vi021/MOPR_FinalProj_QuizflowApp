@@ -114,7 +114,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
 
     private int getCurrentPosition(String answer) {
         switch (answer) {
-            case "a": return 0;
             case "b": return 1;
             case "c": return 2;
             case "d": return 3;
