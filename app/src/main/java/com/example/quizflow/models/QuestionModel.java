@@ -1,4 +1,4 @@
-package com.example.quizflow.domains;
+package com.example.quizflow.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

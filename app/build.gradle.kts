@@ -47,6 +47,8 @@ dependencies {
     annotationProcessor(libs.glideCompiler)
     implementation(libs.glideTransformations)
     implementation(libs.chipNavbar)
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2ConverterGson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

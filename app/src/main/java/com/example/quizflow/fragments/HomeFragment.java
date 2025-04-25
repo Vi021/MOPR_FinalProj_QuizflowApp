@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.quizflow.R;
 import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.activities.QuestionActivity;
-import com.example.quizflow.domains.QuestionModel;
+import com.example.quizflow.models.QuestionModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +77,8 @@ public class HomeFragment extends Fragment {
             //requireActivity().finish();
         });
 
-        CircleImageView circleImg_pfp = view.findViewById(R.id.circleImg_pfp);
-        circleImg_pfp.setOnClickListener(this::noService);
+        CircleImageView cirImg_pfp = view.findViewById(R.id.cirImg_pfp);
+        cirImg_pfp.setOnClickListener(this::noService);
 
         ImageView img_coinAdd = view.findViewById(R.id.img_coinAdd);
         img_coinAdd.setOnClickListener(this::noService);

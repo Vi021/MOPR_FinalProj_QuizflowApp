@@ -15,6 +15,9 @@
     <color name="xanh_botro6">#FF038ecf</color>
     <color name="xanh_botro7">#FF08384a</color>
     <color name="xanh_botro8">#FF408aae</color>
-    <color name="xanh_botro9">#1A1F6B91</color>
-    <color name="xanh_botro10">#4D49B0CF</color>
+    <color name="xanh_botro9">#1a1f6b91</color>
+    <color name="xanh_botro10">#4d49b0cf</color>
+    <color name="top1">#febb3a</color>
+    <color name="top2">#bfbfc0</color>
+    <color name="top3">#ac844e</color>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.quizflow.adapter;
+package com.example.quizflow.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

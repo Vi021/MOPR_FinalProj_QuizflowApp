@@ -23,7 +23,7 @@
         android:id="@+id/consL_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="75dp"
+        android:layout_marginBottom="85dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
@@ -34,17 +34,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Profile Center -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/consL_profileCenter"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_bg_white_clickable"
+            android:backgroundTint="@color/xanh_botro10"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/txt_ProfileCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="5dp"
+                android:text="Profile Center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/cirImg_pfp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginStart="10dp"
+                android:padding="2dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_default_pfp_blues"
+                android:background="@drawable/circular_ring_bg_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_ProfileCenter"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/txt_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="user0"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cirImg_pfp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_ProfileCenter" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:rotationY="180"
+                android:src="@drawable/ic_lessthan_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <!-- Language -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
             <!-- text part -->
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -105,9 +167,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
             <!-- text part -->
             <TextView
@@ -171,9 +232,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
             <!-- text part -->
             <TextView
@@ -237,9 +297,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
             <!-- text part -->
             <TextView
@@ -303,9 +362,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
             <!-- text part 1 -->
             <TextView
@@ -335,9 +393,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
             android:orientation="horizontal">
             <!-- text part -->
             <TextView

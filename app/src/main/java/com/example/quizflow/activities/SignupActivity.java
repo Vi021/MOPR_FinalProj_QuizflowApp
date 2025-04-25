@@ -10,6 +10,7 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -21,7 +22,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
+import com.example.quizflow.Retrofit2Client;
+import com.example.quizflow.requests.RegisterRequest;
+import com.example.quizflow.respones.APIResponse;
 import com.example.quizflow.utils.Validators;
+
+import retrofit2.Call;
 
 public class SignupActivity extends AppCompatActivity {
     private EditText eTxt_email, eTxt_fullname, eTxt_username;
@@ -79,7 +85,27 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: implement sign-up logic (if alr signed up, move to sign in)
+        Retrofit2Client retrofit2Client = new Retrofit2Client();
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail(eTxt_email.getText().toString());
+        registerRequest.setPassword(eTxt_username.getText().toString());
+        Call<APIResponse> call = retrofit2Client.getAPI().signUp(registerRequest);
+
+        call.enqueue(new retrofit2.Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, retrofit2.Response<APIResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(SignupActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignupActivity.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                Toast.makeText(SignupActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Intent intent = new Intent(SignupActivity.this, MainActivity.class);
         // TODO: getUserInfo() instead of passing data

@@ -16,16 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizflow.R;
 import com.example.quizflow.adapters.RankingAdapter;
 import com.example.quizflow.models.UserModel;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RankingFragment extends Fragment {
     private TextView txt_usernameTop1, txt_usernameTop2, txt_usernameTop3,
             txt_coinsTop1, txt_coinsTop2, txt_coinsTop3;
-    private ShapeableImageView img_pfpTop1, img_pfpTop2, img_pfpTop3;
+    private CircleImageView cirImg_pfpTop1, cirImg_pfpTop2, cirImg_pfpTop3;
     private AppCompatButton ACBtn_weekly, ACBtn_monthly, ACBtn_allTime;
     private RecyclerView recycler_rankings;
     private ArrayList<UserModel> rankings;
@@ -80,9 +81,9 @@ public class RankingFragment extends Fragment {
         txt_coinsTop1 = view.findViewById(R.id.txt_coinsTop1);
         txt_coinsTop2 = view.findViewById(R.id.txt_coinsTop2);
         txt_coinsTop3 = view.findViewById(R.id.txt_coinsTop3);
-        img_pfpTop1 = view.findViewById(R.id.img_pfpTop1);
-        img_pfpTop2 = view.findViewById(R.id.img_pfpTop2);
-        img_pfpTop3 = view.findViewById(R.id.img_pfpTop3);
+        cirImg_pfpTop1 = view.findViewById(R.id.cirImg_pfpTop1);
+        cirImg_pfpTop2 = view.findViewById(R.id.cirImg_pfpTop2);
+        cirImg_pfpTop3 = view.findViewById(R.id.cirImg_pfpTop3);
         ACBtn_weekly = view.findViewById(R.id.ACBtn_weekly);
         ACBtn_monthly = view.findViewById(R.id.ACBtn_monthly);
         ACBtn_allTime = view.findViewById(R.id.ACBtn_allTime);
@@ -136,19 +137,19 @@ public class RankingFragment extends Fragment {
         user = rankings.get(0);
         txt_usernameTop1.setText(user.getUsername());
         txt_coinsTop1.setText(String.valueOf(user.getCoins()));
-        img_pfpTop1.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
+        cirImg_pfpTop1.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
 
         // rank #2
         user = rankings.get(1);
         txt_usernameTop2.setText(user.getUsername());
         txt_coinsTop2.setText(String.valueOf(user.getCoins()));
-        img_pfpTop2.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
+        cirImg_pfpTop2.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
 
         // rank #3
         user = rankings.get(2);
         txt_usernameTop3.setText(user.getUsername());
         txt_coinsTop3.setText(String.valueOf(user.getCoins()));
-        img_pfpTop3.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
+        cirImg_pfpTop3.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
     }
 
     private void setupRecyclerView() {

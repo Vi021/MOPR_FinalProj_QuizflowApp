@@ -3,6 +3,7 @@ package com.example.quizflow.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -18,14 +19,15 @@ import com.example.quizflow.R;
 import com.example.quizflow.activities.SigninActivity;
 
 public class SettingsFragment extends Fragment {
-    private TextView txt_EN, txt_VI, txt_soundOn, txt_soundOff, txt_vibrateOn, txt_vibrateOff, txt_notifyOn, txt_notifyOff, txt_ver;
+    ConstraintLayout consL_profileCenter;
+    private TextView txt_username, txt_EN, txt_VI, txt_soundOn, txt_soundOff, txt_vibrateOn, txt_vibrateOff, txt_notifyOn, txt_notifyOff, txt_ver;
     private LinearLayout lineL_languageSwitch, lineL_soundSwitch, lineL_vibrateSwitch, lineL_notifySwitch;
     private ImageView img_logout;
 
     private final boolean[] isEnglish = {true}; // default language is English
-    private final boolean[] isSoundOn = {true}; // default sound is ON
-    private final boolean[] isVibrateOn = {true}; // default vibration is ON
-    private final boolean[] isNotifyOn = {true}; // default notification is ON
+    private final boolean[] isSoundOn = {false}; // default sound is OFF
+    private final boolean[] isVibrateOn = {false}; // default vibration is OFF
+    private final boolean[] isNotifyOn = {false}; // default notification is OFF
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,8 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initViews(View view) {
+        consL_profileCenter = view.findViewById(R.id.consL_profileCenter);
+        txt_username = view.findViewById(R.id.txt_username);
         txt_EN = view.findViewById(R.id.txt_EN);
         txt_VI = view.findViewById(R.id.txt_VI);
         txt_soundOn = view.findViewById(R.id.txt_soundOn);
@@ -54,61 +58,38 @@ public class SettingsFragment extends Fragment {
         lineL_notifySwitch = view.findViewById(R.id.lineL_notifySwitch);
         img_logout = view.findViewById(R.id.img_logout);
 
+        // profile center
+        consL_profileCenter.setOnClickListener(v -> {
+            // do sth
+        });
+        txt_username.setText(requireActivity().getIntent().getStringExtra("username")); //temp
+
         // language
+        toggleLanguage();
         lineL_languageSwitch.setOnClickListener(v -> {
             isEnglish[0] = !isEnglish[0]; // toggle language
-
-            if (isEnglish[0]) {
-                txt_EN.setBackgroundResource(R.drawable.rounded_bg_white);
-                txt_VI.setBackgroundResource(android.R.color.transparent);
-            } else {
-                txt_EN.setBackgroundResource(android.R.color.transparent);
-                txt_VI.setBackgroundResource(R.drawable.rounded_bg_white);
-
-                Toast toast = Toast.makeText(getContext(), "I dunno Vietnamese!", Toast.LENGTH_SHORT);
-                toast.show();
-                new Handler().postDelayed(() -> {
-                    lineL_languageSwitch.performClick();
-                    toast.cancel();
-                }, 800);
-            }
+            toggleLanguage();
         });
 
         // sound
+        toggleSound();
         lineL_soundSwitch.setOnClickListener(v -> {
             isSoundOn[0] = !isSoundOn[0]; // toggle sound
-
-            if (isSoundOn[0]) {
-                txt_soundOn.setBackgroundResource(R.drawable.rounded_bg_white);
-                txt_soundOff.setBackgroundResource(android.R.color.transparent);
-            } else {
-                txt_soundOff.setBackgroundResource(R.drawable.rounded_bg_white);
-                txt_soundOn.setBackgroundResource(android.R.color.transparent);
-            }
+            toggleSound();
         });
 
         // vibration
+        toggleVibration();
         lineL_vibrateSwitch.setOnClickListener(v -> {
             isVibrateOn[0] = !isVibrateOn[0]; // toggle vibration
-            if (isVibrateOn[0]) {
-                txt_vibrateOn.setBackgroundResource(R.drawable.rounded_bg_white);
-                txt_vibrateOff.setBackgroundResource(android.R.color.transparent);
-            } else {
-                txt_vibrateOff.setBackgroundResource(R.drawable.rounded_bg_white);
-                txt_vibrateOn.setBackgroundResource(android.R.color.transparent);
-            }
+            toggleVibration();
         });
 
         // notification
+        toggleNotification();
         lineL_notifySwitch.setOnClickListener(v -> {
             isNotifyOn[0] = !isNotifyOn[0]; // toggle notification
-            if (isNotifyOn[0]) {
-                txt_notifyOn.setBackgroundResource(R.drawable.rounded_bg_white);
-                txt_notifyOff.setBackgroundResource(android.R.color.transparent);
-            } else {
-                txt_notifyOff.setBackgroundResource(R.drawable.rounded_bg_white);
-                txt_notifyOn.setBackgroundResource(android.R.color.transparent);
-            }
+            toggleNotification();
         });
 
         // about
@@ -126,7 +107,7 @@ public class SettingsFragment extends Fragment {
                 toast.show();
                 new Handler().postDelayed(toast::cancel, 600);
             } else {
-                Toast toast = Toast.makeText(requireContext(), requiredClicks - clickCount[0] + " more taps to activate Dev Mode", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(requireContext(), requiredClicks - clickCount[0] + " more tap(s) to activate Dev Mode", Toast.LENGTH_SHORT);
                 toast.show();
                 new Handler().postDelayed(toast::cancel, 700);
             }
@@ -134,14 +115,58 @@ public class SettingsFragment extends Fragment {
 
         // logout
         img_logout.setOnClickListener(v -> {
-            // TODO:
-            //  show "u sure?" dialog, maybe?
-
             startActivity(new Intent(requireContext(), SigninActivity.class));
             requireActivity().finish();
 //            Toast toast = Toast.makeText(requireContext(), "Nuh uh!", Toast.LENGTH_SHORT);
 //            toast.show();
 //            new Handler().postDelayed(toast::cancel, 500);
         });
+    }
+
+    private void toggleLanguage() {
+        if (isEnglish[0]) {
+            txt_EN.setBackgroundResource(R.drawable.rounded_bg_white);
+            txt_VI.setBackgroundResource(android.R.color.transparent);
+        } else {
+            txt_EN.setBackgroundResource(android.R.color.transparent);
+            txt_VI.setBackgroundResource(R.drawable.rounded_bg_white);
+
+            Toast toast = Toast.makeText(getContext(), "I dunno Vietnamese!", Toast.LENGTH_SHORT);
+            toast.show();
+            new Handler().postDelayed(() -> {
+                lineL_languageSwitch.performClick();
+                toast.cancel();
+            }, 800);
+        }
+    }
+
+    private void toggleSound() {
+        if (isSoundOn[0]) {
+            txt_soundOn.setBackgroundResource(R.drawable.rounded_bg_white);
+            txt_soundOff.setBackgroundResource(android.R.color.transparent);
+        } else {
+            txt_soundOff.setBackgroundResource(R.drawable.rounded_bg_white);
+            txt_soundOn.setBackgroundResource(android.R.color.transparent);
+        }
+    }
+
+    private void toggleVibration() {
+        if (isVibrateOn[0]) {
+            txt_vibrateOn.setBackgroundResource(R.drawable.rounded_bg_white);
+            txt_vibrateOff.setBackgroundResource(android.R.color.transparent);
+        } else {
+            txt_vibrateOff.setBackgroundResource(R.drawable.rounded_bg_white);
+            txt_vibrateOn.setBackgroundResource(android.R.color.transparent);
+        }
+    }
+
+    private void toggleNotification() {
+        if (isNotifyOn[0]) {
+            txt_notifyOn.setBackgroundResource(R.drawable.rounded_bg_white);
+            txt_notifyOff.setBackgroundResource(android.R.color.transparent);
+        } else {
+            txt_notifyOff.setBackgroundResource(R.drawable.rounded_bg_white);
+            txt_notifyOn.setBackgroundResource(android.R.color.transparent);
+        }
     }
 }

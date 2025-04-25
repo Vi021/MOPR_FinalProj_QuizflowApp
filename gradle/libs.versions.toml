@@ -12,6 +12,8 @@ glide = "4.15.0"
 glideCompiler = "4.15.0"
 glideTransformations = "4.3.0"
 chipNavbar = "1.4.0"
+retrofit2 = "2.9.0"
+retrofit2ConverterGson = "2.9.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -26,6 +28,8 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glideCompiler" }
 glideTransformations = { group = "jp.wasabeef", name = "glide-transformations", version.ref = "glideTransformations" }
 chipNavbar = { group = "com.github.ismaeldivita", name = "chip-navigation-bar", version.ref = "chipNavbar" }
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
+retrofit2ConverterGson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2ConverterGson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
