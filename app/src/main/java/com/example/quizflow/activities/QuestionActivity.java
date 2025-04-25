@@ -142,7 +142,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionAdapt
                 this
         );
 
-        questionAdapter.getDiffer().submitList(users);
+        questionAdapter.differ.submitList(users);
         binding.questionList.setLayoutManager(new LinearLayoutManager(this));
         binding.questionList.setAdapter(questionAdapter);
     }
