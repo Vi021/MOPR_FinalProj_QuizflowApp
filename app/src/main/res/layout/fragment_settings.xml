@@ -7,7 +7,6 @@
     tools:context=".fragments.SettingsFragment">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -20,7 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/consL_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="85dp"
@@ -130,10 +128,10 @@
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
-                    android:orientation="horizontal"
                     android:clickable="true"
                     android:focusable="true"
-                    tools:ignore="UselessParent">
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent,TouchTargetSizeCheck">
 
                     <TextView
                         android:id="@+id/txt_EN"
@@ -195,10 +193,10 @@
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
-                    android:orientation="horizontal"
                     android:clickable="true"
                     android:focusable="true"
-                    tools:ignore="UselessParent">
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent,TouchTargetSizeCheck">
 
                     <TextView
                         android:id="@+id/txt_soundOn"
@@ -260,10 +258,10 @@
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
-                    android:orientation="horizontal"
                     android:clickable="true"
                     android:focusable="true"
-                    tools:ignore="UselessParent">
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent,TouchTargetSizeCheck">
 
                     <TextView
                         android:id="@+id/txt_vibrateOn"
@@ -325,10 +323,10 @@
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/rounded_bg_white"
                     android:backgroundTint="#55000000"
-                    android:orientation="horizontal"
                     android:clickable="true"
                     android:focusable="true"
-                    tools:ignore="UselessParent">
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent,TouchTargetSizeCheck">
 
                     <TextView
                         android:id="@+id/txt_notifyOn"

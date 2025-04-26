@@ -129,7 +129,7 @@ public class QuestionModel implements Parcelable {
         clickedAnswer = in.readString();
     }
 
-    public static final Creator<QuestionModel> CREATOR = new Creator<QuestionModel>() {
+    public static final Creator<QuestionModel> CREATOR = new Creator<>() {
         @Override
         public QuestionModel createFromParcel(Parcel in) {
             return new QuestionModel(in);

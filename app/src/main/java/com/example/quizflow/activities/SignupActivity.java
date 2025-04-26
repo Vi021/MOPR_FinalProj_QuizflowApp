@@ -91,9 +91,9 @@ public class SignupActivity extends AppCompatActivity {
         registerRequest.setPassword(eTxt_username.getText().toString());
         Call<APIResponse> call = retrofit2Client.getAPI().signUp(registerRequest);
 
-        call.enqueue(new retrofit2.Callback<APIResponse>() {
+        call.enqueue(new retrofit2.Callback<>() {
             @Override
-            public void onResponse(Call<APIResponse> call, retrofit2.Response<APIResponse> response) {
+            public void onResponse(@NonNull Call<APIResponse> call, @NonNull retrofit2.Response<APIResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(SignupActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                 } else {
@@ -102,7 +102,7 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<APIResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse> call, @NonNull Throwable t) {
                 Toast.makeText(SignupActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

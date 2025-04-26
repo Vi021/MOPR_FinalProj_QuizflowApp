@@ -107,12 +107,12 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     private void signIn(View view) {
-        if (validateEmailOrUsername()) {
-            return;
-        }
-        if (validatePassword()) {
-            return;
-        }
+//        if (validateEmailOrUsername()) {
+//            return;
+//        }
+//        if (validatePassword()) {
+//            return;
+//        }
 
         // TODO: handle password
         //  implement sign-in logic (if not signed up yet, move to sign up)

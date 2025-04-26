@@ -3,6 +3,8 @@ package com.example.quizflow.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import com.example.quizflow.R;
 import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.models.QuestionModel;
+import com.google.android.material.search.SearchBar;
+import com.google.android.material.search.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
     private ConstraintLayout consL_accountBar, consL_profileBar;
+    private SearchView search_quizzes;
     private boolean signedIn = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,6 +97,30 @@ public class HomeFragment extends Fragment {
         } else {
             txt_hello.setText("Hello!");
         }
+
+        SearchBar srchBar_quizzes = view.findViewById(R.id.srchBar_quizzes);
+        search_quizzes = view.findViewById(R.id.search_quizzes);
+        srchBar_quizzes.setOnClickListener(v -> {
+            search_quizzes.setVisibility(View.VISIBLE);
+            search_quizzes.show();
+        });
+        search_quizzes.addTransitionListener((searchView, previousState, newState) -> {
+            if (newState == SearchView.TransitionState.HIDDEN) {
+                search_quizzes.setText("");
+            }
+        });
+        search_quizzes.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                noQuizzes(requireView());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
 
         TextView txt_viewCategories = view.findViewById(R.id.txt_viewCategories);
         txt_viewCategories.setOnClickListener(this::noCategories);

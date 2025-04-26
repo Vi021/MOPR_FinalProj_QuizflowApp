@@ -1,5 +1,6 @@
 package com.example.quizflow.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
         return new Viewholder(binding);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         ViewholderQuestionBinding binding = holder.binding;
@@ -136,7 +138,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
         return differ.getCurrentList().size();
     }
 
-    private final DiffUtil.ItemCallback<String> differCallback = new DiffUtil.ItemCallback<String>() {
+    private final DiffUtil.ItemCallback<String> differCallback = new DiffUtil.ItemCallback<>() {
         @Override
         public boolean areItemsTheSame(@NonNull String oldItem, @NonNull String newItem) {
             return oldItem.equals(newItem);
