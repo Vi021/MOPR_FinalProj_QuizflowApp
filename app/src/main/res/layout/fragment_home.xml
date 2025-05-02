@@ -2,543 +2,385 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
 
-    <!-- search view -->
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_quizzes"
+    <!-- account utilities -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consL_accountBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:queryBackground="@color/black"
-        app:backgroundTint="@color/search_quizzes_bg"
-        app:iconTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Home content -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/xt_wannaCreateQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="5dp"
+            android:gravity="center"
+            android:text="Wanna create your own quiz?"
+            android:textColor="@color/xanh_botro7"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/consL_accountBar"
+            app:layout_constraintEnd_toStartOf="@id/txt_btnSignInSignUp"
+            app:layout_constraintStart_toStartOf="@id/consL_accountBar"
+            app:layout_constraintTop_toTopOf="@id/consL_accountBar" />
+
+        <TextView
+            android:id="@+id/txt_btnSignInSignUp"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="5dp"
+            android:background="@drawable/rounded_bg_white_clickable"
+            android:backgroundTint="@color/xanh_botro6"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingHorizontal="5dp"
+            android:text="Sign in/Sign up"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/consL_accountBar"
+            app:layout_constraintEnd_toEndOf="@id/consL_accountBar"
+            app:layout_constraintStart_toEndOf="@id/xt_wannaCreateQuiz"
+            app:layout_constraintTop_toTopOf="@id/consL_accountBar"
+            tools:ignore="TouchTargetSizeCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- profile utilities -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consL_profileBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cirImg_pfp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:background="@drawable/circular_ring_bg_white"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="2dp"
+            android:src="@drawable/ic_default_pfp_blues"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/txt_hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Hello!"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
+            app:layout_constraintStart_toEndOf="@+id/cirImg_pfp"
+            app:layout_constraintTop_toTopOf="@+id/consL_profileBar" />
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_bordered_bg_clickable"
+            android:orientation="horizontal"
+            android:paddingHorizontal="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
+            app:layout_constraintEnd_toEndOf="@+id/consL_profileBar"
+            app:layout_constraintTop_toTopOf="@+id/consL_profileBar">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0.3"
+                android:padding="3dp"
+                android:src="@drawable/ic_coin"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0.4"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/img_coinAdd"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:clickable="true"
+                android:contentDescription="@string/app_name"
+                android:focusable="true"
+                android:padding="3dp"
+                android:src="@drawable/ic_plus_white"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- search bar -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/srchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="70dp"
+        app:boxBackgroundColor="@color/xanh_botro10"
+        app:boxBackgroundMode="filled"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/autoCompleteSearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Search"
+            android:inputType="text"
+            android:paddingHorizontal="15dp"
+            android:popupElevation="6dp"
+            android:textColor="@color/xanh_botro8"
+            android:textColorHint="@color/white"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- actions -->
+    <LinearLayout
+        android:id="@+id/lineL_actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/srchBar">
+
+        <LinearLayout
+            android:id="@+id/lineL_createQuiz"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="3"
+            android:background="@drawable/rounded_bordered_bg_clickable"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_plus_white"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginBottom="10dp"
+                android:text="Create Quiz"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lineL_singlePlayer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/rounded_bordered_bg_clickable"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_singleplayer_white"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginBottom="10dp"
+                android:text="Single Player"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lineL_multiPlayers"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="3"
+            android:background="@drawable/rounded_bordered_bg_clickable"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_multiplayers_white"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginBottom="10dp"
+                android:text="Multi Players"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- category bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consL_categoryBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/consL_earncoinsBar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:text="Categories"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
+            app:layout_constraintStart_toStartOf="@+id/consL_categoryBar"
+            app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
+
+        <TextView
+            android:id="@+id/txt_viewCategories"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="2dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="View All"
+            android:textColor="@color/xanh_botro3"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
+            app:layout_constraintEnd_toEndOf="@+id/consL_categoryBar"
+            app:layout_constraintTop_toTopOf="@+id/consL_categoryBar"
+            tools:ignore="TouchTargetSizeCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/consL_categoryBar">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recy_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp">
+            android:layout_marginHorizontal="5dp"/>
+    </androidx.core.widget.NestedScrollView>
 
-            <!-- account utilities -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/consL_accountBar"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+    <!-- earncoin bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consL_earncoinsBar"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_earncoin_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineL_actionBar">
 
-                <TextView
-                    android:id="@+id/xt_wannaCreateQuiz"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="5dp"
-                    android:gravity="center"
-                    android:text="Wanna create your own quiz?"
-                    android:textColor="@color/xanh_botro7"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/consL_accountBar"
-                    app:layout_constraintEnd_toStartOf="@id/txt_btnSignInSignUp"
-                    app:layout_constraintStart_toStartOf="@id/consL_accountBar"
-                    app:layout_constraintTop_toTopOf="@id/consL_accountBar" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/globs_nobg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
-                <TextView
-                    android:id="@+id/txt_btnSignInSignUp"
-                    android:layout_width="130dp"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:background="@drawable/rounded_bg_white_clickable"
-                    android:backgroundTint="@color/xanh_botro6"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:paddingHorizontal="5dp"
-                    android:text="Sign in/Sign up"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/consL_accountBar"
-                    app:layout_constraintEnd_toEndOf="@id/consL_accountBar"
-                    app:layout_constraintStart_toEndOf="@id/xt_wannaCreateQuiz"
-                    app:layout_constraintTop_toTopOf="@id/consL_accountBar"
-                    tools:ignore="TouchTargetSizeCheck" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/txt_completeToEarn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:text="Complete All Levels To Earn 1000 Coins!"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.77" />
 
-            <!-- profile utilities -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/consL_profileBar"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="20dp"
+            android:paddingTop="40dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp"
+            android:src="@drawable/ic_coins"
+            app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
+            app:layout_constraintEnd_toEndOf="@id/consL_earncoinsBar"
+            app:layout_constraintTop_toTopOf="@id/consL_earncoinsBar"
+            app:layout_constraintWidth_percent="0.4"
+            tools:ignore="ContentDescription" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/cirImg_pfp"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
-                    android:background="@drawable/circular_ring_bg_white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="2dp"
-                    android:src="@drawable/ic_default_pfp_blues"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-                <TextView
-                    android:id="@+id/txt_hello"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Hello!"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
-                    app:layout_constraintStart_toEndOf="@+id/cirImg_pfp"
-                    app:layout_constraintTop_toTopOf="@+id/consL_profileBar" />
-
-                <LinearLayout
-                    android:layout_width="120dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="6dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
-                    app:layout_constraintEnd_toEndOf="@+id/consL_profileBar"
-                    app:layout_constraintTop_toTopOf="@+id/consL_profileBar">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="0.3"
-                        android:padding="3dp"
-                        android:src="@drawable/ic_coin"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="0.4"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:id="@+id/img_coinAdd"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.3"
-                        android:clickable="true"
-                        android:contentDescription="@string/app_name"
-                        android:focusable="true"
-                        android:padding="3dp"
-                        android:src="@drawable/ic_action_plus_white"
-                        tools:ignore="TouchTargetSizeCheck" />
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- search bar -->
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/srchBar_quizzes"
-                style="@style/Base.Theme.Quizflow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="70dp"
-                android:backgroundTint="@color/xanh_botro10"
-                android:hint="Search Quizzes"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navigationIconTint="@color/white" />
-
-            <!-- actions -->
-            <LinearLayout
-                android:id="@+id/lineL_actionBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="15dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:weightSum="9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/srchBar_quizzes">
-
-                <LinearLayout
-                    android:id="@+id/lineL_createQuiz"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="3"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_margin="10dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_action_plus_white"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="3dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Create Quiz"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lineL_singlePlayer"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_action_singleplayer_white"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="3dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Single Player"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lineL_multiPlayers"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="3"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_margin="10dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_action_multiplayers_white"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="3dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Multi Players"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- category bar -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/consL_categoryBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lineL_actionBar">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="2dp"
-                    android:text="Categories"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
-                    app:layout_constraintStart_toStartOf="@+id/consL_categoryBar"
-                    app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
-
-                <TextView
-                    android:id="@+id/txt_viewCategories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="2dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="View All"
-                    android:textColor="@color/xanh_botro3"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
-                    app:layout_constraintEnd_toEndOf="@+id/consL_categoryBar"
-                    app:layout_constraintTop_toTopOf="@+id/consL_categoryBar"
-                    tools:ignore="TouchTargetSizeCheck" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- categories, row 1 -->
-            <LinearLayout
-                android:id="@+id/lineL_categoryContainer1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:baselineAligned="false"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/consL_categoryBar">
-
-                <LinearLayout
-                    android:id="@+id/lineL_category1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="7dp"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@id/lineL_category3"
-                    app:layout_constraintStart_toStartOf="@id/lineL_categoryContainer1"
-                    app:layout_constraintTop_toTopOf="@id/lineL_categoryContainer1">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.45"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_category_science"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.55"
-                        android:gravity="center_vertical"
-                        android:text="Science"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lineL_category2"
-                    android:layout_width="0dp"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="7dp"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@id/lineL_category4"
-                    app:layout_constraintEnd_toEndOf="@id/lineL_categoryContainer1"
-                    app:layout_constraintTop_toTopOf="@id/lineL_categoryContainer1">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.45"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_category_history"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.55"
-                        android:gravity="center_vertical"
-                        android:text="History"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- categories, row 2 -->
-            <LinearLayout
-                android:id="@+id/lineL_categoryContainer2"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:baselineAligned="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lineL_categoryContainer1">
-
-                <LinearLayout
-                    android:id="@+id/lineL_category3"
-                    android:layout_width="0dp"
-                    android:layout_height="64dp"
-                    android:layout_marginEnd="7dp"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:baselineAligned="false"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@id/lineL_categoryContainer1"
-                    app:layout_constraintStart_toStartOf="@id/lineL_categoryContainer1">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.45"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_category_sport"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.55"
-                        android:gravity="center_vertical"
-                        android:text="Sport"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lineL_category4"
-                    android:layout_width="0dp"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="7dp"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/rounded_bordered_bg_clickable"
-                    android:baselineAligned="false"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@id/lineL_categoryContainer1"
-                    app:layout_constraintEnd_toEndOf="@id/lineL_categoryContainer1">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.45"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_category_art"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.55"
-                        android:gravity="center_vertical"
-                        android:text="Art"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- earncoin bar -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/consL_earncoinsBar"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rounded_earncoin_bg"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lineL_categoryContainer2">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/globs_nobg"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/txt_completeToEarn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
-                    android:text="Complete All Levels To Earn 1000 Coins!"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.77" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:paddingStart="20dp"
-                    android:paddingTop="40dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="20dp"
-                    android:src="@drawable/ic_coins"
-                    app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
-                    app:layout_constraintEnd_toEndOf="@id/consL_earncoinsBar"
-                    app:layout_constraintTop_toTopOf="@id/consL_earncoinsBar"
-                    app:layout_constraintWidth_percent="0.4"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/txt_startNow"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/rounded_bg_white_clickable"
-                    android:backgroundTint="@color/xanh_botro6"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="Start Now"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
-                    app:layout_constraintStart_toStartOf="@id/txt_completeToEarn"
-                    app:layout_constraintWidth_percent="0.4" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        <TextView
+            android:id="@+id/txt_startNow"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_bg_white_clickable"
+            android:backgroundTint="@color/xanh_botro6"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Start Now"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/consL_earncoinsBar"
+            app:layout_constraintStart_toStartOf="@id/txt_completeToEarn"
+            app:layout_constraintWidth_percent="0.4" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

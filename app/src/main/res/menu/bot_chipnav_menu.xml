@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/chipNav_homeTab"
-        android:icon="@drawable/ic_nav_home_white"
+        android:icon="@drawable/ic_home_white"
         android:title="Home"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />
     <item
         android:id="@+id/chipNav_rankingTab"
-        android:icon="@drawable/ic_nav_medal_white"
+        android:icon="@drawable/ic_medal_white"
         android:title="Ranking"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />
     <item
         android:id="@+id/chipNav_collectionTab"
-        android:icon="@drawable/ic_nav_save_white"
+        android:icon="@drawable/ic_save_white"
         android:title="Collections"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />
     <item
         android:id="@+id/chipNav_settingsTab"
-        android:icon="@drawable/ic_nav_settings_white"
+        android:icon="@drawable/ic_settings_white"
         android:title="Settings"
         app:cnb_backgroundColor="@color/xanh_botro6"
         app:cnb_iconColor="@color/white" />

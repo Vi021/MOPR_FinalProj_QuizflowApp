@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Enter OTP"
-            android:textColor="@color/xanh_botro7"
+            android:textColor="@color/xanh_botro4"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="We have sent you a 6-digit code to your email."
-            android:textColor="@color/gray50"
+            android:textColor="@color/black50"
             android:textSize="14sp"
             tools:ignore="TextContrastCheck" />
 
@@ -53,7 +53,7 @@
             android:maxLength="6"
             android:paddingHorizontal="10dp"
             android:textColor="@color/xanh_botro7"
-            android:textColorHint="@color/gray40"
+            android:textColorHint="@color/black40"
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
         <Button
@@ -81,7 +81,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="15dp"
-        android:src="@drawable/ic_action_cross_white"
+        android:src="@drawable/ic_cross_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/xanh_botro8"

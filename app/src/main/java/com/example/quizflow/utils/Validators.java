@@ -1,6 +1,27 @@
 package com.example.quizflow.utils;
 
+import java.util.Locale;
+
 public class Validators {
+    public static String toUpperUnderscore(String input) {
+        return input.trim()
+                .toUpperCase(Locale.ROOT)
+                .replace(" ", "_");
+    }
+
+    public static String toTitleCase(String input) {
+        String lower = input.toLowerCase(Locale.ROOT).replace("_", " ");
+        String[] words = lower.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (String word : words) {
+            if (word.isEmpty()) continue;
+            sb.append(Character.toUpperCase(word.charAt(0)))
+                    .append(word.substring(1))
+                    .append(" ");
+        }
+        return sb.toString().trim();
+    }
+
     public static boolean isNotValidEmail(String email) {
         // check if the email is valid
         return !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
