@@ -32,4 +32,10 @@ public interface APIService {
     // Reset Password
     @POST(Refs.AUTH_URL + "reset-password")
     Call<APIResponse> resetPassword(@Body ResetPasswordRequest request);
+
+    @POST(Refs.USER_URL)
+    Call<APIResponse> getUser(@Body String username);
+
+    @POST(Refs.USER_URL)
+    Call<APIResponse> getUser(@Body Long uid);
 }

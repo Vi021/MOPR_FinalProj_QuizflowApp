@@ -19,7 +19,7 @@ import com.example.quizflow.utils.Validators;
 
 import java.util.Objects;
 
-public class CategoryActivity extends AppCompatActivity {
+public class TopicActivity extends AppCompatActivity {
     private RecyclerView recy_cateQuizzes;
     private TextView txt_none;
 
@@ -27,7 +27,7 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_category);
+        setContentView(R.layout.activity_topic);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -54,7 +54,7 @@ public class CategoryActivity extends AppCompatActivity {
         }
 
         ImageView img_cateIcon = findViewById(R.id.img_cateIcon);
-        img_cateIcon.setImageResource(Objects.requireNonNullElseGet(TYPE.CATEGORY.get(category), () -> R.drawable.ic_help_white));
+        img_cateIcon.setImageResource(Objects.requireNonNullElseGet(TYPE.TOPIC.get(category), () -> R.drawable.ic_help_white));
 
         recy_cateQuizzes = findViewById(R.id.recy_cateQuizzes);
         txt_none = findViewById(R.id.txt_none);

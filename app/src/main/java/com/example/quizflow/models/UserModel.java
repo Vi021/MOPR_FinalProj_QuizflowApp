@@ -1,21 +1,23 @@
 package com.example.quizflow.models;
 
-public class UserModel {
-    private int id;
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
+    private long id;
     private String username;
     private String pfp;
     private long coins;
 
     public UserModel() {}
 
-    public UserModel(int id, String username, String pfp, long coins) {
+    public UserModel(long id, String username, String pfp, long coins) {
         this.id = id;
         this.username = username;
         this.pfp = pfp;
         this.coins = coins;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
     public void setId(int id) {

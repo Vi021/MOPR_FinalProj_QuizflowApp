@@ -3,8 +3,6 @@ package com.example.quizflow.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +20,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
-import com.example.quizflow.activities.CategoryActivity;
+import com.example.quizflow.activities.TopicActivity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.activities.SigninActivity;
-import com.example.quizflow.adapters.CategoryAdapter;
-import com.example.quizflow.models.QuestionModel;
+import com.example.quizflow.adapters.TopicAdapter;
+import com.example.quizflow.QuestionModel;
 import com.example.quizflow.utils.TYPE;
 import com.google.android.material.search.SearchBar;
-import com.google.android.material.search.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,11 +122,7 @@ public class HomeFragment extends Fragment {
         txt_viewCategories.setOnClickListener(this::noCategories);
 
         RecyclerView recy_categories = view.findViewById(R.id.recy_categories);
-        recy_categories.setAdapter(new CategoryAdapter(requireContext(), TYPE.CATEGORIES, category -> {
-            Intent intent = new Intent(requireContext(), CategoryActivity.class);
-            intent.putExtra("category", category);
-            startActivity(intent);
-        }));
+        recy_categories.setAdapter(new TopicAdapter(requireContext(), TYPE.TOPICS));
         recy_categories.setHasFixedSize(true);
         recy_categories.setLayoutManager(new GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false));
 

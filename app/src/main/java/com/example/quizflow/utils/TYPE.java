@@ -3,11 +3,10 @@ package com.example.quizflow.utils;
 import com.example.quizflow.R;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class TYPE {
-    public static final Map<String, Integer> CATEGORY = Map.ofEntries(
+    public static final Map<String, Integer> TOPIC = Map.ofEntries(
         Map.entry("GENERAL_KNOWLEDGE", R.drawable.ic_category_general),
         Map.entry("SCIENCE", R.drawable.ic_category_science),
         Map.entry("HISTORY", R.drawable.ic_category_history),
@@ -24,7 +23,7 @@ public class TYPE {
         Map.entry("MUSIC", R.drawable.ic_category_music),
         Map.entry("HEALTH", R.drawable.ic_category_health)
     );
-    public static final ArrayList<String> CATEGORIES = new ArrayList<>(CATEGORY.keySet());
+    public static final ArrayList<String> TOPICS = new ArrayList<>(TOPIC.keySet());
 
     public static final Map<String, Integer> QUESTION = Map.ofEntries(
         Map.entry("MCQ", R.drawable.ic_mcq_white),

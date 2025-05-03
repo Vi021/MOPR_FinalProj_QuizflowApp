@@ -29,21 +29,25 @@
         android:ellipsize="end"
         android:text="user0"
         android:textColor="@color/white"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toEndOf="@id/cirImg_pfp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_quizCategory"
-        android:layout_width="180dp"
+        android:id="@+id/txt_topic"
+        android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_vertical|end"
         android:maxLines="1"
-        android:text="CATEGORY"
+        android:text="TOPIC"
         android:textAllCaps="true"
         android:textColor="@color/white80"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,6 +58,8 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/rounded_bg_white"
         android:backgroundTint="@color/white95"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,6 +145,7 @@
             app:layout_constraintWidth_percent="0.7" />
 
         <ImageView
+            android:id="@+id/img_singleplayer"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="10dp"

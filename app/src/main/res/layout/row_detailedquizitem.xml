@@ -32,21 +32,25 @@
         android:ellipsize="end"
         android:text="user0"
         android:textColor="@color/white"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toEndOf="@id/cirImg_pfp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_quizCategory"
-        android:layout_width="180dp"
+        android:id="@+id/txt_topic"
+        android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_vertical|end"
         android:maxLines="1"
-        android:text="CATEGORY"
+        android:text="TOPIC"
         android:textAllCaps="true"
         android:textColor="@color/white80"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,22 +61,44 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/rounded_bg_white"
         android:backgroundTint="@color/white95"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/txt_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="12dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:gravity="center"
+            android:background="@drawable/rounded_bg_white_clickable"
+            android:backgroundTint="@color/xanh_botro13"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Start"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/img_save"
             android:layout_width="25dp"
             android:layout_height="30dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_unsave_white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_start"
             app:tint="@color/xanh_botro13"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -120,7 +146,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintWidth_percent="0.7" />
 
         <TextView
             android:id="@+id/txt_quizDesc"
@@ -134,7 +160,7 @@
             android:textColor="@color/xanh_botro13"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_quizTitle"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintWidth_percent="0.7" />
 
         <ImageView
             android:id="@+id/img_question"
@@ -170,7 +196,7 @@
             android:textColor="@color/xanh_botro13"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_question" />
+            app:layout_constraintTop_toBottomOf="@id/img_pen" />
 
         <LinearLayout
             android:id="@+id/lineL_questionType"
@@ -252,7 +278,7 @@
                     app:tint="@color/xanh_botro13" />
 
                 <TextView
-                    android:id="@+id/txt_fillBlank"
+                    android:id="@+id/txt_shortAns"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -270,7 +296,7 @@
             android:layout_marginTop="15dp"
             android:src="@drawable/ic_timer_white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lineL_questionType"
+            app:layout_constraintTop_toBottomOf="@id/img_question"
             app:tint="@color/xanh_botro13" />
 
         <TextView
@@ -291,9 +317,11 @@
             android:layout_height="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="50dp"
             android:src="@drawable/ic_clock_white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_quizDuration"
+            app:layout_constraintTop_toBottomOf="@id/lineL_questionType"
             app:tint="@color/xanh_botro13" />
 
         <TextView
@@ -312,17 +340,15 @@
             android:id="@+id/img_pen"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginBottom="50dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/ic_pen_white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_createdDate"
+            app:layout_constraintTop_toBottomOf="@+id/img_timer"
             app:tint="@color/xanh_botro13" />
 
         <TextView
-            android:id="@+id/txt_attempt"
+            android:id="@+id/txt_attemptCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

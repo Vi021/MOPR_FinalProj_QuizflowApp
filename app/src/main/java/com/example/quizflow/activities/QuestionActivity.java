@@ -16,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.quizflow.R;
 import com.example.quizflow.adapters.QuestionAdapter;
 import com.example.quizflow.databinding.ActivityQuestionBinding;
-import com.example.quizflow.models.QuestionModel;
+import com.example.quizflow.QuestionModel;
 
 import java.util.ArrayList;
 import java.util.List;
