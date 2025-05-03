@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
@@ -129,6 +130,8 @@ public class HomeFragment extends Fragment {
             intent.putExtra("category", category);
             startActivity(intent);
         }));
+        recy_categories.setHasFixedSize(true);
+        recy_categories.setLayoutManager(new GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false));
 
         TextView txt_startNow = view.findViewById(R.id.txt_startNow);
         txt_startNow.setOnClickListener(this::noQuizzes);
