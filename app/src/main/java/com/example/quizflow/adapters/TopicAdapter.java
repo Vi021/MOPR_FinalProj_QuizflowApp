@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizflow.R;
 import com.example.quizflow.activities.TopicActivity;
 import com.example.quizflow.utils.TYPE;
+import com.example.quizflow.utils.Validators;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -44,18 +45,19 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.CategoryView
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row_categoryitem, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_topicitem, parent, false);
         return new CategoryViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         String category = categories.get(position);
-        holder.cateName.setText(category);
+        holder.cateName.setText(Validators.toTitleCase(category));
         holder.cateIcon.setImageResource(Objects.requireNonNull(TYPE.TOPIC.get(category)));
         holder.lineL_category.setOnClickListener(v -> {
             Intent intent = new Intent(context, TopicActivity.class);
             intent.putExtra("category", category);
+            context.startActivity(intent);
         });
     }
 

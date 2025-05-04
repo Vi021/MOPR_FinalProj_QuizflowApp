@@ -1,7 +1,9 @@
 package com.example.quizflow.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -10,6 +12,7 @@ import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -184,6 +187,9 @@ public class PasswordActivity extends AppCompatActivity {
         builder.setView(dialogView);
         builder.setCancelable(false);   // no exit on back press or outside touch
         AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
         ImageView img_close = dialogView.findViewById(R.id.img_close);
         TextView txt_otpDesc = dialogView.findViewById(R.id.txt_otpDesc);
@@ -242,6 +248,8 @@ public class PasswordActivity extends AppCompatActivity {
         });
 
         dialog.show();
+        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8);
+        dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     private boolean validatePasswords() {

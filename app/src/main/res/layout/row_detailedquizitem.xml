@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginHorizontal="10dp"
     android:background="@drawable/rounded_bg_white_clickable"
     android:backgroundTint="@color/xanh_botro7">
 

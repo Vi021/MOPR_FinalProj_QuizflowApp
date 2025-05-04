@@ -41,7 +41,6 @@
         android:layout_height="30dp"
         android:src="@drawable/ic_help_white"
         android:scaleType="fitCenter"
-        app:tint="@color/xanh_ngoc"
         app:layout_constraintStart_toEndOf="@id/txt_cateName"
         app:layout_constraintTop_toTopOf="@id/txt_cateName" />
 

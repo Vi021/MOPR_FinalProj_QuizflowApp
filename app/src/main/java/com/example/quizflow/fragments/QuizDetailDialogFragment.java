@@ -1,5 +1,7 @@
 package com.example.quizflow.fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,7 @@ public class QuizDetailDialogFragment extends DialogFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.row_detailedquizitem, container, false);
 
-        ConstraintLayout consL_topContainer = view.findViewById(R.id.consL_topContainer);
+        ConstraintLayout consL_botContainer = view.findViewById(R.id.consL_botContainer);
         CircleImageView cirImg_pfp = view.findViewById(R.id.cirImg_pfp);
         TextView txt_username = view.findViewById(R.id.txt_username);
         TextView txt_topic = view.findViewById(R.id.txt_topic);
@@ -62,7 +64,7 @@ public class QuizDetailDialogFragment extends DialogFragment {
         TextView txt_availability = view.findViewById(R.id.txt_availability);
         ImageView img_save = view.findViewById(R.id.img_save);
         ImageView img_share = view.findViewById(R.id.img_share);
-        TextView img_report = view.findViewById(R.id.img_report);
+        ImageView img_report = view.findViewById(R.id.img_report);
         ImageView img_question = view.findViewById(R.id.img_question);
         ImageView img_mcq = view.findViewById(R.id.img_mcq);
         ImageView img_tf = view.findViewById(R.id.img_tf);
@@ -89,14 +91,16 @@ public class QuizDetailDialogFragment extends DialogFragment {
 
                 txt_quizTitle.setText(quiz.getTitle());
                 txt_quizDesc.setText(quiz.getDescription());
-                txt_questionCount.setText(String.valueOf(quiz.getQuestionCount()));
-                txt_quizDuration.setText(String.valueOf(quiz.getDuration()));
+                txt_questionCount.setText(quiz.getQuestionCount() + " Question(s)");
+                txt_quizDuration.setText(quiz.getDurationString());
                 txt_createdDate.setText(quiz.getCreatedDate());
                 txt_attemptCount.setText(String.valueOf(quiz.getAttemptCount()));
                 if (quiz.isPublic()) {
                     img_availability.setImageResource(R.drawable.ic_globe_white);
+                    txt_availability.setText("Public");
                 } else {
                     img_availability.setImageResource(R.drawable.ic_lock_white);
+                    txt_availability.setText("Private");
                 }
                 txt_start.setOnClickListener(v -> {
                     // TODO: start quiz
@@ -117,36 +121,47 @@ public class QuizDetailDialogFragment extends DialogFragment {
                 Integer color1 = COLOR.QUIZ_ITEM.get(position % COLOR.count);
                 Integer color2 = COLOR.QUIZ_ITEM.get(position % COLOR.count + COLOR.count);
 
-                consL_topContainer.setBackgroundResource(color1);
-                txt_quizTitle.setTextColor(color1);
+                consL_botContainer.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color1));
+                txt_quizTitle.setTextColor(ContextCompat.getColorStateList(requireContext(), color1));
 
                 txt_start.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                txt_quizDesc.setTextColor(color2);
-                txt_questionCount.setTextColor(color2);
-                txt_questionType.setTextColor(color2);
-                txt_mcq.setTextColor(color2);
-                txt_tf.setTextColor(color2);
-                txt_shortAns.setTextColor(color2);
-                txt_quizDuration.setTextColor(color2);
-                txt_createdDate.setTextColor(color2);
-                txt_attemptCount.setTextColor(color2);
-                txt_singlePlayer.setTextColor(color2);
-                txt_availability.setTextColor(color2);
-                img_save.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_share.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_report.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_question.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_mcq.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_tf.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_shortAns.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_timer.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_clock.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_pen.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_singlePlayer.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
-                img_availability.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_quizDesc.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_questionCount.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_questionType.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_mcq.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_tf.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_shortAns.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_quizDuration.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_createdDate.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_attemptCount.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_singlePlayer.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_availability.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                img_save.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_share.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_report.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_question.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_mcq.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_tf.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_shortAns.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_timer.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_clock.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_pen.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_singlePlayer.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                img_availability.setImageTintList(ContextCompat.getColorStateList(requireContext(), color2));
             }
         }
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+            getDialog().getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
     }
 }

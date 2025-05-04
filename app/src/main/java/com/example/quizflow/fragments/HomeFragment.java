@@ -34,7 +34,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
-    private ConstraintLayout consL_accountBar, consL_profileBar, consL_earncoinsBar;
+    private ConstraintLayout consL_home, consL_accountBar, consL_profileBar, consL_earncoinsBar;
     private LinearLayout lineL_actionBar;
     private boolean signedIn = false;
 
@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment {
         String fullname = requireActivity().getIntent().getStringExtra("fullname");
         String username = requireActivity().getIntent().getStringExtra("username");
 
+        consL_home = view.findViewById(R.id.homeContainer);
         consL_accountBar = view.findViewById(R.id.consL_accountBar);
         consL_profileBar = view.findViewById(R.id.consL_profileBar);
         lineL_actionBar = view.findViewById(R.id.lineL_actionBar);
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment {
             txt_hello.setText("Hello!");
         }
 
-        SearchBar srchBar = view.findViewById(R.id.srchBar);
+        // srchBar = view.findViewById(R.id.srchBar);
 
         LinearLayout lineL_createQuiz = view.findViewById(R.id.lineL_createQuiz);
         lineL_createQuiz.setOnClickListener(this::noService);
@@ -137,7 +138,6 @@ public class HomeFragment extends Fragment {
             lineL_actionBar.setVisibility(View.GONE);
             consL_earncoinsBar.setVisibility(View.GONE);
 
-            ConstraintLayout consL_home = requireView().findViewById(R.id.homeContainer);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(consL_home);
             constraintSet.connect(R.id.consL_categoryBar, ConstraintSet.TOP, R.id.srchBar, ConstraintSet.BOTTOM);

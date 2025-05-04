@@ -100,7 +100,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         } else {
             holder.img_availability.setImageResource(R.drawable.ic_lock_white);
         }
-        holder.consL_botContainer.setOnClickListener(v -> {
+        holder.consL_topContainer.setOnClickListener(v -> {
             QuizDetailDialogFragment dialog = QuizDetailDialogFragment.newInstance(
                     quiz,
                     user,
@@ -114,16 +114,16 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         Integer color1 = COLOR.QUIZ_ITEM.get(position % COLOR.count);
         Integer color2 = COLOR.QUIZ_ITEM.get(position % COLOR.count + COLOR.count);
 
-        holder.consL_topContainer.setBackgroundResource(color1);
-        holder.txt_title.setTextColor(color1);
+        holder.consL_botContainer.setBackgroundTintList(ContextCompat.getColorStateList(context, color1));
+        holder.txt_title.setTextColor(ContextCompat.getColorStateList(context, color1));
 
-        holder.txt_desc.setTextColor(color2);
-        holder.txt_questionCount.setTextColor(color2);
-        holder.txt_quizDuration.setTextColor(color2);
-        holder.img_question.setBackgroundTintList(ContextCompat.getColorStateList(context, color2));
-        holder.img_timer.setBackgroundTintList(ContextCompat.getColorStateList(context, color2));
-        holder.img_singleplayer.setBackgroundTintList(ContextCompat.getColorStateList(context, color2));
-        holder.img_availability.setBackgroundTintList(ContextCompat.getColorStateList(context, color2));
+        holder.txt_desc.setTextColor(ContextCompat.getColorStateList(context, color2));
+        holder.txt_questionCount.setTextColor(ContextCompat.getColorStateList(context, color2));
+        holder.txt_quizDuration.setTextColor(ContextCompat.getColorStateList(context, color2));
+        holder.img_question.setImageTintList(ContextCompat.getColorStateList(context, color2));
+        holder.img_timer.setImageTintList(ContextCompat.getColorStateList(context, color2));
+        holder.img_singleplayer.setImageTintList(ContextCompat.getColorStateList(context, color2));
+        holder.img_availability.setImageTintList(ContextCompat.getColorStateList(context, color2));
     }
 
     @Override
