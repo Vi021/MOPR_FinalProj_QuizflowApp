@@ -20,13 +20,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
-import com.example.quizflow.activities.TopicActivity;
+import com.example.quizflow.activities.CreateQuizActivity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.adapters.TopicAdapter;
 import com.example.quizflow.QuestionModel;
 import com.example.quizflow.utils.TYPE;
-import com.google.android.material.search.SearchBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +35,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeFragment extends Fragment {
     private ConstraintLayout consL_home, consL_accountBar, consL_profileBar, consL_earncoinsBar;
     private LinearLayout lineL_actionBar;
-    private boolean signedIn = false;
 
+    private boolean signedIn = true;    // false
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +71,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initFindView(View view) {
-        signedIn = requireActivity().getIntent().getBooleanExtra("okay", false);
+        //signedIn = requireActivity().getIntent().getBooleanExtra("okay", false);
         String fullname = requireActivity().getIntent().getStringExtra("fullname");
         String username = requireActivity().getIntent().getStringExtra("username");
 
@@ -105,9 +104,12 @@ public class HomeFragment extends Fragment {
         }
 
         // srchBar = view.findViewById(R.id.srchBar);
+        // TODO: search bar
 
         LinearLayout lineL_createQuiz = view.findViewById(R.id.lineL_createQuiz);
-        lineL_createQuiz.setOnClickListener(this::noService);
+        lineL_createQuiz.setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), CreateQuizActivity.class));
+        });
 
         LinearLayout lineL_singlePlayer = view.findViewById(R.id.lineL_singlePlayer);
         lineL_singlePlayer.setOnClickListener(v -> {
@@ -119,7 +121,7 @@ public class HomeFragment extends Fragment {
         LinearLayout lineL_multiPlayers = view.findViewById(R.id.lineL_multiPlayers);
         lineL_multiPlayers.setOnClickListener(this::noService);
 
-        TextView txt_viewCategories = view.findViewById(R.id.txt_viewCategories);
+        TextView txt_viewCategories = view.findViewById(R.id.txt_viewHistory);
         txt_viewCategories.setOnClickListener(this::noCategories);
 
         RecyclerView recy_categories = view.findViewById(R.id.recy_categories);
@@ -128,7 +130,7 @@ public class HomeFragment extends Fragment {
         recy_categories.setLayoutManager(new GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false));
 
         TextView txt_startNow = view.findViewById(R.id.txt_startNow);
-        txt_startNow.setOnClickListener(this::noQuizzes);
+        txt_startNow.setOnClickListener(this::noService);
     }
 
     private void validate() {
@@ -140,7 +142,7 @@ public class HomeFragment extends Fragment {
 
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(consL_home);
-            constraintSet.connect(R.id.consL_categoryBar, ConstraintSet.TOP, R.id.srchBar, ConstraintSet.BOTTOM);
+            constraintSet.connect(R.id.consL_historyBar, ConstraintSet.TOP, R.id.srchBar, ConstraintSet.BOTTOM);
             constraintSet.applyTo(consL_home);
         } else {
             consL_accountBar.setVisibility(View.GONE);

@@ -30,9 +30,13 @@ public class TYPE {
     }
 
     public static final Map<String, Integer> QUESTION = Map.ofEntries(
-        Map.entry("MCQ", R.drawable.ic_mcq_white),
-        Map.entry("TRUE_FALSE", R.drawable.ic_truefalse_white),
-        Map.entry("SHORT_ANSWER", R.drawable.ic_shortanswer_white)
+        Map.entry("MCQ", R.drawable.ic_mcq_white),          // Multiple Choice Question
+        Map.entry("TF", R.drawable.ic_truefalse_white),     // True/False
+        Map.entry("SA", R.drawable.ic_shortanswer_white)    // Short Answer
     );
+    public static final ArrayList<String> QUESTIONS = new ArrayList<>(QUESTION.keySet());
+    static {
+        Collections.sort(QUESTIONS);
+    }
 }
 

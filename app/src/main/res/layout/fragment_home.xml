@@ -85,9 +85,9 @@
             android:text="Hello!"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
-            app:layout_constraintStart_toEndOf="@+id/cirImg_pfp"
-            app:layout_constraintTop_toTopOf="@+id/consL_profileBar" />
+            app:layout_constraintBottom_toBottomOf="@id/consL_profileBar"
+            app:layout_constraintStart_toEndOf="@id/cirImg_pfp"
+            app:layout_constraintTop_toTopOf="@id/consL_profileBar" />
 
         <LinearLayout
             android:layout_width="120dp"
@@ -95,9 +95,9 @@
             android:background="@drawable/rounded_bordered_bg_clickable"
             android:orientation="horizontal"
             android:paddingHorizontal="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_profileBar"
-            app:layout_constraintEnd_toEndOf="@+id/consL_profileBar"
-            app:layout_constraintTop_toTopOf="@+id/consL_profileBar">
+            app:layout_constraintBottom_toBottomOf="@id/consL_profileBar"
+            app:layout_constraintEnd_toEndOf="@id/consL_profileBar"
+            app:layout_constraintTop_toTopOf="@id/consL_profileBar">
 
             <ImageView
                 android:layout_width="0dp"
@@ -263,7 +263,7 @@
 
     <!-- category bar -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/consL_categoryBar"
+        android:id="@+id/consL_historyBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -280,12 +280,12 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
-            app:layout_constraintStart_toStartOf="@+id/consL_categoryBar"
-            app:layout_constraintTop_toTopOf="@+id/consL_categoryBar" />
+            app:layout_constraintBottom_toBottomOf="@id/consL_historyBar"
+            app:layout_constraintStart_toStartOf="@id/consL_historyBar"
+            app:layout_constraintTop_toTopOf="@id/consL_historyBar" />
 
         <TextView
-            android:id="@+id/txt_viewCategories"
+            android:id="@+id/txt_viewHistory"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="2dp"
@@ -295,9 +295,9 @@
             android:textColor="@color/xanh_botro3"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/consL_categoryBar"
-            app:layout_constraintEnd_toEndOf="@+id/consL_categoryBar"
-            app:layout_constraintTop_toTopOf="@+id/consL_categoryBar"
+            app:layout_constraintBottom_toBottomOf="@id/consL_historyBar"
+            app:layout_constraintEnd_toEndOf="@id/consL_historyBar"
+            app:layout_constraintTop_toTopOf="@id/consL_historyBar"
             tools:ignore="TouchTargetSizeCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -306,11 +306,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="5dp"
-        android:paddingBottom="90dp"
+        android:paddingBottom="95dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/consL_categoryBar" />
+        app:layout_constraintTop_toBottomOf="@id/consL_historyBar" />
 
     <!-- earncoin bar -->
     <androidx.constraintlayout.widget.ConstraintLayout

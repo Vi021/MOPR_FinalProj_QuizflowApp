@@ -4,8 +4,8 @@ import java.util.List;
 
 public class QuestionModel {
     private Long qtid;
-    private String question;
-    private String type;
+    private String question = "";
+    private String type = "MCQ";
     private List<AnswerModel> answers;
 
     public QuestionModel() { }

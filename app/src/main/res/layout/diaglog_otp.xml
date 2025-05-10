@@ -75,7 +75,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/img_close"
+        android:id="@+id/img_remove"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="15dp"

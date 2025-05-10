@@ -1,6 +1,7 @@
 package com.example.quizflow.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -121,6 +122,9 @@ public class SettingsFragment extends Fragment {
 //            toast.show();
 //            new Handler().postDelayed(toast::cancel, 500);
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            img_logout.setTooltipText("Can't ya effing read!?");
+        }
     }
 
     private void toggleLanguage() {

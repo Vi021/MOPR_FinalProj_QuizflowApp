@@ -191,7 +191,7 @@ public class PasswordActivity extends AppCompatActivity {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        ImageView img_close = dialogView.findViewById(R.id.img_close);
+        ImageView img_close = dialogView.findViewById(R.id.img_remove);
         TextView txt_otpDesc = dialogView.findViewById(R.id.txt_otpDesc);
         EditText eTxt_otp = dialogView.findViewById(R.id.eTxt_otp);
         Button btn_verifyOTP = dialogView.findViewById(R.id.btn_verifyOTP);
