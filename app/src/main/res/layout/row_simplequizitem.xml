@@ -15,7 +15,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginVertical="7dp"
         android:padding="1dp"
-        android:src="@drawable/ic_default_pfp_blues"
+        android:src="@drawable/ic_default_pfp_icebear"
         android:background="@drawable/circular_ring_bg_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

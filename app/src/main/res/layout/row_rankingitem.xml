@@ -21,12 +21,11 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/cImg_pfp"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="0.2"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:padding="8dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_default_profile_icebear" />
+        android:src="@drawable/ic_default_pfp_icebear" />
 
     <TextView
         android:id="@+id/txt_username"
@@ -45,7 +44,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.1"
-        app:srcCompat="@drawable/ic_coin"
+        android:padding="3dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_coin"
         tools:ignore="ContentDescription" />
 
     <TextView

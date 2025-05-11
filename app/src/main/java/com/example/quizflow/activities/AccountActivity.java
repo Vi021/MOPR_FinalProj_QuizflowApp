@@ -6,9 +6,12 @@ import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+import android.widget.ImageView;
 
 import com.example.quizflow.R;
 
@@ -28,6 +31,10 @@ public class AccountActivity extends AppCompatActivity {
             return insets;
         });
 
+        // for UI (status bar stuff)
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+        new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
+
         editProfileLayout = findViewById(R.id.linearLayoutEditProfile);
         editProfileLayout.setOnClickListener(v -> {
             Intent intent = new Intent(this, EditProfileActivity.class);
@@ -38,6 +45,11 @@ public class AccountActivity extends AppCompatActivity {
         changePasswordLayout.setOnClickListener(v -> {
             Intent intent = new Intent(this, ChangePasswordActivity.class);
             startActivity(intent);
+        });
+
+        ImageView backButton = findViewById(R.id.imageView6);
+        backButton.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 }

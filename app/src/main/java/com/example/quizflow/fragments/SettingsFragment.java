@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quizflow.R;
+import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SigninActivity;
 
 public class SettingsFragment extends Fragment {
@@ -61,7 +62,7 @@ public class SettingsFragment extends Fragment {
 
         // profile center
         consL_profileCenter.setOnClickListener(v -> {
-            // do sth
+            startActivity(new Intent(requireContext(), AccountActivity.class));
         });
         txt_username.setText(requireActivity().getIntent().getStringExtra("username")); //temp
 

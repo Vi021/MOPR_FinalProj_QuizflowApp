@@ -137,19 +137,19 @@ public class RankingFragment extends Fragment {
         user = rankings.get(0);
         txt_usernameTop1.setText(user.getUsername());
         txt_coinsTop1.setText(String.valueOf(user.getCoins()));
-        cirImg_pfpTop1.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
+        cirImg_pfpTop1.setImageResource(R.drawable.ic_default_pfp_icebear); // TODO: glide with context!
 
         // rank #2
         user = rankings.get(1);
         txt_usernameTop2.setText(user.getUsername());
         txt_coinsTop2.setText(String.valueOf(user.getCoins()));
-        cirImg_pfpTop2.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
+        cirImg_pfpTop2.setImageResource(R.drawable.ic_default_pfp_icebear); // TODO: glide with context!
 
         // rank #3
         user = rankings.get(2);
         txt_usernameTop3.setText(user.getUsername());
         txt_coinsTop3.setText(String.valueOf(user.getCoins()));
-        cirImg_pfpTop3.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
+        cirImg_pfpTop3.setImageResource(R.drawable.ic_default_pfp_icebear); // TODO: glide with context!
     }
 
     private void setupRecyclerView() {
