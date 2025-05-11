@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.quizflow.R;
+import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.domains.QuestionModel;
@@ -78,7 +79,10 @@ public class HomeFragment extends Fragment {
         });
 
         CircleImageView circleImg_pfp = view.findViewById(R.id.circleImg_pfp);
-        circleImg_pfp.setOnClickListener(this::noService);
+        circleImg_pfp.setOnClickListener(view1 -> {
+            Intent intentProfile = new Intent(requireActivity(), AccountActivity.class);
+            startActivity(intentProfile);
+        });
 
         ImageView img_coinAdd = view.findViewById(R.id.img_coinAdd);
         img_coinAdd.setOnClickListener(this::noService);

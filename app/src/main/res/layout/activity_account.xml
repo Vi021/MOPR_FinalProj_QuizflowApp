@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/main">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,37 +25,40 @@
                     android:id="@+id/imageView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/profilebackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/top_wave" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:padding="12dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/back2" />
 
-                <com.google.android.material.imageview.ShapeableImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageView7"
-                    android:layout_width="125dp"
-                    android:layout_height="125dp"
+                    android:layout_width="123dp"
+                    android:layout_height="131dp"
                     android:elevation="3dp"
                     android:padding="5dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.49"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView5"
-                    app:shapeAppearanceOverlay="@style/CircleImageView"
-                    app:strokeColor="@color/white"
-                    app:strokeWidth="5dp"
-                    tools:srcCompat="@drawable/profile" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView5"
+                    app:layout_constraintVertical_bias="0.485"
+                    android:src="@drawable/ic_default_profile_icebear"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -66,13 +70,18 @@
                 android:padding="24dp">
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutEditProfile"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/orange_mid_bg"
+                    android:background="@drawable/rounded_bg_white_clickable"
+                    android:backgroundTint="@color/xanh_botro2"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
                     <ImageView
                         android:id="@+id/imageView8"
@@ -91,25 +100,26 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/orange_mid_bg"
+                    android:background="@drawable/rounded_bg_white_clickable"
+                    android:backgroundTint="@color/xanh_botro2"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         app:srcCompat="@drawable/favorite" />
 
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -118,22 +128,56 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/orange_mid_bg"
+                    android:background="@drawable/rounded_bg_white_clickable"
+                    android:backgroundTint="@color/xanh_botro2"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="16dp"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/collection"
+                        android:background="@drawable/circle_white"/>
 
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        app:srcCompat="@drawable/notification" />
+                        android:layout_weight="1"
+                        android:text="My Quiz"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/rounded_bg_white_clickable"
+                    android:backgroundTint="@color/xanh_botro2"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="16dp"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/upgrade"
+                        android:background="@drawable/circle_white"/>
 
                     <TextView
 
@@ -141,26 +185,31 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Notification"
+                        android:text="Upgrade Account"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/linearChangePassword"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/orange_mid_bg"
+                    android:background="@drawable/rounded_bg_white_clickable"
+                    android:backgroundTint="@color/xanh_botro2"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="16dp"
-                        app:srcCompat="@drawable/social" />
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/changepassword"
+                        android:background="@drawable/circle_white"/>
 
                     <TextView
 
@@ -168,29 +217,30 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Share Your Profile"
+                        android:text="Change Password"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:background="@drawable/orange_mid_bg"
+                    android:background="@drawable/rounded_bg_white_clickable"
+                    android:backgroundTint="@color/xanh_botro2"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         app:srcCompat="@drawable/exit" />
 
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -199,8 +249,13 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
