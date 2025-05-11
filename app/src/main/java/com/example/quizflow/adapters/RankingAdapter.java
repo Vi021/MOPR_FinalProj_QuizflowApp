@@ -47,7 +47,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
             UserModel user = rankings.get(position);
             holder.txt_rank.setText("#" + (position+4));    // from 4th rank downwards
             holder.txt_username.setText(user.getUsername());
-            holder.cImg_pfp.setImageResource(R.drawable.ic_default_pfp_blues); // TODO: glide with context!
+            holder.cImg_pfp.setImageResource(R.drawable.ic_default_profile_icebear); // TODO: glide with context!
             holder.txt_coinCount.setText(String.valueOf(user.getCoins()));
         }
     }

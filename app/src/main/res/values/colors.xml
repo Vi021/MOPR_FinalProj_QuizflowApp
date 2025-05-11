@@ -28,11 +28,11 @@
     <color name="xanh_botro12">#2b4133</color>
     <color name="xanh_botro13">#7fd0ef</color>
     <color name="xanh_botro14">#1877f2</color>
-    
+
     <color name="vang_top1">#febb3a</color>
     <color name="vang_botro1">#f5d065</color>
     <color name="vang_botro2">#795c0b</color>
-    
+
     <color name="cam_top3">#e1923d</color>
 
     <color name="do_botro">#c0483f</color>
@@ -40,4 +40,12 @@
     <color name="hong_botro1">#57042c</color>
     <color name="hong_botro2">#e597bd</color>
 
+
+
+    <color name="orange">#ff5f1f</color>
+    <color name="orangeMid">#fecdc0</color>
+    <color name="orangeLight">#fecdc0</color>
+    <color name="lightOrange">#feecec</color>
+    <color name="lightGrey">#eeeced</color>
+    <color name="grey">#d7d6d7</color>
 </resources>

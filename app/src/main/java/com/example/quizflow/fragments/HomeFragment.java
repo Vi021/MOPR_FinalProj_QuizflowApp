@@ -20,9 +20,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
+import com.example.quizflow.activities.AccountActivity;
+import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.activities.CreateQuizActivity;
 import com.example.quizflow.activities.QuestionActivity;
-import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.adapters.TopicAdapter;
 import com.example.quizflow.QuestionModel;
 import com.example.quizflow.utils.TYPE;
@@ -89,7 +90,10 @@ public class HomeFragment extends Fragment {
         });
 
         CircleImageView cirImg_pfp = view.findViewById(R.id.cirImg_pfp);
-        cirImg_pfp.setOnClickListener(this::noService);
+        cirImg_pfp.setOnClickListener(view1 -> {
+            Intent intentProfile = new Intent(requireActivity(), AccountActivity.class);
+            startActivity(intentProfile);
+        });
 
         ImageView img_coinAdd = view.findViewById(R.id.img_coinAdd);
         img_coinAdd.setOnClickListener(this::noService);
