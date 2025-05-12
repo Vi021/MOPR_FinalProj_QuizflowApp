@@ -62,7 +62,7 @@ public class PasswordActivity extends AppCompatActivity {
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
         //
-        isChange = getIntent().getBooleanExtra("isChange", false);
+        //isChange = getIntent().getBooleanExtra("isChange", false);
         isForget = getIntent().getBooleanExtra("isForget", false);
 
         initViews();

@@ -1,13 +1,18 @@
 package com.example.quizflow.fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,7 +114,19 @@ public class QuizDetailDialogFragment extends DialogFragment {
                     // TODO: add to collection
                 });
                 img_share.setOnClickListener(v -> {
-                    // copy quiz id (code)
+                    if (quiz.getQid() == null) {
+                        Toast t = Toast.makeText(requireContext(), "Unable to obtain this quiz code", Toast.LENGTH_SHORT);
+                        t.show();
+                        new Handler().postDelayed(t::cancel, 1200);
+                        return;
+                    }
+
+                    ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Quiz ID", quiz.getQid().toString());
+                    clipboard.setPrimaryClip(clip);
+                    Toast t = Toast.makeText(requireContext(), "Quiz ID copied to clipboard", Toast.LENGTH_SHORT);
+                    t.show();
+                    new Handler().postDelayed(t::cancel, 1200);
                 });
                 img_report.setOnClickListener(v -> {
                     // do nothing

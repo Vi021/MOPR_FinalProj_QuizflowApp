@@ -33,6 +33,8 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
     private Runnable onAnswerChanged;
     private long qid;
 
+    private static int MIN_ANSWER = 2;
+
     public AnswerAdapter(Context context, List<AnswerModel> answers) {
         this.context = context;
         this.answers = answers;
@@ -110,7 +112,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
             }
         });
 
-        holder.img_remove.setEnabled(answers.size() > 1);
+        holder.img_remove.setEnabled(answers.size() > MIN_ANSWER);
         holder.img_remove.setOnClickListener(v -> removeAnswer(position));
     }
 

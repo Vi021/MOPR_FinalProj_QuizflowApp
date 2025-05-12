@@ -3,10 +3,14 @@ package com.example.quizflow.activities;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +28,15 @@ import com.example.quizflow.R;
 import com.example.quizflow.adapters.QuestAdapter;
 import com.example.quizflow.models.AnswerModel;
 import com.example.quizflow.models.QuestionModel;
+import com.example.quizflow.models.QuizModel;
+import com.example.quizflow.utils.TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateQuizActivity extends AppCompatActivity {
-    private EditText eTxt_quizTitle, eTxt_quizDesc;
+public class QuizEditorActivity extends AppCompatActivity {
+    private Spinner spin_topic;
+    private EditText eTxt_hour, eTxt_minute, eTxt_second, eTxt_quizTitle, eTxt_quizDesc;
     private TextView txt_questions;
     private RecyclerView recy_questions;
     private LinearLayout lineL_addQuestion;
@@ -38,11 +45,19 @@ public class CreateQuizActivity extends AppCompatActivity {
     private List<QuestionModel> questions = new ArrayList<>();
     private QuestAdapter questionAdapter;
 
+    private QuizModel quiz = new QuizModel();
+    private void setQuiz(QuizModel quiz) {
+        this.quiz = quiz;
+    }
+
+    private static int MAX_QUESTION = 60;
+    private final boolean[] isPublic = {true};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_create_quiz);
+        setContentView(R.layout.activity_quiz_editor);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -52,6 +67,8 @@ public class CreateQuizActivity extends AppCompatActivity {
         // for UI (status bar stuff)
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
+
+        // TODO: get quiz, if null init() else load()
 
         initViews();
         if (questions.isEmpty()) lineL_addQuestion.performClick();
@@ -74,6 +91,51 @@ public class CreateQuizActivity extends AppCompatActivity {
 
         btn_done = findViewById(R.id.btn_done);
 
+        spin_topic = findViewById(R.id.spin_topic);
+        List<String> items = TYPE.Topics;
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.row_topicitem_selected, items);
+        adapter.setDropDownViewResource(R.layout.row_topicitem_dropdown);
+        spin_topic.setAdapter(adapter);
+
+        spin_topic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // i dunno
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spin_topic.setSelection(0);
+            }
+        });
+
+        eTxt_hour = findViewById(R.id.eTxt_hour);
+        eTxt_minute = findViewById(R.id.eTxt_minute);
+        eTxt_second = findViewById(R.id.eTxt_second);
+
+        LinearLayout lineL_duration = findViewById(R.id.lineL_duration);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            lineL_duration.setTooltipText("Quiz's duration");
+        }
+
+        ImageView img_availability = findViewById(R.id.img_availability);
+        TextView txt_availability = findViewById(R.id.txt_availability);
+        LinearLayout lineL_availability = findViewById(R.id.lineL_availability);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            lineL_availability.setTooltipText("Quiz's availability to everyone");
+        }
+        lineL_availability.setOnClickListener(v -> {
+            isPublic[0] = !isPublic[0];
+
+            if (isPublic[0]) {
+                img_availability.setImageResource(R.drawable.ic_globe_white);
+                txt_availability.setText("Public");
+            } else {
+                img_availability.setImageResource(R.drawable.ic_lock_white);
+                txt_availability.setText("Private");
+            }
+        });
+
         eTxt_quizTitle = findViewById(R.id.eTxt_quizTitle);
         eTxt_quizDesc = findViewById(R.id.eTxt_quizDesc);
         txt_questions = findViewById(R.id.txt_questions);
@@ -94,7 +156,7 @@ public class CreateQuizActivity extends AppCompatActivity {
     }
 
     private void addQuestion() {
-        if (questions.size() >= 59) {
+        if (questions.size() >= MAX_QUESTION) {
             Toast t = Toast.makeText(this, "Sorry, but max 60 questions per quiz!", Toast.LENGTH_SHORT);
             t.show();
             new Handler().postDelayed(t::cancel, 1200);

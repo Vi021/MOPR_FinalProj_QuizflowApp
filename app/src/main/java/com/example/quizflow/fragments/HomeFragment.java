@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizflow.R;
 import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SigninActivity;
-import com.example.quizflow.activities.CreateQuizActivity;
+import com.example.quizflow.activities.QuizEditorActivity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.adapters.TopicAdapter;
 import com.example.quizflow.QuestionModel;
@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment {
 
         LinearLayout lineL_createQuiz = view.findViewById(R.id.lineL_createQuiz);
         lineL_createQuiz.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), CreateQuizActivity.class));
+            startActivity(new Intent(requireContext(), QuizEditorActivity.class));
         });
 
         LinearLayout lineL_singlePlayer = view.findViewById(R.id.lineL_singlePlayer);

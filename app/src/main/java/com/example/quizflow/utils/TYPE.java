@@ -5,6 +5,7 @@ import com.example.quizflow.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TYPE {
     public static final Map<String, Integer> TOPIC = Map.ofEntries(
@@ -28,6 +29,9 @@ public class TYPE {
     static {
         Collections.sort(TOPICS);
     }
+    public static final ArrayList<String> Topics = TOPICS.stream()
+            .map(Validators::toTitleCase)
+            .collect(Collectors.toCollection(ArrayList::new));
 
     public static final Map<String, Integer> QUESTION = Map.ofEntries(
         Map.entry("MCQ", R.drawable.ic_mcq_white),          // Multiple Choice Question

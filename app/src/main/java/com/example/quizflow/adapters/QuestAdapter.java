@@ -28,6 +28,8 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
     private List<QuestionModel> questions;
     private Runnable onQuestionChanged;
 
+    private static int MAX_ANSWER = 4;
+
     public QuestAdapter(Context context, List<QuestionModel> questions) {
         this.context = context;
         this.questions = questions;
@@ -110,13 +112,13 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
         holder.img_tf.setOnClickListener(v -> {
             switchQuestionType(position, "TF", answerAdapter);
         });
-        holder.img_shortAns.setOnClickListener(v -> {
-            switchQuestionType(position, "SA", answerAdapter);
-        });
+//        holder.img_shortAns.setOnClickListener(v -> {
+//            switchQuestionType(position, "SA", answerAdapter);
+//        });
         if (question.getAnswers() != null) {
             holder.img_mcq.setBackgroundTintList(context.getColorStateList(android.R.color.transparent));
             holder.img_tf.setBackgroundTintList(context.getColorStateList(android.R.color.transparent));
-            holder.img_shortAns.setBackgroundTintList(context.getColorStateList(android.R.color.transparent));
+//            holder.img_shortAns.setBackgroundTintList(context.getColorStateList(android.R.color.transparent));
 
             if (question.getAnswers().size() >= 3) {
                 question.setType("MCQ");
@@ -124,9 +126,9 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
             } else if (question.getAnswers().size() == 2) {
                 question.setType("TF");
                 holder.img_tf.setBackgroundTintList(context.getColorStateList(R.color.xanh_botro1));
-            } else if (question.getAnswers().size() == 1) {
-                question.setType("SA");
-                holder.img_shortAns.setBackgroundTintList(context.getColorStateList(R.color.xanh_botro1));
+//            } else if (question.getAnswers().size() == 1) {
+//                question.setType("SA");
+//                holder.img_shortAns.setBackgroundTintList(context.getColorStateList(R.color.xanh_botro1));
             }
         }
 
@@ -145,14 +147,14 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
 
         holder.recy_answers.setAdapter(answerAdapter);
 
-        holder.lineL_addAns.setEnabled(question.getAnswers().size() < 6);
+        holder.lineL_addAns.setEnabled(question.getAnswers().size() < MAX_ANSWER);
         holder.lineL_addAns.setOnClickListener(v -> {
             AnswerModel newAnswer = new AnswerModel();
             //newAnswer.setQtid(question.getQtid());    // nah do later
             newAnswer.setCorrect(false);
             question.getAnswers().add(newAnswer);
 
-            holder.lineL_addAns.setEnabled(question.getAnswers().size() < 6);
+            holder.lineL_addAns.setEnabled(question.getAnswers().size() < MAX_ANSWER);
             this.notifyItemChanged(position);
         });
     }

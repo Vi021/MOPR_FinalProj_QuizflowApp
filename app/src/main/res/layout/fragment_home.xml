@@ -134,6 +134,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- search bar -->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/srchBar"
         android:layout_width="match_parent"
