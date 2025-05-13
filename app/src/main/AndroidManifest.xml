@@ -44,6 +44,9 @@
             android:name=".activities.AccountActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.WaitingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.IntroActivity"
             android:exported="true">
             <intent-filter>

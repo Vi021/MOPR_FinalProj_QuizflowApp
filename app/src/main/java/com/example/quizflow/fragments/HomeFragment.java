@@ -1,11 +1,18 @@
 package com.example.quizflow.fragments;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,9 +31,11 @@ import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.activities.CreateQuizActivity;
 import com.example.quizflow.activities.QuestionActivity;
+import com.example.quizflow.activities.WaitingActivity;
 import com.example.quizflow.adapters.TopicAdapter;
 import com.example.quizflow.QuestionModel;
 import com.example.quizflow.utils.TYPE;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,14 +125,20 @@ public class HomeFragment extends Fragment {
         });
 
         LinearLayout lineL_singlePlayer = view.findViewById(R.id.lineL_singlePlayer);
-        lineL_singlePlayer.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), QuestionActivity.class);
-            intent.putParcelableArrayListExtra("list", new ArrayList<>(questionList()));
-            startActivity(intent);
+        lineL_singlePlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showQuizCodeDialog(requireContext(), true);
+            }
         });
 
         LinearLayout lineL_multiPlayers = view.findViewById(R.id.lineL_multiPlayers);
-        lineL_multiPlayers.setOnClickListener(this::noService);
+        lineL_multiPlayers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showQuizCodeDialog(requireContext(), false);
+            }
+        });
 
         TextView txt_viewCategories = view.findViewById(R.id.txt_viewHistory);
         txt_viewCategories.setOnClickListener(this::noCategories);
@@ -135,6 +150,73 @@ public class HomeFragment extends Fragment {
 
         TextView txt_startNow = view.findViewById(R.id.txt_startNow);
         txt_startNow.setOnClickListener(this::noService);
+    }
+
+    private void showQuizCodeDialog(Context context, boolean isSinglePlayer) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.dialog_quiz_code, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(dialogView);
+        builder.setCancelable(false); // no exit on back press or outside touch
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        TextView txtPopupTitle = dialogView.findViewById(R.id.txt_popupTitle);
+        TextInputEditText editQuizCode = dialogView.findViewById(R.id.edit_quizCode);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
+        Button btnConfirm = dialogView.findViewById(R.id.btn_confirm);
+
+        // dialog enter animation
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.dialog_enter);
+        dialogView.startAnimation(animation);
+
+        // cancel action
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // animate
+                btnCancel.setAlpha(0.5f);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnCancel.setAlpha(1.0f);
+                    }
+                }, 200);
+
+                dialog.dismiss();
+            }
+        });
+
+        // confirm action
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quizCode = editQuizCode.getText().toString().trim();
+                if (quizCode.length() == 6) {
+                    Intent intent;
+                    if (isSinglePlayer) {
+                        intent = new Intent(context, QuestionActivity.class);
+                        intent.putParcelableArrayListExtra("list", new ArrayList<>(questionList()));
+                        intent.putExtra("isMultiPlayer", false);
+                    } else {
+                        intent = new Intent(context, WaitingActivity.class);
+                        intent.putExtra("isMultiPlayer", true);
+                    }
+                    intent.putExtra("quizCode", quizCode);
+                    startActivity(intent);
+                    dialog.dismiss();
+                } else {
+                    editQuizCode.setError("Enter a valid 6-digit quiz code");
+                }
+            }
+        });
+
+        dialog.show();
+        int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.8);
+        dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     private void validate() {
