@@ -17,8 +17,7 @@ import com.example.quizflow.R;
 
 public class AccountActivity extends AppCompatActivity {
 
-    LinearLayout editProfileLayout;
-    LinearLayout changePasswordLayout;
+    LinearLayout editProfileLayout, myFavoriteLayout, myQuizLayout, changePasswordLayout, signOutLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +40,24 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        myFavoriteLayout = findViewById(R.id.myFavoriteLayout);
+        myFavoriteLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("FTAG", "COLLECTION");
+            startActivity(intent);
+            finish();
+        });
+
+        myQuizLayout = findViewById(R.id.myQuizLayout);
+        myQuizLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("FTAG", "COLLECTION");
+            startActivity(intent);
+            finish();
+        });
+
         changePasswordLayout = findViewById(R.id.linearChangePassword);
         changePasswordLayout.setOnClickListener(v -> {
             Intent intent = new Intent(this, ChangePasswordActivity.class);
@@ -50,6 +67,12 @@ public class AccountActivity extends AppCompatActivity {
         ImageView backButton = findViewById(R.id.imageView6);
         backButton.setOnClickListener(v -> {
             onBackPressed();
+        });
+
+        signOutLayout = findViewById(R.id.signOutLayout);
+        signOutLayout.setOnClickListener(v -> {
+            startActivity(new Intent(this, SigninActivity.class));
+            finish();
         });
     }
 }

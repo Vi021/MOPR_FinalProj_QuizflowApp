@@ -135,7 +135,7 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
         holder.img_up.setEnabled(position != 0);
         holder.img_up.setOnClickListener(v -> moveQuestion(position, position - 1));
 
-        holder.img_remove.setEnabled(position != 0);
+        holder.img_remove.setEnabled(questions.size() > 1);
         holder.img_remove.setOnClickListener(v -> removeQuestion(position));
 
         holder.img_down.setEnabled(position != questions.size() - 1);

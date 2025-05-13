@@ -27,6 +27,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
     private Context context;
     private final List<QuizModel> quizzes;
+    public void setQuizzes(List<QuizModel> quizzes) {
+        this.quizzes.clear();
+        this.quizzes.addAll(quizzes);
+        notifyDataSetChanged();
+    }
 
     public QuizAdapter(Context context, List<QuizModel> quizzes) {
         this.context = context;
@@ -75,9 +80,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
-        if (quizzes == null || quizzes.isEmpty()) {
-            return;
-        }
         QuizModel quiz = quizzes.get(position);
 
         // user part

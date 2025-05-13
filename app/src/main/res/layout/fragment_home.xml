@@ -134,31 +134,33 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- search bar -->
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/srchBar"
+    <LinearLayout
+        android:id="@+id/lineL_srchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="70dp"
-        app:boxBackgroundColor="@color/xanh_botro10"
-        app:boxBackgroundMode="filled"
+        android:background="@drawable/rounded_bg_white_clickable"
+        android:backgroundTint="@color/white50"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/autoCompleteSearch"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_search_white" />
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Search"
-            android:inputType="text"
-            android:paddingHorizontal="15dp"
-            android:popupElevation="6dp"
-            android:textColor="@color/xanh_botro8"
-            android:textColorHint="@color/white"
-            android:textSize="14sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Search"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <!-- actions -->
     <LinearLayout
@@ -172,7 +174,7 @@
         android:weightSum="9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/srchBar">
+        app:layout_constraintTop_toBottomOf="@id/lineL_srchBar">
 
         <LinearLayout
             android:id="@+id/lineL_createQuiz"
@@ -311,7 +313,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/consL_historyBar" />
+        app:layout_constraintTop_toBottomOf="@id/consL_historyBar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <!-- earncoin bar -->
     <androidx.constraintlayout.widget.ConstraintLayout

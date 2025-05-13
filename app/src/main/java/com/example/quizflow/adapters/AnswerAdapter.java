@@ -122,7 +122,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
     }
 
     public void removeAnswer(int pos) {
-        if (pos <= 0 || pos > answers.size() - 1) {
+        if (pos < 0 || pos > answers.size() - 1) {
             return;
         }
 

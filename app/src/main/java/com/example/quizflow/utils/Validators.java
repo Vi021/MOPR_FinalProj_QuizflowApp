@@ -22,6 +22,10 @@ public class Validators {
         return sb.toString().trim();
     }
 
+    public static String toLowerCase(String input) {
+        return input.toLowerCase(Locale.ROOT).replace("_", " ").trim();
+    }
+
     public static boolean isNotValidEmail(String email) {
         // check if the email is valid
         return !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();

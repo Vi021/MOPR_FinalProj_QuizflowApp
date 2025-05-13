@@ -277,8 +277,6 @@
                     app:layout_constraintTop_toBottomOf="@id/eTxt_quizTitle"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                
-
                 <TextView
                     android:id="@+id/txt_questions"
                     android:layout_width="match_parent"

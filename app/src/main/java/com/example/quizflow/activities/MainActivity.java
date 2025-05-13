@@ -21,6 +21,7 @@ import com.example.quizflow.fragments.RankingFragment;
 import com.example.quizflow.fragments.SettingsFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import java.util.Objects;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,8 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
         // display default fragment
         if (savedInstanceState == null) {
-            chipNav_menu.setItemSelected(R.id.chipNav_homeTab, true);
-            //updateStatusBarTheme();
+            if (getIntent().hasExtra("FTAG") && getIntent().getStringExtra("FTAG") != null) {
+                switchTab(Objects.requireNonNull(getIntent().getStringExtra("FTAG")));
+            } else {
+                chipNav_menu.setItemSelected(R.id.chipNav_homeTab, true);
+                //updateStatusBarTheme();
+            }
         }
     }
 

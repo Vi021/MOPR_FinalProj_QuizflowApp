@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class QuizModel implements Serializable {
     private long qid;
-    private String title;
-    private String description;
-    private String topic;   // category
+    private String title = "";
+    private String description = "";
+    private String topic = "";   // category
     private boolean isPublic;
     private String createdDate;
-    private int questionCount;
+    private int questionCount = 0;
     private long duration;   // in seconds
-    private long uid;
+    private long uid = -1;
 
-    private int attemptCount;
-    private byte questionType;   //1:mcq, 2:true/false, 3:short answer, 4: mcq + true/false, 5: mcq + short answer, 6: true/false + short answer, 7: all
+    private int attemptCount = 0;
+    private byte questionType = 0;   //1:mcq, 2:true/false, 3:short answer, 4: mcq + true/false, 5: mcq + short answer, 6: true/false + short answer, 7: all
 
     public QuizModel() { }
 

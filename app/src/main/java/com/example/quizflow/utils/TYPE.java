@@ -32,6 +32,9 @@ public class TYPE {
     public static final ArrayList<String> Topics = TOPICS.stream()
             .map(Validators::toTitleCase)
             .collect(Collectors.toCollection(ArrayList::new));
+    public static final ArrayList<String> topics = TOPICS.stream()
+            .map(Validators::toLowerCase)
+            .collect(Collectors.toCollection(ArrayList::new));
 
     public static final Map<String, Integer> QUESTION = Map.ofEntries(
         Map.entry("MCQ", R.drawable.ic_mcq_white),          // Multiple Choice Question

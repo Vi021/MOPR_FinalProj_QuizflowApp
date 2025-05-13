@@ -1,5 +1,6 @@
 package com.example.quizflow.activities;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,8 @@ import com.example.quizflow.utils.Validators;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TopicActivity extends AppCompatActivity {
     private RecyclerView recy_cateQuizzes;
@@ -73,6 +76,15 @@ public class TopicActivity extends AppCompatActivity {
         recy_cateQuizzes = findViewById(R.id.recy_cateQuizzes);
         txt_none = findViewById(R.id.txt_none);
         getCategoryQuizzes();
+
+        CircleImageView cirImg_addQuiz = findViewById(R.id.cirImg_addQuiz);
+        cirImg_addQuiz.setOnClickListener(v -> {
+            QuizModel quiz = new QuizModel();
+            quiz.setTopic(Validators.toUpperUnderscore(txt_cateName.getText().toString()));
+            Intent intent = new Intent(this, QuizEditorActivity.class);
+            intent.putExtra("quiz", quiz);
+            startActivity(intent);
+        });
     }
 
     private void getCategoryQuizzes() {

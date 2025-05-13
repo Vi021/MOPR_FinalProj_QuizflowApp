@@ -8,4 +8,72 @@
     android:background="@color/white"
     tools:context=".activities.SearchActivity">
 
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ic_lessthan_white"
+        android:backgroundTint="@color/xanh_ngoc"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoComplete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/rounded_bg_white_clickable"
+        android:backgroundTint="@color/xanh_botro10"
+        android:dropDownHeight="wrap_content"
+        android:dropDownVerticalOffset="4dp"
+        android:imeOptions="actionSearch"
+        android:hint="Search..."
+        android:inputType="text"
+        android:padding="10dp"
+        android:textColor="@color/xanh_ngoc"
+        android:textColorHint="@color/black40"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_back"
+        app:layout_constraintTop_toTopOf="@id/img_back" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabL_srchTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autoComplete" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vPager2_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabL_srchTabs" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/cirImg_addQuiz"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="30dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_plus_white"
+        android:background="@drawable/circle_bg_white_clickable"
+        android:backgroundTint="@color/xanh_botro8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

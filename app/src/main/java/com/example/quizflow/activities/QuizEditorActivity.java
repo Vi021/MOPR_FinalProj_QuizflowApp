@@ -30,6 +30,7 @@ import com.example.quizflow.models.AnswerModel;
 import com.example.quizflow.models.QuestionModel;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.utils.TYPE;
+import com.example.quizflow.utils.Validators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +46,7 @@ public class QuizEditorActivity extends AppCompatActivity {
     private List<QuestionModel> questions = new ArrayList<>();
     private QuestAdapter questionAdapter;
 
-    private QuizModel quiz = new QuizModel();
-    private void setQuiz(QuizModel quiz) {
-        this.quiz = quiz;
-    }
+    private QuizModel quiz;
 
     private static int MAX_QUESTION = 60;
     private final boolean[] isPublic = {true};
@@ -69,14 +67,22 @@ public class QuizEditorActivity extends AppCompatActivity {
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
         // TODO: get quiz, if null init() else load()
+        quiz = (QuizModel) getIntent().getSerializableExtra("quiz");
+        if (quiz != null) {
+            //questions = fetch via API with quiz.getQid()
+            isPublic[0] = quiz.isPublic();
+        } else {
+            quiz = new QuizModel();
+        }
 
         initViews();
         if (questions.isEmpty()) lineL_addQuestion.performClick();
     }
 
     private void initViews() {
+        // validation? nah!
         ImageView img_back = findViewById(R.id.img_back);
-        img_back.setOnClickListener(v -> getOnBackPressedDispatcher());
+        img_back.setOnClickListener(v -> onBackPressed());
 
         ImageView img_help = findViewById(R.id.img_help);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -90,13 +96,12 @@ public class QuizEditorActivity extends AppCompatActivity {
         }
 
         btn_done = findViewById(R.id.btn_done);
+        btn_done.setOnClickListener(v -> saveQuiz());
 
-        spin_topic = findViewById(R.id.spin_topic);
-        List<String> items = TYPE.Topics;
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.row_topicitem_selected, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.row_topicitem_selected, TYPE.Topics);
         adapter.setDropDownViewResource(R.layout.row_topicitem_dropdown);
+        spin_topic = findViewById(R.id.spin_topic);
         spin_topic.setAdapter(adapter);
-
         spin_topic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -108,6 +113,7 @@ public class QuizEditorActivity extends AppCompatActivity {
                 spin_topic.setSelection(0);
             }
         });
+        spin_topic.setSelection(TYPE.TOPICS.indexOf(quiz.getTopic()));
 
         eTxt_hour = findViewById(R.id.eTxt_hour);
         eTxt_minute = findViewById(R.id.eTxt_minute);
@@ -137,8 +143,11 @@ public class QuizEditorActivity extends AppCompatActivity {
         });
 
         eTxt_quizTitle = findViewById(R.id.eTxt_quizTitle);
+        eTxt_quizTitle.setText(quiz.getTitle());
         eTxt_quizDesc = findViewById(R.id.eTxt_quizDesc);
+        eTxt_quizDesc.setText(quiz.getDescription());
         txt_questions = findViewById(R.id.txt_questions);
+        txt_questions.setText("Question(s): " + quiz.getQuestionCount());
 
         questionAdapter = new QuestAdapter(this, questions, () -> txt_questions.setText("Questions: " + questions.size()));
         recy_questions = findViewById(R.id.recy_questions);
@@ -176,5 +185,9 @@ public class QuizEditorActivity extends AppCompatActivity {
         questionAdapter.notifyItemInserted(questions.size() - 1);
         questionAdapter.notifyItemChanged(0);
         txt_questions.setText("Question(s): " + (questions != null ? questions.size() : 0));
+    }
+
+    private void saveQuiz() {
+        // clean activity backstack
     }
 }

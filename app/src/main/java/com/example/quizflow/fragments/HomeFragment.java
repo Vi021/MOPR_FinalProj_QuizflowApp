@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
 import com.example.quizflow.activities.AccountActivity;
+import com.example.quizflow.activities.SearchActivity;
 import com.example.quizflow.activities.SigninActivity;
 import com.example.quizflow.activities.QuizEditorActivity;
 import com.example.quizflow.activities.QuestionActivity;
@@ -107,8 +108,11 @@ public class HomeFragment extends Fragment {
             txt_hello.setText("Hello!");
         }
 
-        // srchBar = view.findViewById(R.id.srchBar);
-        // TODO: search bar
+        LinearLayout lineL_srchBar = view.findViewById(R.id.lineL_srchBar);
+        lineL_srchBar.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), SearchActivity.class);
+            startActivity(intent);
+        });
 
         LinearLayout lineL_createQuiz = view.findViewById(R.id.lineL_createQuiz);
         lineL_createQuiz.setOnClickListener(v -> {
@@ -146,7 +150,7 @@ public class HomeFragment extends Fragment {
 
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(consL_home);
-            constraintSet.connect(R.id.consL_historyBar, ConstraintSet.TOP, R.id.srchBar, ConstraintSet.BOTTOM);
+            constraintSet.connect(R.id.consL_historyBar, ConstraintSet.TOP, R.id.lineL_srchBar, ConstraintSet.BOTTOM);
             constraintSet.applyTo(consL_home);
         } else {
             consL_accountBar.setVisibility(View.GONE);

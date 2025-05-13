@@ -83,6 +83,14 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/cirImg_addQuiz"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="30dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_plus_white"
+        android:background="@drawable/circle_bg_white_clickable"
+        android:backgroundTint="@color/xanh_botro8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

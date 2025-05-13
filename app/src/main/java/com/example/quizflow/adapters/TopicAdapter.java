@@ -18,11 +18,21 @@ import com.example.quizflow.utils.TYPE;
 import com.example.quizflow.utils.Validators;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.CategoryViewHolder> {
     private final Context context;
-    private final ArrayList<String> categories;
+    private List<String> categories;
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+        notifyDataSetChanged();
+    }
+
+    private int layoutId = R.layout.row_topicitem;
+    public void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
+    }
 
     public TopicAdapter(Context context, ArrayList<String> categories) {
         this.context = context;
@@ -45,7 +55,11 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.CategoryView
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row_topicitem, parent, false);
+        if (layoutId <= 0) {
+            layoutId = R.layout.row_topicitem;
+        }
+
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
         return new CategoryViewHolder(view);
     }
 
