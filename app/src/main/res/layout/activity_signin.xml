@@ -125,17 +125,16 @@
         <!-- forget password redirect -->
         <TextView
             android:id="@+id/txt_ForgetPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:clickable="true"
             android:focusable="true"
-            android:gravity="center_vertical|end"
+            android:gravity="top|end"
             android:paddingHorizontal="20dp"
             android:text="Forget Password?"
             android:textColor="@color/xanh_ngoc"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/consL"
-            app:layout_constraintStart_toStartOf="@id/consL"
             app:layout_constraintTop_toBottomOf="@id/lineL_passwordField"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -232,11 +231,11 @@
         <TextView
             android:id="@+id/txt_signUp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:paddingHorizontal="10dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:paddingHorizontal="10dp"
             android:text="New to Quizflow? Sign up now!"
             android:textColor="@color/black50"
             app:layout_constraintBottom_toBottomOf="parent"

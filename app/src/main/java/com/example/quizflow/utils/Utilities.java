@@ -1,8 +1,34 @@
 package com.example.quizflow.utils;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.example.quizflow.models.UserModel;
+
 import java.util.Locale;
 
-public class Validators {
+public class Utilities {
+    public static void showError(Context context, String tag, String message) {
+        Log.e(tag, message);
+        Toast t = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        t.show();
+        new android.os.Handler().postDelayed(t::cancel, 1200);
+    }
+
+    public static UserModel getUser() {
+        // TODO: get current user
+        return null;
+    }
+    public static UserModel getUser(long uid) {
+        // TODO: get user via uid
+        return null;
+    }
+    public static UserModel getUser(String emailOrUsername) {
+        // TODO: get user via email/username
+        return null;
+    }
+
     public static String toUpperUnderscore(String input) {
         return input.trim()
                 .toUpperCase(Locale.ROOT)

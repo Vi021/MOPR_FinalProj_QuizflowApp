@@ -24,8 +24,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import com.example.quizflow.R;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.requests.RegisterRequest;
-import com.example.quizflow.respones.APIResponse;
-import com.example.quizflow.utils.Validators;
+import com.example.quizflow.requests.ResendOtpRequest;
+import com.example.quizflow.utils.Utilities;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -75,9 +75,9 @@ public class SignupActivity extends AppCompatActivity {
         if (validateEmail()) {
             return;
         }
-        String fullname = eTxt_fullname.getText().toString();
+        String fullname = eTxt_fullname.getText().toString().trim();
         if (!fullname.isEmpty()) {
-            if (Validators.isNotValidFullname(fullname)) {
+            if (Utilities.isNotValidFullname(fullname)) {
                 eTxt_fullname.setError("Fullname is optional, but if included, must be 2-40 characters long and contain only letters, spaces");
                 return;
             }
@@ -87,32 +87,27 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         Retrofit2Client retrofit2Client = new Retrofit2Client();
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail(eTxt_email.getText().toString());
-        registerRequest.setPassword(eTxt_username.getText().toString());
-
-        Call<ResponseBody> call = retrofit2Client.getAPI().signUp(registerRequest);
+        RegisterRequest registerRequest = new RegisterRequest(eTxt_email.getText().toString().trim(), fullname, eTxt_username.getText().toString().trim());
+        Call<ResponseBody> call = retrofit2Client.getAPI().register(registerRequest);
         call.enqueue(new retrofit2.Callback<>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(SignupActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                    Toast t = Toast.makeText(SignupActivity.this, "OTP sent", Toast.LENGTH_SHORT);
+                    t.show();
+                    new android.os.Handler().postDelayed(t::cancel, 1200);
 
-                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    // TODO: getUserInfo() instead of passing data
-                    intent.putExtra("fullname", eTxt_fullname.getText().toString());    //temp
-                    intent.putExtra("username", eTxt_username.getText().toString());    //temp
-                    intent.putExtra("okay", true);                                //temp
+                    Intent intent = new Intent(SignupActivity.this, PasswordActivity.class);
+                    intent.putExtra("SIGNUP_USER", registerRequest);
                     startActivity(intent);
-                    finish();
                 } else {
-                    Toast.makeText(SignupActivity.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Utilities.showError(SignupActivity.this, "QF_ERR_SIGNUP", "Error: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Toast.makeText(SignupActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Utilities.showError(SignupActivity.this, "QF_ERR_SIGNUP","Failure: " + t.getMessage());
             }
         });
     }
@@ -151,7 +146,7 @@ public class SignupActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             eTxt_email.setError("Please enter your email");
             return true;
-        } else if (Validators.isNotValidEmail(email)) {
+        } else if (Utilities.isNotValidEmail(email)) {
             eTxt_email.setError("Please enter a valid email");
             return true;
         } // TODO: email availability check
@@ -165,7 +160,7 @@ public class SignupActivity extends AppCompatActivity {
         if (username.isEmpty()) {
             eTxt_username.setError("Please enter your username");
             return true;
-        } else if (Validators.isNotValidUsername(username)) {
+        } else if (Utilities.isNotValidUsername(username)) {
             eTxt_username.setError("Username must be 3-20 characters long and contain only letters, digits, and underscores");
             return true;
         } // TODO: username availability check

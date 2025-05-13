@@ -1,6 +1,7 @@
 package com.example.quizflow.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -35,16 +37,29 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
-import com.example.quizflow.utils.Validators;
+import com.example.quizflow.Retrofit2Client;
+import com.example.quizflow.requests.RegisterRequest;
+import com.example.quizflow.requests.ResendOtpRequest;
+import com.example.quizflow.requests.VerifyOtpRequest;
+import com.example.quizflow.utils.Utilities;
+
+import java.util.Objects;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PasswordActivity extends AppCompatActivity {
-    private ImageView img_back, img_odlEye, img_eye, img_retypeEye;
+    private ImageView img_odlEye;
+    private ImageView img_eye;
+    private ImageView img_retypeEye;
     private EditText eTxt_oldPassword, eTxt_password, eTxt_retypePassword;
     private TextView txt_decorPassword, txt_btnDone;
 
-    private boolean isChange = false, isForget = false;
+    private boolean isChange = false, isForget = true;
     private boolean isOldPasswordVisible = false, isPasswordVisible = false, isRetypePasswordVisible = false;
-    private String email;
+    private RegisterRequest user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +76,16 @@ public class PasswordActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
-        //
+        // switch password action
         //isChange = getIntent().getBooleanExtra("isChange", false);
-        isForget = getIntent().getBooleanExtra("isForget", false);
+        //isForget = getIntent().getBooleanExtra("isForget", false);
 
         initViews();
     }
 
     private void initViews() {
         // return action
-        img_back = findViewById(R.id.img_back);
+        ImageView img_back = findViewById(R.id.img_back);
         img_back.setOnClickListener(v -> onBackPressed());
 
         // password inputs
@@ -79,9 +94,9 @@ public class PasswordActivity extends AppCompatActivity {
         eTxt_retypePassword = findViewById(R.id.eTxt_retypePassword);
 
         // get email
-        email = getIntent().getStringExtra("email");
-        if (email == null || email.isEmpty() || Validators.isNotValidEmail(email)) {
-            Toast t = Toast.makeText(this, "Unable to obtain your email!", Toast.LENGTH_SHORT);
+        user = (RegisterRequest) getIntent().getSerializableExtra("SIGNUP_USER");
+        if (user == null) {
+            Toast t = Toast.makeText(this, "Unable to obtain your information!", Toast.LENGTH_SHORT);
             t.show();
             new Handler().postDelayed(t::cancel, 2000);
             finish();
@@ -171,11 +186,28 @@ public class PasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            // TODO: update password
+            Retrofit2Client retrofit2Client = new Retrofit2Client();
+            user.setPassword(eTxt_password.getText().toString().trim());
+            Call<ResponseBody> call = retrofit2Client.getAPI().signUp(user);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(PasswordActivity.this, "You can sign in now", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(PasswordActivity.this, SigninActivity.class);
+                        intent.putExtra("SIGNIN_EMAIL", user.getEmail());
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE", "Error: " + response.message());
+                    }
+                }
 
-            Toast t = Toast.makeText(this, "You can sign in now", Toast.LENGTH_SHORT);
-            t.show();
-            finish();
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE","Failure: " + t.getMessage());
+                }
+            });
         });
     }
 
@@ -208,6 +240,7 @@ public class PasswordActivity extends AppCompatActivity {
             finish();
         });
 
+        String email = Objects.requireNonNull(user).getEmail();
         String fullText = "We have sent you a 6-digit code to " + email + ".";
         SpannableString spannable = new SpannableString(fullText);
         // find where the email starts and ends
@@ -228,15 +261,29 @@ public class PasswordActivity extends AppCompatActivity {
 
         btn_verifyOTP.setOnClickListener(v -> {
             String otp = eTxt_otp.getText().toString().trim();
-            if (otp.length() == 6) {
-                // TODO: verify OTP
-                Toast t = Toast.makeText(context, "OTP verified successfully!", Toast.LENGTH_SHORT);
-                t.show();
-                new Handler().postDelayed(t::cancel, 1200);
-                dialog.dismiss();
-            } else {
-                eTxt_otp.setError("Enter valid OTP");
-            }
+            Retrofit2Client retrofit2Client = new Retrofit2Client();
+            VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest(email, otp);
+            Call<ResponseBody> call = retrofit2Client.getAPI().verifyOtp(verifyOtpRequest);
+            call.enqueue(new retrofit2.Callback<>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast t = Toast.makeText(context, "Verified", Toast.LENGTH_SHORT);
+                        t.show();
+                        new Handler().postDelayed(t::cancel, 1000);
+
+                        dialog.dismiss();
+                    } else {
+                        eTxt_otp.setError("Enter valid OTP or resend a new OTP");
+                        Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_VERIFY", "Error: " + response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_VERIFY","Failure: " + t.getMessage());
+                }
+            });
         });
 
         txt_resendOTP.setOnClickListener(v -> {
@@ -245,11 +292,30 @@ public class PasswordActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> txt_resendOTP.setAlpha(1.0f), 200);
 
             // resend
+            Retrofit2Client retrofit2Client = new Retrofit2Client();
+            Call<ResponseBody> call = retrofit2Client.getAPI().resendOtp(new ResendOtpRequest(email));
+            call.enqueue(new retrofit2.Callback<>() {
+                 @Override
+                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                     if (response.isSuccessful()) {
+                         Toast t = Toast.makeText(context, "Please check your email!", Toast.LENGTH_SHORT);
+                         t.show();
+                         new Handler().postDelayed(t::cancel, 1200);
+                     } else {
+                         Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_RESEND", "Error: " + response.message());
+                     }
+                 }
+
+                 @Override
+                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_RESEND","Failure: " + t.getMessage());
+                 }
+            });
         });
 
         dialog.show();
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8);
-        dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     private boolean validatePasswords() {
@@ -264,7 +330,7 @@ public class PasswordActivity extends AppCompatActivity {
         if (eTxt_password.getText().toString().isEmpty()) {
             eTxt_password.setError("Password is required");
             return true;
-        } else if (Validators.isNotValidPassword(eTxt_password.getText().toString())) {
+        } else if (Utilities.isNotValidPassword(eTxt_password.getText().toString())) {
             eTxt_password.setError("Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and length of 6+");
             return true;
         } else if (eTxt_password.getText().toString().equals(eTxt_oldPassword.getText().toString())) {

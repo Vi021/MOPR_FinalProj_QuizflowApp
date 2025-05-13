@@ -27,6 +27,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
+import com.example.quizflow.utils.Utilities;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.requests.LoginRequest;
 import com.example.quizflow.respones.APIResponse;
@@ -68,6 +69,8 @@ public class SigninActivity extends AppCompatActivity {
     private void initViews() {
         eTxt_email = findViewById(R.id.eTxt_email);
         eTxt_email.setText(getIntent().getStringExtra("email"));
+        String email = getIntent().getStringExtra("SIGNIN_EMAIL");
+        if (email != null) eTxt_email.setText(email);
 
         eTxt_password = findViewById(R.id.eTxt_password);
 
@@ -127,7 +130,7 @@ public class SigninActivity extends AppCompatActivity {
             return;
         }
 
-        txt_btnSignIn.setEnabled(false); // Vô hiệu hóa nút đăng nhập
+        txt_btnSignIn.setEnabled(false); // V� hi?u h�a n�t dang nh?p
 
         // Create login request
         String email = eTxt_email.getText().toString().trim();
@@ -138,24 +141,24 @@ public class SigninActivity extends AppCompatActivity {
         retrofitClient.getAPI().signIn(loginRequest).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // progressBar.setVisibility(View.GONE); // Ẩn ProgressBar
-                txt_btnSignIn.setEnabled(true); // Kích hoạt lại nút
+                // progressBar.setVisibility(View.GONE); // ?n ProgressBar
+                txt_btnSignIn.setEnabled(true); // K�ch ho?t l?i n�t
 
                 if (response.isSuccessful() && response.body() != null) {
                     ResponseBody apiResponse = response.body();
-                    // Đăng nhập thành công
+                    // �ang nh?p th�nh c�ng
                     Toast.makeText(SigninActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                    // Lưu token hoặc thông tin người dùng nếu API trả về
-                    // Ví dụ: String token = apiResponse.getData().getToken();
+                    // Luu token ho?c th�ng tin ngu?i d�ng n?u API tr? v?
+                    // V� d?: String token = apiResponse.getData().getToken();
                     // SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
                     // prefs.edit().putString("token", token).apply();
 
-                    // Chuyển sang MainActivity
+                    // Chuy?n sang MainActivity
                     startActivity(new Intent(SigninActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    // Lỗi từ server
+                    // L?i t? server
                     Toast.makeText(SigninActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -215,7 +218,7 @@ public class SigninActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             eTxt_email.setError("Please enter your email");
             return true;
-        } else if (Validators.isNotValidEmail(email)) {
+        } else if (Utilities.isNotValidEmail(email)) {
             eTxt_email.setError("Please enter a valid email");
             return true;
         } // TODO: email existence check
@@ -229,7 +232,7 @@ public class SigninActivity extends AppCompatActivity {
         if (password.isEmpty()) {
             eTxt_password.setError("Please enter your password");
             return true;
-        } else if (Validators.isNotValidPassword(password)) {
+        } else if (Utilities.isNotValidPassword(password)) {
             eTxt_password.setError("Password must be at least 6 characters and contain at least one digit, one lowercase letter, one uppercase letter, and one special character");
             return true;
         }

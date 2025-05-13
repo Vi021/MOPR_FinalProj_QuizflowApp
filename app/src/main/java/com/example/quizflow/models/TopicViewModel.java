@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.quizflow.utils.TYPE;
-import com.example.quizflow.utils.Validators;
+import com.example.quizflow.utils.Utilities;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class TopicViewModel extends ViewModel {
     public void fetchTopics(String query) {
         topics.postValue(
                 TYPE.TOPICS.stream()
-                        .filter(topic -> Validators.toLowerCase(topic).contains(Validators.toLowerCase(query)))
+                        .filter(topic -> Utilities.toLowerCase(topic).contains(Utilities.toLowerCase(query)))
                         .collect(Collectors.toList())
         );
     }

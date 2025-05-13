@@ -21,6 +21,7 @@ import com.example.quizflow.models.AnswerModel;
 import com.example.quizflow.models.QuestionModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHolder> {
@@ -80,7 +81,12 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
         } else if (question.getAnswers().isEmpty()) {
             question.getAnswers().add(new AnswerModel());
         }
-        AnswerAdapter answerAdapter = new AnswerAdapter(context, question.getAnswers(), () -> this.notifyItemChanged(position));
+        AnswerAdapter answerAdapter = new AnswerAdapter(context, question.getAnswers(), () -> {
+            int currentPos = holder.getAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION) {
+                this.notifyItemChanged(currentPos);
+            }
+        });
 
         holder.txt_questionNum.setText("Q." + question.getQtid());
 
@@ -133,13 +139,28 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
         }
 
         holder.img_up.setEnabled(position != 0);
-        holder.img_up.setOnClickListener(v -> moveQuestion(position, position - 1));
+        holder.img_up.setOnClickListener(v -> {
+            int currentPosition = holder.getAdapterPosition();
+            if (currentPosition > 0) {
+                moveQuestion(currentPosition, currentPosition - 1);
+            }
+        });
 
         holder.img_remove.setEnabled(questions.size() > 1);
-        holder.img_remove.setOnClickListener(v -> removeQuestion(position));
+        holder.img_remove.setOnClickListener(v -> {
+            int currentPosition = holder.getAdapterPosition();
+            if (currentPosition > 0) {
+                removeQuestion(currentPosition);
+            }
+        });
 
         holder.img_down.setEnabled(position != questions.size() - 1);
-        holder.img_down.setOnClickListener(v -> moveQuestion(position, position + 1));
+        holder.img_down.setOnClickListener(v -> {
+            int currentPosition = holder.getAdapterPosition();
+            if (currentPosition > 0) {
+                moveQuestion(currentPosition, currentPosition + 1);
+            }
+        });
 
         if (question.getAnswers() == null) {
             question.setAnswers(new ArrayList<>());
@@ -169,10 +190,12 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
             return;
         }
 
-        QuestionModel question = questions.remove(fromPos);
-        question.setQtid((long) toPos + 1);
-        questions.add(toPos, question);
-        questions.get(fromPos).setQtid((long) fromPos + 1);
+        Collections.swap(questions, fromPos, toPos);
+
+        // Reassign qtid based on index (to keep numbering consistent)
+        for (int i = 0; i < questions.size(); i++) {
+            questions.get(i).setQtid((long) (i + 1));
+        }
 
         notifyItemMoved(fromPos, toPos);
         notifyItemChanged(fromPos);

@@ -2,13 +2,21 @@ package com.example.quizflow.requests;
 
 import androidx.annotation.NonNull;
 
-public class RegisterRequest {
+import java.io.Serializable;
+
+public class RegisterRequest implements Serializable {
     String email;
     String fullname;
     String username;
-    String password = "123@Abc";
+    String password;
 
     public RegisterRequest() {
+    }
+
+    public RegisterRequest(String email, String fullname, String username) {
+        this.email = email;
+        this.fullname = fullname;
+        this.username = username;
     }
 
     public RegisterRequest(@NonNull String email, String fullname, @NonNull String username, String password) {
