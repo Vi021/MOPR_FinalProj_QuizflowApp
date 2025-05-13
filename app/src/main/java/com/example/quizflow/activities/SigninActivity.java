@@ -9,10 +9,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -25,7 +27,15 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
+import com.example.quizflow.Retrofit2Client;
+import com.example.quizflow.requests.LoginRequest;
+import com.example.quizflow.respones.APIResponse;
 import com.example.quizflow.utils.Validators;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SigninActivity extends AppCompatActivity {
     private EditText eTxt_email, eTxt_password;
@@ -33,6 +43,7 @@ public class SigninActivity extends AppCompatActivity {
     private TextView txt_btnSignIn, txt_ForgetPassword, txt_signUp;
 
     private boolean isPasswordVisible = false;
+    private Retrofit2Client retrofitClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,8 @@ public class SigninActivity extends AppCompatActivity {
         // for UI (status bar stuff)
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
+
+        retrofitClient = new Retrofit2Client();
 
         initViews();
     }
@@ -107,18 +120,54 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     private void signIn(View view) {
-//        if (validateEmailOrUsername()) {
-//            return;
-//        }
-//        if (validatePassword()) {
-//            return;
-//        }
+        if (validateEmailOrUsername()) {
+            return;
+        }
+        if (validatePassword()) {
+            return;
+        }
 
-        // TODO: handle password
-        //  implement sign-in logic (if not signed up yet, move to sign up)
+        txt_btnSignIn.setEnabled(false); // Vô hiệu hóa nút đăng nhập
 
-        startActivity(new Intent(SigninActivity.this, MainActivity.class));
-        finish();
+        // Create login request
+        String email = eTxt_email.getText().toString().trim();
+        String password = eTxt_password.getText().toString().trim();
+        LoginRequest loginRequest = new LoginRequest(email, password);
+
+        // Call API
+        retrofitClient.getAPI().signIn(loginRequest).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // progressBar.setVisibility(View.GONE); // Ẩn ProgressBar
+                txt_btnSignIn.setEnabled(true); // Kích hoạt lại nút
+
+                if (response.isSuccessful() && response.body() != null) {
+                    ResponseBody apiResponse = response.body();
+                    // Đăng nhập thành công
+                    Toast.makeText(SigninActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                    // Lưu token hoặc thông tin người dùng nếu API trả về
+                    // Ví dụ: String token = apiResponse.getData().getToken();
+                    // SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
+                    // prefs.edit().putString("token", token).apply();
+
+                    // Chuyển sang MainActivity
+                    startActivity(new Intent(SigninActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    // Lỗi từ server
+                    Toast.makeText(SigninActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // progressBar.setVisibility(View.GONE);
+                txt_btnSignIn.setEnabled(true);
+                Log.e( "SIGNIN_ERR","Network error: " + t.getMessage());
+                Toast.makeText(SigninActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // for partially clickable, underlined, different color text in a string, in this case: "New to Quizflow? >>Sign up now!<<"

@@ -25,7 +25,7 @@ public interface APIService {
 
     // Login
     @POST(Refs.AUTH_URL + "login")
-    Call<APIResponse> signIn(@Body LoginRequest request);
+    Call<ResponseBody> signIn(@Body LoginRequest request);
 
     // Forgot Password (Send OTP)
     @POST(Refs.AUTH_URL + "forgot-password")
