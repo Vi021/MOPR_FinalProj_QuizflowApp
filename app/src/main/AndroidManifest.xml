@@ -45,6 +45,9 @@
             android:name=".activities.AccountActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.WaitingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SignupActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
@@ -60,7 +63,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
