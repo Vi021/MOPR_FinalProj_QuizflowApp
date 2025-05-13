@@ -6,14 +6,16 @@ public class RegisterRequest {
     String email;
     String fullname;
     String username;
+    String password = "123@Abc";
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(@NonNull String email, String fullname, @NonNull String username) {
+    public RegisterRequest(@NonNull String email, String fullname, @NonNull String username, String password) {
         this.email = email;
         this.fullname = fullname;
         this.username = username;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -38,9 +40,9 @@ public class RegisterRequest {
     }
 
     public void setPassword(String password) {
-        // This method is not used in this class, but it's here to match the original code structure.
+        this.password = password;
     }
     public String getPassword() {
-        return "123@Abc"; // This method is not used in this class, but it's here to match the original code structure.
+        return password;
     }
 }

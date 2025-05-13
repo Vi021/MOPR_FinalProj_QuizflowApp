@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
     private ConstraintLayout consL_home, consL_accountBar, consL_profileBar, consL_earncoinsBar;
     private LinearLayout lineL_actionBar;
 
-    private boolean signedIn = true;    // false
+    private boolean signedIn = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initFindView(View view) {
-        //signedIn = requireActivity().getIntent().getBooleanExtra("okay", false);
+        signedIn = requireActivity().getIntent().getBooleanExtra("okay", false);
         String fullname = requireActivity().getIntent().getStringExtra("fullname");
         String username = requireActivity().getIntent().getStringExtra("username");
 

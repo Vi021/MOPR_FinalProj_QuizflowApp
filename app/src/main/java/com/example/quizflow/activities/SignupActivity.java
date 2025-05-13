@@ -27,6 +27,7 @@ import com.example.quizflow.requests.RegisterRequest;
 import com.example.quizflow.respones.APIResponse;
 import com.example.quizflow.utils.Validators;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 public class SignupActivity extends AppCompatActivity {
@@ -89,31 +90,31 @@ public class SignupActivity extends AppCompatActivity {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setEmail(eTxt_email.getText().toString());
         registerRequest.setPassword(eTxt_username.getText().toString());
-        Call<APIResponse> call = retrofit2Client.getAPI().signUp(registerRequest);
 
+        Call<ResponseBody> call = retrofit2Client.getAPI().signUp(registerRequest);
         call.enqueue(new retrofit2.Callback<>() {
             @Override
-            public void onResponse(@NonNull Call<APIResponse> call, @NonNull retrofit2.Response<APIResponse> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(SignupActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    // TODO: getUserInfo() instead of passing data
+                    intent.putExtra("fullname", eTxt_fullname.getText().toString());    //temp
+                    intent.putExtra("username", eTxt_username.getText().toString());    //temp
+                    intent.putExtra("okay", true);                                //temp
+                    startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(SignupActivity.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<APIResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 Toast.makeText(SignupActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-        // TODO: getUserInfo() instead of passing data
-        intent.putExtra("fullname", eTxt_fullname.getText().toString());    //temp
-        intent.putExtra("username", eTxt_username.getText().toString());    //temp
-        intent.putExtra("okay", true);                                //temp
-        startActivity(intent);
-        finish();
     }
 
     // for partially clickable, underlined, different color text in a string, in this case: "Already have an account? >>Sign in instead!<<"

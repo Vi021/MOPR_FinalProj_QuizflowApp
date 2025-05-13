@@ -8,14 +8,16 @@ import com.example.quizflow.requests.VerifyOtpRequest;
 import com.example.quizflow.respones.APIResponse;
 import com.example.quizflow.utils.Refs;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface APIService {
     // Register Account
     @POST(Refs.AUTH_URL + "register")
-    Call<APIResponse> signUp(@Body RegisterRequest request);
+    Call<ResponseBody> signUp(@Body RegisterRequest request);
 
     // Verify OTP
     @POST(Refs.AUTH_URL + "verify-otp")
