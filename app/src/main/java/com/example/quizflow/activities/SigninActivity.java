@@ -30,8 +30,6 @@ import com.example.quizflow.R;
 import com.example.quizflow.utils.Utilities;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.requests.LoginRequest;
-import com.example.quizflow.respones.APIResponse;
-import com.example.quizflow.utils.Validators;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -130,7 +128,7 @@ public class SigninActivity extends AppCompatActivity {
             return;
         }
 
-        txt_btnSignIn.setEnabled(false); // Vô hi?u hóa nút dang nh?p
+        txt_btnSignIn.setEnabled(false);
 
         // Create login request
         String email = eTxt_email.getText().toString().trim();
@@ -141,24 +139,16 @@ public class SigninActivity extends AppCompatActivity {
         retrofitClient.getAPI().signIn(loginRequest).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // progressBar.setVisibility(View.GONE); // ?n ProgressBar
-                txt_btnSignIn.setEnabled(true); // Kích ho?t l?i nút
+                // progressBar.setVisibility(View.GONE);
+                txt_btnSignIn.setEnabled(true);
 
                 if (response.isSuccessful() && response.body() != null) {
                     ResponseBody apiResponse = response.body();
-                    // Ðang nh?p thành công
                     Toast.makeText(SigninActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                    // Luu token ho?c thông tin ngu?i dùng n?u API tr? v?
-                    // Ví d?: String token = apiResponse.getData().getToken();
-                    // SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
-                    // prefs.edit().putString("token", token).apply();
-
-                    // Chuy?n sang MainActivity
                     startActivity(new Intent(SigninActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    // L?i t? server
                     Toast.makeText(SigninActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
