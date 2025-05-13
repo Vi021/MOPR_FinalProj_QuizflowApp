@@ -30,10 +30,10 @@ public class TYPE {
         Collections.sort(TOPICS);
     }
     public static final ArrayList<String> Topics = TOPICS.stream()
-            .map(Validators::toTitleCase)
+            .map(Utilities::toTitleCase)
             .collect(Collectors.toCollection(ArrayList::new));
     public static final ArrayList<String> topics = TOPICS.stream()
-            .map(Validators::toLowerCase)
+            .map(Utilities::toLowerCase)
             .collect(Collectors.toCollection(ArrayList::new));
 
     public static final Map<String, Integer> QUESTION = Map.ofEntries(

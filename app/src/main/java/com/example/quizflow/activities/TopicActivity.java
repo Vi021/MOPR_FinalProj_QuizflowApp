@@ -21,11 +21,10 @@ import com.example.quizflow.R;
 import com.example.quizflow.adapters.QuizAdapter;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.utils.TYPE;
-import com.example.quizflow.utils.Validators;
+import com.example.quizflow.utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -60,7 +59,7 @@ public class TopicActivity extends AppCompatActivity {
         TextView txt_cateName = findViewById(R.id.txt_cateName);
         String category = getIntent().getStringExtra("category");
         if (category != null) {
-            txt_cateName.setText(Validators.toUpperUnderscore(category));
+            txt_cateName.setText(Utilities.toUpperUnderscore(category));
 
             if (TYPE.TOPIC.get(category) != null) {
                 img_cateIcon.setImageResource(TYPE.TOPIC.get(category));
@@ -80,7 +79,7 @@ public class TopicActivity extends AppCompatActivity {
         CircleImageView cirImg_addQuiz = findViewById(R.id.cirImg_addQuiz);
         cirImg_addQuiz.setOnClickListener(v -> {
             QuizModel quiz = new QuizModel();
-            quiz.setTopic(Validators.toUpperUnderscore(txt_cateName.getText().toString()));
+            quiz.setTopic(Utilities.toUpperUnderscore(txt_cateName.getText().toString()));
             Intent intent = new Intent(this, QuizEditorActivity.class);
             intent.putExtra("quiz", quiz);
             startActivity(intent);

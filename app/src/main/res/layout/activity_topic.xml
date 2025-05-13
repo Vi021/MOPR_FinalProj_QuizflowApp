@@ -10,16 +10,17 @@
 
     <ImageView
         android:id="@+id/img_back"
-        android:layout_width="20dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="15dp"
+        android:layout_width="30dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/ic_lessthan_white"
-        android:backgroundTint="@color/xanh_ngoc"
+        android:padding="3dp"
+        android:src="@drawable/ic_lessthan_white"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/xanh_ngoc"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <TextView
@@ -32,6 +33,7 @@
         android:textColor="@color/xanh_ngoc"
         android:textSize="20dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/img_back"
         app:layout_constraintStart_toEndOf="@id/img_back"
         app:layout_constraintTop_toTopOf="@id/img_back" />
 

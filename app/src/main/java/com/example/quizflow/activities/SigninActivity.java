@@ -25,7 +25,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
-import com.example.quizflow.utils.Validators;
+import com.example.quizflow.utils.Utilities;
 
 public class SigninActivity extends AppCompatActivity {
     private EditText eTxt_email, eTxt_password;
@@ -55,6 +55,8 @@ public class SigninActivity extends AppCompatActivity {
     private void initViews() {
         eTxt_email = findViewById(R.id.eTxt_email);
         eTxt_email.setText(getIntent().getStringExtra("email"));
+        String email = getIntent().getStringExtra("SIGNIN_EMAIL");
+        if (email != null) eTxt_email.setText(email);
 
         eTxt_password = findViewById(R.id.eTxt_password);
 
@@ -166,7 +168,7 @@ public class SigninActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             eTxt_email.setError("Please enter your email");
             return true;
-        } else if (Validators.isNotValidEmail(email)) {
+        } else if (Utilities.isNotValidEmail(email)) {
             eTxt_email.setError("Please enter a valid email");
             return true;
         } // TODO: email existence check
@@ -180,7 +182,7 @@ public class SigninActivity extends AppCompatActivity {
         if (password.isEmpty()) {
             eTxt_password.setError("Please enter your password");
             return true;
-        } else if (Validators.isNotValidPassword(password)) {
+        } else if (Utilities.isNotValidPassword(password)) {
             eTxt_password.setError("Password must be at least 6 characters and contain at least one digit, one lowercase letter, one uppercase letter, and one special character");
             return true;
         }
