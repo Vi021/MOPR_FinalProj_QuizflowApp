@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.quizflow.R;
 import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SigninActivity;
+import com.example.quizflow.utils.Utilities;
 
 public class SettingsFragment extends Fragment {
     ConstraintLayout consL_profileCenter;
@@ -117,14 +118,20 @@ public class SettingsFragment extends Fragment {
 
         // logout
         img_logout.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), SigninActivity.class));
-            requireActivity().finish();
-//            Toast toast = Toast.makeText(requireContext(), "Nuh uh!", Toast.LENGTH_SHORT);
-//            toast.show();
-//            new Handler().postDelayed(toast::cancel, 500);
+            // Clear UID from SharedPreferences
+            Utilities.clearUID(requireContext());
+            // Show logout confirmation
+            Toast toast = Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT);
+            toast.show();
+            new Handler().postDelayed(toast::cancel, 500);
+            // Navigate to SigninActivity and clear activity stack
+            Intent intent = new Intent(requireContext(), SigninActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            requireActivity().finishAffinity();
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            img_logout.setTooltipText("Can't ya effing read!?");
+            img_logout.setTooltipText("Logout");
         }
     }
 
