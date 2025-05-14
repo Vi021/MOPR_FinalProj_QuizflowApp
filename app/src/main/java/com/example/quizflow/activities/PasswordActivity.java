@@ -40,9 +40,11 @@ import com.example.quizflow.R;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.requests.RegisterRequest;
 import com.example.quizflow.requests.ResendOtpRequest;
+import com.example.quizflow.requests.ResetPasswordRequest;
 import com.example.quizflow.requests.VerifyOtpRequest;
 import com.example.quizflow.utils.Utilities;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import okhttp3.ResponseBody;
@@ -57,7 +59,7 @@ public class PasswordActivity extends AppCompatActivity {
     private EditText eTxt_oldPassword, eTxt_password, eTxt_retypePassword;
     private TextView txt_decorPassword, txt_btnDone;
 
-    private boolean isChange = false, isForget = true;
+    private boolean isChange = false, isForget = false, isNew = false;
     private boolean isOldPasswordVisible = false, isPasswordVisible = false, isRetypePasswordVisible = false;
     private RegisterRequest user;
 
@@ -78,7 +80,8 @@ public class PasswordActivity extends AppCompatActivity {
 
         // switch password action
         //isChange = getIntent().getBooleanExtra("isChange", false);
-        //isForget = getIntent().getBooleanExtra("isForget", false);
+        isForget = getIntent().getBooleanExtra("isForget", false);
+        isNew = getIntent().getBooleanExtra("isNew", false);
 
         initViews();
     }
@@ -94,11 +97,16 @@ public class PasswordActivity extends AppCompatActivity {
         eTxt_retypePassword = findViewById(R.id.eTxt_retypePassword);
 
         // get email
-        user = (RegisterRequest) getIntent().getSerializableExtra("SIGNUP_USER");
+        if (isNew) {
+            user = (RegisterRequest) getIntent().getSerializableExtra("SIGNUP_USER");
+        }
+        if (isForget) {
+            user = new RegisterRequest();
+            user.setEmail(getIntent().getStringExtra("FORGET_EMAIL"));
+        }
+
         if (user == null) {
-            Toast t = Toast.makeText(this, "Unable to obtain your information!", Toast.LENGTH_SHORT);
-            t.show();
-            new Handler().postDelayed(t::cancel, 2000);
+            Utilities.showError(this, "QF_ERR_PASSWORD_USER", "Unable to obtain info");
             finish();
         } else {
             // show OTP dialog
@@ -107,8 +115,10 @@ public class PasswordActivity extends AppCompatActivity {
 
         // ui
         txt_decorPassword = findViewById(R.id.txt_decorPassword);
-        if (isForget) {    // forget pwd
-            txt_decorPassword.setText("Reset Your Password");
+        if (isForget || isNew) {    // forget pwd
+            if (isForget) txt_decorPassword.setText("Reset Your Password");
+            if (isNew) txt_decorPassword.setText("Set Your Password");
+
             eTxt_oldPassword.setVisibility(View.GONE);
             // to change eTxt_oldPassword ToptoBot constraint
             ConstraintLayout parentContainer = findViewById(R.id.consL);
@@ -188,26 +198,65 @@ public class PasswordActivity extends AppCompatActivity {
 
             Retrofit2Client retrofit2Client = new Retrofit2Client();
             user.setPassword(eTxt_password.getText().toString().trim());
-            Call<ResponseBody> call = retrofit2Client.getAPI().signUp(user);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(PasswordActivity.this, "You can sign in now", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(PasswordActivity.this, SigninActivity.class);
-                        intent.putExtra("SIGNIN_EMAIL", user.getEmail());
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE", "Error: " + response.message());
+            if (isNew) {
+                Call<ResponseBody> call = retrofit2Client.getAPI().signUp(user);
+                call.enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(PasswordActivity.this, "You can sign in now", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(PasswordActivity.this, SigninActivity.class);
+                            intent.putExtra("SIGNIN_EMAIL", user.getEmail());
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            String msg = "Unknown error";
+                            if (response.errorBody() != null) {
+                                try {
+                                    msg = response.errorBody().string();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE_NEW", "Error: " + msg);
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE","Failure: " + t.getMessage());
-                }
-            });
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE_NEW","Failure: " + t.getMessage());
+                    }
+                });
+            }
+            if (isForget) {
+                retrofit2Client.getAPI().updatePassword(new ResetPasswordRequest(user.getEmail(), user.getPassword())).enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(PasswordActivity.this, "You can sign in now", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(PasswordActivity.this, SigninActivity.class);
+                            intent.putExtra("SIGNIN_EMAIL", user.getEmail());
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            String msg = "Unknown error";
+                            if (response.errorBody() != null) {
+                                try {
+                                    msg = response.errorBody().string();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE_FORGET", "Error: " + msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_DONE_FORGET","Failure: " + t.getMessage());
+                    }
+                });
+            }
         });
     }
 
@@ -240,7 +289,15 @@ public class PasswordActivity extends AppCompatActivity {
             finish();
         });
 
-        String email = Objects.requireNonNull(user).getEmail();
+        String email = "your email";
+        if (isForget) {
+            email = user.getEmail();
+        }
+        if (isNew) {
+            email = Objects.requireNonNull(user).getEmail();
+        }
+        String finalEmail = email;
+
         String fullText = "We have sent you a 6-digit code to " + email + ".";
         SpannableString spannable = new SpannableString(fullText);
         // find where the email starts and ends
@@ -262,7 +319,7 @@ public class PasswordActivity extends AppCompatActivity {
         btn_verifyOTP.setOnClickListener(v -> {
             String otp = eTxt_otp.getText().toString().trim();
             Retrofit2Client retrofit2Client = new Retrofit2Client();
-            VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest(email, otp);
+            VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest(finalEmail, otp);
             Call<ResponseBody> call = retrofit2Client.getAPI().verifyOtp(verifyOtpRequest);
             call.enqueue(new retrofit2.Callback<>() {
                 @Override
@@ -274,8 +331,17 @@ public class PasswordActivity extends AppCompatActivity {
 
                         dialog.dismiss();
                     } else {
-                        eTxt_otp.setError("Enter valid OTP or resend a new OTP");
-                        Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_VERIFY", "Error: " + response.message());
+                        eTxt_otp.setError("OTP invalid");
+
+                        String msg = "Unknown error";
+                        if (response.errorBody() != null) {
+                            try {
+                                msg = response.errorBody().string();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_VERIFY", "Error: " + msg);
                     }
                 }
 
@@ -293,7 +359,7 @@ public class PasswordActivity extends AppCompatActivity {
 
             // resend
             Retrofit2Client retrofit2Client = new Retrofit2Client();
-            Call<ResponseBody> call = retrofit2Client.getAPI().resendOtp(new ResendOtpRequest(email));
+            Call<ResponseBody> call = retrofit2Client.getAPI().resendOtp(new ResendOtpRequest(finalEmail));
             call.enqueue(new retrofit2.Callback<>() {
                  @Override
                  public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -302,7 +368,15 @@ public class PasswordActivity extends AppCompatActivity {
                          t.show();
                          new Handler().postDelayed(t::cancel, 1200);
                      } else {
-                         Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_RESEND", "Error: " + response.message());
+                         String msg = "Unknown error";
+                         if (response.errorBody() != null) {
+                             try {
+                                 msg = response.errorBody().string();
+                             } catch (IOException e) {
+                                 throw new RuntimeException(e);
+                             }
+                         }
+                         Utilities.showError(PasswordActivity.this, "QF_ERR_PASSWORD_RESEND", "Error: " + msg);
                      }
                  }
 

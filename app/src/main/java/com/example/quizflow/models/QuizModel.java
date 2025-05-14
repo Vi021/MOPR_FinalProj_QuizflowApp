@@ -3,7 +3,7 @@ package com.example.quizflow.models;
 import java.io.Serializable;
 
 public class QuizModel implements Serializable {
-    private long qid;
+    private long qid = -1L;
     private String title = "";
     private String description = "";
     private String topic = "";   // category
@@ -14,7 +14,7 @@ public class QuizModel implements Serializable {
     private long uid = -1;
 
     private int attemptCount = 0;
-    private byte questionType = 0;   //1:mcq, 2:true/false, 3:short answer, 4: mcq + true/false, 5: mcq + short answer, 6: true/false + short answer, 7: all
+    private int questionType = 0;   //1:mcq, 2:true/false, 3:short answer, 4: mcq + true/false, 5: mcq + short answer, 6: true/false + short answer, 7: all
 
     public QuizModel() { }
 
@@ -104,6 +104,9 @@ public class QuizModel implements Serializable {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+    public void setDurationFromString(String h, String m, String s) {
+        this.duration = Long.parseLong(h) * 3600 + Long.parseLong(m) * 60 + Long.parseLong(s);
+    }
 
     public int getAttemptCount() {
         return attemptCount;
@@ -112,10 +115,10 @@ public class QuizModel implements Serializable {
         this.attemptCount = attemptCount;
     }
 
-    public byte getQuestionType() {
+    public int getQuestionType() {
         return questionType;
     }
-    public void setQuestionType(byte questionType) {
+    public void setQuestionType(int questionType) {
         this.questionType = questionType;
     }
 
