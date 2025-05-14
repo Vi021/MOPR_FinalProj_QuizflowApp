@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +25,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
+import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SearchActivity;
 import com.example.quizflow.activities.SigninActivity;
@@ -35,7 +36,11 @@ import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.activities.WaitingActivity;
 import com.example.quizflow.adapters.TopicAdapter;
 import com.example.quizflow.QuestionModel;
+import com.example.quizflow.models.AccountModel;
+import com.example.quizflow.respones.UserResponse;
+import com.example.quizflow.utils.Refs;
 import com.example.quizflow.utils.TYPE;
+import com.example.quizflow.utils.Utilities;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -46,18 +51,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeFragment extends Fragment {
     private ConstraintLayout consL_home, consL_accountBar, consL_profileBar, consL_earncoinsBar;
     private LinearLayout lineL_actionBar;
-
+    private TextView txt_hello, txt_coins;
+    private CircleImageView cirImg_pfp;
     private boolean signedIn = false;
+    private String fullname, username, image, email;
+    private int coins;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // inflate layout
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         initFindView(view);
-        validate(); // TODO: getUser() to validate
-
+        validate();
         return view;
     }
 
@@ -82,15 +87,56 @@ public class HomeFragment extends Fragment {
     }
 
     private void initFindView(View view) {
-        signedIn = requireActivity().getIntent().getBooleanExtra("okay", false);
-        String fullname = requireActivity().getIntent().getStringExtra("fullname");
-        String username = requireActivity().getIntent().getStringExtra("username");
-
+        txt_hello = view.findViewById(R.id.txt_hello);
+        txt_coins = view.findViewById(R.id.txt_coins);
+        cirImg_pfp = view.findViewById(R.id.cirImg_pfp);
         consL_home = view.findViewById(R.id.homeContainer);
         consL_accountBar = view.findViewById(R.id.consL_accountBar);
         consL_profileBar = view.findViewById(R.id.consL_profileBar);
         lineL_actionBar = view.findViewById(R.id.lineL_actionBar);
         consL_earncoinsBar = view.findViewById(R.id.consL_earncoinsBar);
+
+        /// Check if user is signed in by UID
+        Long uid = Utilities.getUID(requireContext());
+        signedIn = uid != null;
+
+        if (signedIn) {
+            // Fetch user data from API
+            Utilities.getUserByUidAsync(requireContext(), uid, new Utilities.AccountCallback() {
+                @Override
+                public void onSuccess(AccountModel user) {
+                    signedIn = true;
+                    fullname = user.getFullname();
+                    username = user.getUsername();
+                    image = user.getImage();
+                    email = user.getEmail();
+                    coins = user.getCoins();
+                    updateUserInfo();
+
+                    if (image != null && !image.isEmpty()) {
+                        String imageUrl = Refs.BASE_IMAGE_URL + image;
+                        Glide.with(HomeFragment.this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_default_pfp_icebear)
+                                .error(R.drawable.ic_default_pfp_icebear)
+                                .into(cirImg_pfp);
+                    } else {
+                        cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+                    }
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    signedIn = false;
+                    cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+                    updateUserInfo();
+                    Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+            updateUserInfo();
+        }
 
         TextView txt_btnSignInSignUp = view.findViewById(R.id.txt_btnSignInSignUp);
         txt_btnSignInSignUp.setOnClickListener(v -> {
@@ -99,23 +145,10 @@ public class HomeFragment extends Fragment {
             //requireActivity().finish();
         });
 
-        CircleImageView cirImg_pfp = view.findViewById(R.id.cirImg_pfp);
         cirImg_pfp.setOnClickListener(view1 -> {
             Intent intentProfile = new Intent(requireActivity(), AccountActivity.class);
             startActivity(intentProfile);
         });
-
-        ImageView img_coinAdd = view.findViewById(R.id.img_coinAdd);
-        img_coinAdd.setOnClickListener(this::noService);
-
-        TextView txt_hello = view.findViewById(R.id.txt_hello);
-        if (fullname != null && !fullname.isEmpty()) {
-            txt_hello.setText("Hello, " + fullname + "!");
-        } else if (username != null && !username.isEmpty()) {
-            txt_hello.setText("Hello, " + username + "!");
-        } else {
-            txt_hello.setText("Hello!");
-        }
 
         LinearLayout lineL_srchBar = view.findViewById(R.id.lineL_srchBar);
         lineL_srchBar.setOnClickListener(v -> {
@@ -154,6 +187,26 @@ public class HomeFragment extends Fragment {
 
         TextView txt_startNow = view.findViewById(R.id.txt_startNow);
         txt_startNow.setOnClickListener(this::noService);
+    }
+
+    private void updateUserInfo() {
+        if (signedIn) {
+            if (fullname != null && !fullname.isEmpty()) {
+                txt_hello.setText("Hello, " + fullname + "!");
+            } else if (username != null && !username.isEmpty()) {
+                txt_hello.setText("Hello, " + username + "!");
+            } else {
+                txt_hello.setText("Hello!");
+            }
+            if (txt_coins != null) {
+                txt_coins.setText(String.valueOf(coins));
+            }
+        } else {
+            txt_hello.setText("Hello!");
+            if (txt_coins != null) {
+                txt_coins.setText("0");
+            }
+        }
     }
 
     private void showQuizCodeDialog(Context context, boolean isSinglePlayer) {
@@ -240,6 +293,7 @@ public class HomeFragment extends Fragment {
             lineL_actionBar.setVisibility(View.VISIBLE);
             consL_earncoinsBar.setVisibility(View.VISIBLE);
         }
+        updateUserInfo();
     }
 
     // defaults

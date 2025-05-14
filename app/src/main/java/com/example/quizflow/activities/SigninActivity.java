@@ -1,6 +1,7 @@
 package com.example.quizflow.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,11 +28,15 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
+import com.example.quizflow.models.AccountModel;
+import com.example.quizflow.respones.LoginResponse;
+import com.example.quizflow.respones.UserResponse;
 import com.example.quizflow.utils.Utilities;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.requests.LoginRequest;
 
-import okhttp3.ResponseBody;
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -128,6 +133,7 @@ public class SigninActivity extends AppCompatActivity {
             return;
         }
 
+        // TODO: Transfer to Signup Activity if account doesn't exist
         txt_btnSignIn.setEnabled(false);
 
         // Create login request
@@ -135,29 +141,39 @@ public class SigninActivity extends AppCompatActivity {
         String password = eTxt_password.getText().toString().trim();
         LoginRequest loginRequest = new LoginRequest(email, password);
 
-        // Call API
-        retrofitClient.getAPI().signIn(loginRequest).enqueue(new Callback<>() {
+        retrofitClient.getAPI().signIn(loginRequest).enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // progressBar.setVisibility(View.GONE);
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 txt_btnSignIn.setEnabled(true);
-
                 if (response.isSuccessful() && response.body() != null) {
-                    ResponseBody apiResponse = response.body();
-                    Toast.makeText(SigninActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                    LoginResponse loginResponse = response.body();
+                    Long uid = loginResponse.getUser().getUid();
+                    Log.d("SigninActivity", "Storing UID: " + uid);
+                    Utilities.setUID(SigninActivity.this, uid);
 
-                    startActivity(new Intent(SigninActivity.this, MainActivity.class));
+                    Intent intent = new Intent(SigninActivity.this, MainActivity.class);
+                    intent.putExtra("signedIn", true);
+                    startActivity(intent);
                     finish();
+
+                    Toast.makeText(SigninActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(SigninActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Email hoặc mật khẩu không đúng!";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e("SIGNIN_ERR", "Error parsing error response", e);
+                    }
+                    Toast.makeText(SigninActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                // progressBar.setVisibility(View.GONE);
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 txt_btnSignIn.setEnabled(true);
-                Log.e( "SIGNIN_ERR","Network error: " + t.getMessage());
+                Log.e("SIGNIN_ERR", "Network error: " + t.getMessage(), t);
                 Toast.makeText(SigninActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

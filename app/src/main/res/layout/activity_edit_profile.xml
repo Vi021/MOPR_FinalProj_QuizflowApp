@@ -97,7 +97,7 @@
                 android:textColor="@color/black"/>
 
             <EditText
-                android:id="@+id/Txt_oldPassword"
+                android:id="@+id/eTxt_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
@@ -115,7 +115,7 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/eTxt_email"
+                android:id="@+id/eTxt_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
@@ -134,7 +134,7 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/eTxt_fullName"
+                android:id="@+id/eTxt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"

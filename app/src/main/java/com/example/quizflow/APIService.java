@@ -7,12 +7,23 @@ import com.example.quizflow.requests.ResendOtpRequest;
 import com.example.quizflow.requests.ResetPasswordRequest;
 import com.example.quizflow.requests.VerifyOtpRequest;
 import com.example.quizflow.respones.APIResponse;
+import com.example.quizflow.respones.LoginResponse;
+import com.example.quizflow.respones.UserResponse;
 import com.example.quizflow.utils.Refs;
 
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface APIService {
     // Register Account
@@ -33,7 +44,7 @@ public interface APIService {
 
     // Login
     @POST(Refs.AUTH_URL + "login")
-    Call<ResponseBody> signIn(@Body LoginRequest request);
+    Call<LoginResponse> signIn(@Body LoginRequest request);
 
     // Forgot Password (Send OTP)
     @POST(Refs.AUTH_URL + "forgot-password")
@@ -48,4 +59,16 @@ public interface APIService {
 
     @POST(Refs.USER_URL)
     Call<APIResponse> getUser(@Body Long uid);
+
+    @GET(Refs.AUTH_URL + "users/{uid}")
+    Call<UserResponse> getUserByUid(@Path("uid") String uid);
+    @Multipart
+    @POST(Refs.AUTH_URL + "update-profile")
+    Call<Map<String, Object>> updateProfileWithUid(
+            @Part("uid") RequestBody uid,
+            @Part("username") RequestBody username,
+            @Part("fullname") RequestBody fullname,
+            @Part("email") RequestBody email,
+            @Part MultipartBody.Part image
+    );
 }
