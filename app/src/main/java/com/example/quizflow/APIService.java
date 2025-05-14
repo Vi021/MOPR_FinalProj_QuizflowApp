@@ -1,6 +1,6 @@
 package com.example.quizflow;
 
-import com.example.quizflow.requests.ForgotPasswordRequest;
+import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.requests.LoginRequest;
 import com.example.quizflow.requests.RegisterRequest;
 import com.example.quizflow.requests.ResendOtpRequest;
@@ -48,11 +48,14 @@ public interface APIService {
 
     // Forgot Password (Send OTP)
     @POST(Refs.AUTH_URL + "forgot-password")
-    Call<APIResponse> forgotPassword(@Body ForgotPasswordRequest request);
+    Call<ResponseBody> forgotPassword(@Body ResendOtpRequest request);
+
+    @POST(Refs.AUTH_URL + "update-password")
+    Call<ResponseBody> updatePassword(@Body ResetPasswordRequest request);
 
     // Reset Password
     @POST(Refs.AUTH_URL + "reset-password")
-    Call<APIResponse> resetPassword(@Body ResetPasswordRequest request);
+    Call<ResponseBody> resetPassword(@Body ResetPasswordRequest request);
 
     @POST(Refs.USER_URL)
     Call<APIResponse> getUser(@Body String username);
@@ -71,4 +74,10 @@ public interface APIService {
             @Part("email") RequestBody email,
             @Part MultipartBody.Part image
     );
+
+    @POST(Refs.QUIZ_URL + "{id}")
+    Call<APIResponse> getQuiz(@Body Long qid);
+
+    @POST(Refs.QUIZ_URL + "create")
+    Call<ResponseBody> saveQuiz(@Body QuizModel quiz);
 }

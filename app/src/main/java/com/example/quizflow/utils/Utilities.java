@@ -110,7 +110,7 @@ public class Utilities {
     }
 
     public static String toTitleCase(String input) {
-        String lower = input.toLowerCase(Locale.ROOT).replace("_", " ");
+        String lower = input.trim().toLowerCase(Locale.ROOT).replace("_", " ");
         String[] words = lower.split(" ");
         StringBuilder sb = new StringBuilder();
         for (String word : words) {
@@ -123,12 +123,12 @@ public class Utilities {
     }
 
     public static String toLowerCase(String input) {
-        return input.toLowerCase(Locale.ROOT).replace("_", " ").trim();
+        return input.trim().toLowerCase(Locale.ROOT).replace("_", " ").trim();
     }
 
     public static boolean isNotValidEmail(String email) {
         // check if the email is valid
-        return !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return !android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches();
     }
 
     public static boolean isEmailAvailable(String email) {
@@ -144,7 +144,7 @@ public class Utilities {
 
     public static boolean isNotValidUsername(String username) {
         // check if the username contains only letters, digits, underscores, ond 3-20 in length
-        return !(username != null && username.matches("^[a-zA-Z0-9_]{3,20}$"));
+        return !(username != null && username.trim().matches("^[a-zA-Z0-9_]{3,20}$"));
     }
 
     public static boolean isUsernameAvailable(String fullname) {

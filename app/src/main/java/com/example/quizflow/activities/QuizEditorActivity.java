@@ -25,14 +25,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
+import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.adapters.QuestAdapter;
 import com.example.quizflow.models.AnswerModel;
 import com.example.quizflow.models.QuestionModel;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.utils.TYPE;
+import com.example.quizflow.utils.Utilities;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class QuizEditorActivity extends AppCompatActivity {
     private Spinner spin_topic;
@@ -188,5 +195,41 @@ public class QuizEditorActivity extends AppCompatActivity {
 
     private void saveQuiz() {
         // clean activity backstack
+        if (quiz == null) quiz = new QuizModel();
+        quiz.setTitle(eTxt_quizTitle.getText().toString());
+        quiz.setDescription(eTxt_quizDesc.getText().toString());
+        quiz.setTopic(TYPE.Topics.get(spin_topic.getSelectedItemPosition()));
+        quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
+        quiz.setPublic(isPublic[0]);
+        quiz.setQuestionCount(questions.size());
+        quiz.setUid(-1L);
+
+        // VALIDATION!
+
+        Retrofit2Client retrofit2Client = new Retrofit2Client();
+        retrofit2Client.getAPI().saveQuiz(quiz).enqueue(new retrofit2.Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(QuizEditorActivity.this, "Quiz saved successfully", Toast.LENGTH_SHORT).show();
+                    // if new get quizid
+                } else {
+                    String msg = "Unknown error";
+                    if (response.errorBody() != null) {
+                        try {
+                            msg = response.errorBody().string();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    Utilities.showError(QuizEditorActivity.this, "QF_ERR_SAVE_QUIZ", "Error: " + msg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Utilities.showError(QuizEditorActivity.this, "QF_ERR_SAVE_QUIZ", "Failure: " + t.getMessage());
+            }
+        });
     }
 }

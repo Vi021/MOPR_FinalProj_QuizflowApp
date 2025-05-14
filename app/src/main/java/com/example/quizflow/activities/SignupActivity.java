@@ -24,8 +24,9 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import com.example.quizflow.R;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.requests.RegisterRequest;
-import com.example.quizflow.requests.ResendOtpRequest;
 import com.example.quizflow.utils.Utilities;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,7 +55,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void initViews() {
         eTxt_email = findViewById(R.id.eTxt_email);
-        eTxt_email.setText(getIntent().getStringExtra("email"));
+        eTxt_email.setText(getIntent().getStringExtra("PREFILL_EMAIL"));
         validateEmail();
 
         eTxt_fullname = findViewById(R.id.eTxt_fullname);
@@ -99,9 +100,18 @@ public class SignupActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(SignupActivity.this, PasswordActivity.class);
                     intent.putExtra("SIGNUP_USER", registerRequest);
+                    intent.putExtra("isNew", true);
                     startActivity(intent);
                 } else {
-                    Utilities.showError(SignupActivity.this, "QF_ERR_SIGNUP", "Error: " + response.message());
+                    String msg = "Unknown error";
+                    if (response.errorBody() != null) {
+                        try {
+                            msg = response.errorBody().string();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    Utilities.showError(SignupActivity.this, "QF_ERR_SIGNUP", "Error: " + msg);
                 }
             }
 
@@ -124,7 +134,7 @@ public class SignupActivity extends AppCompatActivity {
                 new android.os.Handler().postDelayed(() -> txt_signIn.setAlpha(1.0f), 100);
 
                 Intent intent = new Intent(SignupActivity.this, SigninActivity.class);
-                intent.putExtra("email", eTxt_email.getText().toString());
+                intent.putExtra("PREFILL_EMAIL", eTxt_email.getText().toString());
                 startActivity(intent);
                 finish();
             }

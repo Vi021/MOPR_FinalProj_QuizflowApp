@@ -29,6 +29,7 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
 import com.example.quizflow.models.AccountModel;
+import com.example.quizflow.requests.ResendOtpRequest;
 import com.example.quizflow.respones.LoginResponse;
 import com.example.quizflow.respones.UserResponse;
 import com.example.quizflow.utils.Utilities;
@@ -37,6 +38,7 @@ import com.example.quizflow.requests.LoginRequest;
 
 import java.io.IOException;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,9 +73,8 @@ public class SigninActivity extends AppCompatActivity {
 
     private void initViews() {
         eTxt_email = findViewById(R.id.eTxt_email);
-        eTxt_email.setText(getIntent().getStringExtra("email"));
-        String email = getIntent().getStringExtra("SIGNIN_EMAIL");
-        if (email != null) eTxt_email.setText(email);
+        eTxt_email.setText(getIntent().getStringExtra("PREFILL_EMAIL"));
+        eTxt_email.setText(getIntent().getStringExtra("SIGNIN_EMAIL"));
 
         eTxt_password = findViewById(R.id.eTxt_password);
 
@@ -111,11 +112,40 @@ public class SigninActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent intent = new Intent(SigninActivity.this, PasswordActivity.class);
-            intent.putExtra("email", eTxt_email.getText().toString());
-            intent.putExtra("isForget", true);
-            startActivity(intent);
-            //finish();
+            Retrofit2Client retrofit2Client = new Retrofit2Client();
+            ResendOtpRequest resendOtpRequest = new ResendOtpRequest(eTxt_email.getText().toString().trim());
+            Call<ResponseBody> call = retrofit2Client.getAPI().forgotPassword(resendOtpRequest);
+            call.enqueue(new retrofit2.Callback<>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull retrofit2.Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast t = Toast.makeText(SigninActivity.this, "OTP sent", Toast.LENGTH_SHORT);
+                        t.show();
+                        new android.os.Handler().postDelayed(t::cancel, 1200);
+
+                        Intent intent = new Intent(SigninActivity.this, PasswordActivity.class);
+                        intent.putExtra("FORGET_EMAIL", resendOtpRequest.getEmail());
+                        intent.putExtra("isForget", true);
+                        startActivity(intent);
+                        //finish();
+                    } else {
+                        String msg = "Unknown error";
+                        if (response.errorBody() != null) {
+                            try {
+                                msg = response.errorBody().string();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        Utilities.showError(SigninActivity.this, "QF_ERR_SIGNIN", "Error: " + msg);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    Utilities.showError(SigninActivity.this, "QF_ERR_SIGNIN","Failure: " + t.getMessage());
+                }
+            });
         });
 
         // sign up redirect
@@ -191,7 +221,7 @@ public class SigninActivity extends AppCompatActivity {
                 new Handler().postDelayed(() -> txt_signUp.setAlpha(1.0f), 100);
 
                 Intent intent = new Intent(SigninActivity.this, SignupActivity.class);
-                intent.putExtra("email", eTxt_email.getText().toString());
+                intent.putExtra("PREFILL_EMAIL", eTxt_email.getText().toString());
                 startActivity(intent);
                 finish();
             }
@@ -227,7 +257,7 @@ public class SigninActivity extends AppCompatActivity {
         } else if (Utilities.isNotValidEmail(email)) {
             eTxt_email.setError("Please enter a valid email");
             return true;
-        } // TODO: email existence check
+        }
 
         eTxt_email.setError(null);
         return false;
