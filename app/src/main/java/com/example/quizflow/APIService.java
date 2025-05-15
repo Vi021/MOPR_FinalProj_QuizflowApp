@@ -1,13 +1,24 @@
 package com.example.quizflow;
 
 import com.example.quizflow.models.QuizEditorModel;
+import com.example.quizflow.requests.CoinHistoryRequest;
+import com.example.quizflow.requests.CoinUpdateRequest;
+import com.example.quizflow.requests.JoinLobbyRequest;
+import com.example.quizflow.requests.LobbyRequest;
 import com.example.quizflow.requests.LoginRequest;
+import com.example.quizflow.requests.QuizResponseRequest;
 import com.example.quizflow.requests.RegisterRequest;
 import com.example.quizflow.requests.ResendOtpRequest;
+import com.example.quizflow.requests.ForgetPasswordRequest;
 import com.example.quizflow.requests.ResetPasswordRequest;
+import com.example.quizflow.requests.StartLobbyRequest;
 import com.example.quizflow.requests.VerifyOtpRequest;
 import com.example.quizflow.respones.APIResponse;
+import com.example.quizflow.respones.AttemptRequest;
+import com.example.quizflow.respones.AttemptResponse;
+import com.example.quizflow.respones.LobbyResponse;
 import com.example.quizflow.respones.LoginResponse;
+import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.respones.UserResponse;
 import com.example.quizflow.utils.Refs;
 
@@ -51,7 +62,7 @@ public interface APIService {
     Call<ResponseBody> forgotPassword(@Body ResendOtpRequest request);
 
     @POST(Refs.AUTH_URL + "update-password")
-    Call<ResponseBody> updatePassword(@Body ResetPasswordRequest request);
+    Call<ResponseBody> updatePassword(@Body ForgetPasswordRequest request);
 
     // Reset Password
     @POST(Refs.AUTH_URL + "reset-password")
@@ -77,6 +88,34 @@ public interface APIService {
     Call<APIResponse> getUser(@Body Long uid);
 
     @POST(Refs.QUIZ_URL + "create")
+    Call<ResponseBody> saveQuiz(@Body QuizModel quiz);
+
+    @GET(Refs.QUIZ_URL + "{qid}")
+    Call<QuizResponse> getQuizById(@Path("qid") long qid);
+
+    @POST(Refs.QUIZ_URL + "attempts")
+    Call<AttemptResponse> createAttempt(@Body AttemptRequest attempt);
+
+    @POST(Refs.QUIZ_URL + "quizResponses")
+    Call<Void> createQuizResponse(@Body QuizResponseRequest response);
+
+    @PUT(Refs.AUTH_URL + "{uid}/coins")
+    Call<Void> updateUserCoins(@Path("uid") long uid, @Body CoinUpdateRequest coinUpdate);
+
+    @POST(Refs.QUIZ_URL + "coinHistory")
+    Call<Void> createCoinHistory(@Body CoinHistoryRequest coinHistory);
+
+    @POST("api/lobby/create")
+    Call<LobbyResponse> createLobby(@Body LobbyRequest request);
+
+    @POST("api/lobby/join")
+    Call<LobbyResponse> joinLobby(@Body JoinLobbyRequest request);
+
+    @GET("api/lobby/{lid}")
+    Call<LobbyResponse> getLobbyInfo(@Path("lid") Long lid);
+
+    @POST("api/lobby/{lid}/start")
+    Call<Void> startLobby(@Path("lid") Long lid, @Body StartLobbyRequest request);
     Call<Map<String, Long>> createQuiz(@Body QuizEditorModel quiz);
 
     @POST(Refs.QUIZ_URL + "update")
@@ -84,4 +123,7 @@ public interface APIService {
 
     @GET(Refs.QUIZ_URL + "{qid}/edit") // Use @GET not @POST
     Call<QuizEditorModel> getQuizEditor(@Path("qid") Long qid, @Query("uid") Long uid);
+
+    @GET("api/quiz/{qid}")
+    Call<QuizResponse> getQuizById(@Path("qid") Long qid);
 }

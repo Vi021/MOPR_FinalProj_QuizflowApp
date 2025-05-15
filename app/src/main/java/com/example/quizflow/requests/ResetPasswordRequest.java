@@ -1,28 +1,37 @@
 package com.example.quizflow.requests;
 
 public class ResetPasswordRequest {
-    private String email;
-    private String password;
+    private Long uid;
+    private String oldPassword;
+    private String newPassword;
 
     public ResetPasswordRequest() {
     }
 
-    public ResetPasswordRequest(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public ResetPasswordRequest(Long uid, String oldPassword, String newPassword) {
+        this.uid = uid;
+        this.oldPassword = oldPassword;
+        this.newPassword = newPassword;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getUid() {
+        return uid;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUid(Long uid) {
+        this.uid = uid;
     }
 
-    public String getPassword() {
-        return password;
+    public String getOldPassword() {
+        return oldPassword;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 }

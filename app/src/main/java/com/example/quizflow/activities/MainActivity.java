@@ -19,6 +19,7 @@ import com.example.quizflow.fragments.CollectionFragment;
 import com.example.quizflow.fragments.HomeFragment;
 import com.example.quizflow.fragments.RankingFragment;
 import com.example.quizflow.fragments.SettingsFragment;
+import com.example.quizflow.utils.Utilities;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.Objects;
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        signedIn = getIntent().getBooleanExtra("okay", false);
+        Long uid = Utilities.getUID(this);
+        signedIn = (uid != null);
 
         // bottom nav bar
         chipNav_menu = findViewById(R.id.chipNav_menu);

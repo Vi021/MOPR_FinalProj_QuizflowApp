@@ -34,15 +34,15 @@ import com.example.quizflow.activities.QuizEditor2Activity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.activities.WaitingActivity;
 import com.example.quizflow.adapters.TopicAdapter;
-import com.example.quizflow.QuestionModel;
 import com.example.quizflow.models.AccountModel;
+import com.example.quizflow.requests.JoinLobbyRequest;
+import com.example.quizflow.requests.LobbyRequest;
+import com.example.quizflow.respones.LobbyResponse;
+import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.utils.Refs;
 import com.example.quizflow.utils.TYPE;
 import com.example.quizflow.utils.Utilities;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -75,6 +75,7 @@ public class HomeFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             validate();
+            loadUser(Utilities.getUID(requireContext()));
         }
     }
 
@@ -96,45 +97,9 @@ public class HomeFragment extends Fragment {
 
         /// Check if user is signed in by UID
         Long uid = Utilities.getUID(requireContext());
-        signedIn = uid != null;
+        signedIn = (uid != null);
 
-        if (signedIn) {
-            // Fetch user data from API
-            Utilities.getUserByUidAsync(requireContext(), uid, new Utilities.AccountCallback() {
-                @Override
-                public void onSuccess(AccountModel user) {
-                    signedIn = true;
-                    fullname = user.getFullname();
-                    username = user.getUsername();
-                    image = user.getImage();
-                    email = user.getEmail();
-                    coins = user.getCoins();
-                    updateUserInfo();
-
-                    if (image != null && !image.isEmpty()) {
-                        String imageUrl = Refs.BASE_IMAGE_URL + image;
-                        Glide.with(HomeFragment.this)
-                                .load(imageUrl)
-                                .placeholder(R.drawable.ic_default_pfp_icebear)
-                                .error(R.drawable.ic_default_pfp_icebear)
-                                .into(cirImg_pfp);
-                    } else {
-                        cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
-                    }
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    signedIn = false;
-                    cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
-                    updateUserInfo();
-                    Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
-            updateUserInfo();
-        }
+        loadUser(uid);
 
         TextView txt_btnSignInSignUp = view.findViewById(R.id.txt_btnSignInSignUp);
         txt_btnSignInSignUp.setOnClickListener(v -> {
@@ -187,6 +152,46 @@ public class HomeFragment extends Fragment {
         txt_startNow.setOnClickListener(this::noService);
     }
 
+    private void loadUser(Long uid) {
+        if (signedIn) {
+            // Fetch user data from API
+            Utilities.getUserByUidAsync(requireContext(), uid, new Utilities.AccountCallback() {
+                @Override
+                public void onSuccess(AccountModel user) {
+                    signedIn = true;
+                    fullname = user.getFullname();
+                    username = user.getUsername();
+                    image = user.getImage();
+                    email = user.getEmail();
+                    coins = user.getCoins();
+                    updateUserInfo();
+
+                    if (image != null && !image.isEmpty()) {
+                        String imageUrl = Refs.BASE_IMAGE_URL + image;
+                        Glide.with(HomeFragment.this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_default_pfp_icebear)
+                                .error(R.drawable.ic_default_pfp_icebear)
+                                .into(cirImg_pfp);
+                    } else {
+                        cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+                    }
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    signedIn = false;
+                    cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+                    updateUserInfo();
+                    Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+            updateUserInfo();
+        }
+    }
+
     private void updateUserInfo() {
         if (signedIn) {
             if (fullname != null && !fullname.isEmpty()) {
@@ -224,47 +229,117 @@ public class HomeFragment extends Fragment {
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
         Button btnConfirm = dialogView.findViewById(R.id.btn_confirm);
 
-        // dialog enter animation
+        txtPopupTitle.setText(isSinglePlayer ? "Enter Quiz ID" : "Enter Quiz ID or Lobby Code");
+        editQuizCode.setHint(isSinglePlayer ? "Quiz ID" : "Quiz ID or Lobby Code");
+
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.dialog_enter);
         dialogView.startAnimation(animation);
 
-        // cancel action
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // animate
-                btnCancel.setAlpha(0.5f);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        btnCancel.setAlpha(1.0f);
-                    }
-                }, 200);
-
-                dialog.dismiss();
-            }
+        btnCancel.setOnClickListener(v -> {
+            btnCancel.setAlpha(0.5f);
+            new Handler().postDelayed(() -> btnCancel.setAlpha(1.0f), 200);
+            dialog.dismiss();
         });
 
-        // confirm action
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String quizCode = editQuizCode.getText().toString().trim();
-                if (quizCode.length() == 6) {
-                    Intent intent;
-                    if (isSinglePlayer) {
-                        intent = new Intent(context, QuestionActivity.class);
-                        intent.putParcelableArrayListExtra("list", new ArrayList<>(questionList()));
+        btnConfirm.setOnClickListener(v -> {
+            String inputCode = editQuizCode.getText().toString().trim();
+            if (inputCode.isEmpty()) {
+                editQuizCode.setError("Please enter a Quiz ID or Lobby Code");
+                return;
+            }
+
+            Long uid = Utilities.getUID(context);
+            if (uid == null && !isSinglePlayer) {
+                Toast.makeText(context, "Please sign in to play multiplayer", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                return;
+            }
+
+            if (isSinglePlayer) {
+                if (Utilities.isNotValidQuizId(inputCode)) {
+                    editQuizCode.setError("Enter a valid Quiz ID");
+                    return;
+                }
+                long qid = Long.parseLong(inputCode);
+                Utilities.getQuizByIdAsync(context, qid, new Utilities.QuizCallback() {
+                    @Override
+                    public void onSuccess(QuizResponse quiz) {
+                        Intent intent = new Intent(context, QuestionActivity.class);
+                        intent.putExtra("qid", qid);
                         intent.putExtra("isMultiPlayer", false);
-                    } else {
-                        intent = new Intent(context, WaitingActivity.class);
-                        intent.putExtra("isMultiPlayer", true);
+                        context.startActivity(intent);
+                        dialog.dismiss();
                     }
-                    intent.putExtra("quizCode", quizCode);
-                    startActivity(intent);
-                    dialog.dismiss();
-                } else {
-                    editQuizCode.setError("Enter a valid 6-digit quiz code");
+
+                    @Override
+                    public void onFailure(String error) {
+                        editQuizCode.setError("Invalid Quiz ID");
+                        Utilities.showError(context, "HomeFragment", error);
+                    }
+                });
+            } else {
+                // Multiplayer: Kiểm tra xem input là Quiz ID (số) hay Lobby Code (chuỗi)
+                if (inputCode.matches("\\d+")) { // Nếu là số (Quiz ID)
+                    if (Utilities.isNotValidQuizId(inputCode)) {
+                        editQuizCode.setError("Enter a valid Quiz ID");
+                        return;
+                    }
+                    long qid = Long.parseLong(inputCode);
+                    Utilities.getQuizByIdAsync(context, qid, new Utilities.QuizCallback() {
+                        @Override
+                        public void onSuccess(QuizResponse quiz) {
+                            // Create new lobby
+                            LobbyRequest request = new LobbyRequest();
+                            request.setQid(qid);
+                            request.setUid(uid);
+                            Utilities.createLobbyAsync(context, request, new Utilities.LobbyCallback() {
+                                @Override
+                                public void onSuccess(LobbyResponse lobby) {
+                                    Intent intent = new Intent(context, WaitingActivity.class);
+                                    intent.putExtra("lid", lobby.getLid());
+                                    intent.putExtra("uid", uid);
+                                    intent.putExtra("code", lobby.getCode());
+                                    intent.putExtra("isHost", true);
+                                    context.startActivity(intent);
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onFailure(String error) {
+                                    editQuizCode.setError("Failed to create lobby");
+                                    Utilities.showError(context, "HomeFragment", error);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            editQuizCode.setError("Invalid Quiz ID");
+                            Utilities.showError(context, "HomeFragment", error);
+                        }
+                    });
+                } else { // Nếu là chuỗi (Lobby Code)
+                    JoinLobbyRequest request = new JoinLobbyRequest();
+                    request.setCode(inputCode);
+                    request.setUid(uid);
+                    Utilities.joinLobbyAsync(context, request, new Utilities.LobbyCallback() {
+                        @Override
+                        public void onSuccess(LobbyResponse lobby) {
+                            Intent intent = new Intent(context, WaitingActivity.class);
+                            intent.putExtra("lid", lobby.getLid());
+                            intent.putExtra("uid", uid);
+                            intent.putExtra("code", lobby.getCode());
+                            intent.putExtra("isHost", false);
+                            context.startActivity(intent);
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            editQuizCode.setError("Invalid Lobby Code");
+                            Utilities.showError(context, "HomeFragment", error);
+                        }
+                    });
                 }
             }
         });
@@ -273,6 +348,7 @@ public class HomeFragment extends Fragment {
         int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.8);
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
+
 
     private void validate() {
         if (!signedIn) {
@@ -311,142 +387,5 @@ public class HomeFragment extends Fragment {
         Toast toast = Toast.makeText(requireContext(), "No quizzes found!", Toast.LENGTH_SHORT);
         toast.show();
         new Handler().postDelayed(toast::cancel, 500);
-    }
-
-    // Question list data
-    private List<QuestionModel> questionList() {
-        List<QuestionModel> questions = new ArrayList<>();
-
-        questions.add(new QuestionModel(
-                1,
-                "Which planet is the largest planet in the solar system?",
-                "Earth",
-                "Mars",
-                "Neptune",
-                "Jupiter",
-                "d",
-                5,
-                "q_1",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                2,
-                "Which country is the largest country in the world by land area?",
-                "Russia",
-                "Canada",
-                "United States",
-                "China",
-                "a",
-                5,
-                "q_2",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                3,
-                "Which of the following substances is used as an anti-cancer medication in the medical world?",
-                "Cheese",
-                "Lemon juice",
-                "Cannabis",
-                "Paspalum",
-                "c",
-                5,
-                "q_3",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                4,
-                "Which moon in the Earth's solar system has an atmosphere?",
-                "Luna (Moon)",
-                "Phobos (Mars' moon)",
-                "Venus' moon",
-                "None of the above",
-                "d",
-                5,
-                "q_4",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                5,
-                "Which of the following symbols represents the chemical element with the atomic number 6?",
-                "O",
-                "H",
-                "C",
-                "N",
-                "c",
-                5,
-                "q_5",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                6,
-                "Who is credited with inventing theater as we know it today?",
-                "Shakespeare",
-                "Arthur Miller",
-                "Ashkouri",
-                "Ancient Greeks",
-                "d",
-                5,
-                "q_6",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                7,
-                "Which ocean is the largest ocean in the world?",
-                "Pacific Ocean",
-                "Atlantic Ocean",
-                "Indian Ocean",
-                "Arctic Ocean",
-                "a",
-                5,
-                "q_7",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                8,
-                "Which religions are among the most practiced religions in the world?",
-                "Islam, Christianity, Judaism",
-                "Buddhism, Hinduism, Sikhism",
-                "Zoroastrianism, Brahmanism, Yazdanism",
-                "Taoism, Shintoism, Confucianism",
-                "a",
-                5,
-                "q_8",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                9,
-                "In which continent are the most independent countries located?",
-                "Asia",
-                "Europe",
-                "Africa",
-                "Americas",
-                "c",
-                5,
-                "q_9",
-                null
-        ));
-
-        questions.add(new QuestionModel(
-                10,
-                "Which ocean has the greatest average depth?",
-                "Pacific Ocean",
-                "Atlantic Ocean",
-                "Indian Ocean",
-                "Southern Ocean",
-                "d",
-                5,
-                "q_10",
-                null
-        ));
-
-        return questions;
     }
 }

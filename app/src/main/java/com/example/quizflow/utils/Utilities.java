@@ -5,8 +5,19 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.quizflow.APIService;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.models.AccountModel;
+import com.example.quizflow.requests.CoinHistoryRequest;
+import com.example.quizflow.requests.CoinUpdateRequest;
+import com.example.quizflow.requests.JoinLobbyRequest;
+import com.example.quizflow.requests.LobbyRequest;
+import com.example.quizflow.requests.QuizResponseRequest;
+import com.example.quizflow.requests.StartLobbyRequest;
+import com.example.quizflow.respones.AttemptRequest;
+import com.example.quizflow.respones.AttemptResponse;
+import com.example.quizflow.respones.LobbyResponse;
+import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.respones.UserResponse;
 
 import java.util.Locale;
@@ -150,5 +161,264 @@ public class Utilities {
     public static boolean isNotValidPhoneNumber(String phoneNumber) {
         // check if the phone number is valid
         return !android.util.Patterns.PHONE.matcher(phoneNumber).matches();
+    }
+
+    public static boolean isNotValidQuizId(String quizId) {
+        try {
+            Long.parseLong(quizId.trim());
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+        }
+    }
+
+    // Fetch quiz by qid asynchronously from API
+    public static void getQuizByIdAsync(Context context, long qid, QuizCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().getQuizById(qid).enqueue(new Callback<QuizResponse>() {
+            @Override
+            public void onResponse(Call<QuizResponse> call, Response<QuizResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure("Failed to fetch quiz, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuizResponse> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Create attempt asynchronously
+    public static void createAttemptAsync(Context context, AttemptRequest attempt, AttemptCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().createAttempt(attempt).enqueue(new Callback<AttemptResponse>() {
+            @Override
+            public void onResponse(Call<AttemptResponse> call, Response<AttemptResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure("Failed to create attempt, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AttemptResponse> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Create quiz response asynchronously
+    public static void createQuizResponseAsync(Context context, QuizResponseRequest response, GenericCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().createQuizResponse(response).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure("Failed to save response, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Update user coins asynchronously
+    public static void updateUserCoinsAsync(Context context, long uid, int coins, GenericCallback callback) {
+        initRetrofit();
+        CoinUpdateRequest request = new CoinUpdateRequest();
+        request.setCoins(coins);
+        retrofitClient.getAPI().updateUserCoins(uid, request).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure("Failed to update coins, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Create coin history asynchronously
+    public static void createCoinHistoryAsync(Context context, CoinHistoryRequest coinHistory, GenericCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().createCoinHistory(coinHistory).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure("Failed to save coin history, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Create lobby asynchronously
+    public static void createLobbyAsync(Context context, LobbyRequest request, LobbyCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().createLobby(request).enqueue(new Callback<LobbyResponse>() {
+            @Override
+            public void onResponse(Call<LobbyResponse> call, Response<LobbyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    String error = "Failed to create lobby, HTTP " + response.code();
+                    Log.e("Utilities", error);
+                    callback.onFailure(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LobbyResponse> call, Throwable t) {
+                String error = "Network error: " + t.getMessage();
+                Log.e("Utilities", error);
+                callback.onFailure(error);
+            }
+        });
+    }
+
+    // Join lobby asynchronously
+    public static void joinLobbyAsync(Context context, JoinLobbyRequest request, LobbyCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().joinLobby(request).enqueue(new Callback<LobbyResponse>() {
+            @Override
+            public void onResponse(Call<LobbyResponse> call, Response<LobbyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    String error = "Failed to join lobby, HTTP " + response.code();
+                    Log.e("Utilities", error);
+                    callback.onFailure(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LobbyResponse> call, Throwable t) {
+                String error = "Network error: " + t.getMessage();
+                Log.e("Utilities", error);
+                callback.onFailure(error);
+            }
+        });
+    }
+
+    // Start lobby asynchronously
+    public static void startLobbyAsync(Context context, Long lid, Long uid, GenericCallback callback) {
+        initRetrofit();
+        StartLobbyRequest request = new StartLobbyRequest();
+        request.setUid(uid);
+        Log.d("Utilities", "Starting lobby with lid=" + lid + ", uid=" + uid);
+        
+        retrofitClient.getAPI().startLobby(lid, request).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("Utilities", "Start lobby response: " + response.code() + " " + response.message());
+                if (response.isSuccessful()) {
+                    Log.d("Utilities", "Successfully started lobby");
+                    callback.onSuccess();
+                } else {
+                    String errorBody = "";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorBody = response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        Log.e("Utilities", "Error reading error body: " + e.getMessage());
+                    }
+                    String error = "Failed to start lobby, HTTP " + response.code() + ": " + errorBody;
+                    Log.e("Utilities", error);
+                    callback.onFailure(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                String error = "Network error: " + t.getMessage();
+                Log.e("Utilities", "Start lobby network error: " + t.getMessage());
+                t.printStackTrace();
+                callback.onFailure(error);
+            }
+        });
+    }
+
+    // Get lobby info asynchronously
+    public static void getLobbyInfoAsync(Context context, Long lid, LobbyInfoCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().getLobbyInfo(lid).enqueue(new Callback<LobbyResponse>() {
+            @Override
+            public void onResponse(Call<LobbyResponse> call, Response<LobbyResponse> response) {
+                Log.d("Utilities", "Get lobby info response: " + response.code() + " " + response.message());
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("Utilities", "Successfully got lobby info with qid: " + response.body().getQid());
+                    callback.onSuccess(response.body().getQid());
+                } else {
+                    String errorBody = "";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorBody = response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        Log.e("Utilities", "Error reading error body: " + e.getMessage());
+                    }
+                    String error = "Failed to get lobby info, HTTP " + response.code() + ": " + errorBody;
+                    Log.e("Utilities", error);
+                    callback.onFailure(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LobbyResponse> call, Throwable t) {
+                String error = "Network error: " + t.getMessage();
+                Log.e("Utilities", "Get lobby info network error: " + t.getMessage());
+                t.printStackTrace();
+                callback.onFailure(error);
+            }
+        });
+    }
+
+    public interface QuizCallback {
+        void onSuccess(QuizResponse quiz);
+        void onFailure(String error);
+    }
+
+    public interface AttemptCallback {
+        void onSuccess(AttemptResponse attempt);
+        void onFailure(String error);
+    }
+
+    public interface GenericCallback {
+        void onSuccess();
+        void onFailure(String error);
+    }
+
+    public interface LobbyCallback {
+        void onSuccess(LobbyResponse lobby);
+
+        void onFailure(String error);
+    }
+
+    public interface LobbyInfoCallback {
+        void onSuccess(Long qid);
+        void onFailure(String error);
     }
 }

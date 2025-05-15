@@ -14,6 +14,10 @@ glideTransformations = "4.3.0"
 chipNavbar = "1.4.0"
 retrofit2 = "2.9.0"
 retrofit2ConverterGson = "2.9.0"
+okhttp3 = "4.10.0"
+stompClient = "1.6.6"
+rxjava2 = "2.2.21"
+rxandroid2 = "2.1.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -30,6 +34,10 @@ glideTransformations = { group = "jp.wasabeef", name = "glide-transformations", 
 chipNavbar = { group = "com.github.ismaeldivita", name = "chip-navigation-bar", version.ref = "chipNavbar" }
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit2ConverterGson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2ConverterGson" }
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
+stompClient = { group = "com.github.NaikSoftware", name = "StompProtocolAndroid", version.ref = "stompClient" }
+rxjava2 = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxjava2" }
+rxandroid2 = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxandroid2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
