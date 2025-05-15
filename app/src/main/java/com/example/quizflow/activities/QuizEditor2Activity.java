@@ -289,7 +289,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
                     t.show();
                     new Handler().postDelayed(t::cancel, 1200);
 
-                    passed = false;
+                    //passed = false;
                     break;
                 }
 
@@ -309,7 +309,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
         }
 
         if (quiz.getUid() == -1L) {
-            // TODO: get user id
+            quiz.setUid(Utilities.getUID(this));
         }
 
         return passed;
@@ -323,7 +323,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
         quiz.setQuestionCount(questions.size());
 
         QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditor2Activity.this.questions);
-        new Retrofit2Client().getAPI().createQuiz(quizEditorModel).enqueue(new Callback<>() {
+        Retrofit2Client.getAPI().createQuiz(quizEditorModel).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<Map<String, Long>> call, Response<Map<String, Long>> response) {
                 if (response.isSuccessful() && response.body() != null) {

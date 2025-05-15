@@ -121,6 +121,8 @@ public interface APIService {
 
     @POST("api/lobby/{lid}/start")
     Call<Void> startLobby(@Path("lid") Long lid, @Body StartLobbyRequest request);
+
+    @POST(Refs.QUIZ_URL + "create")
     Call<Map<String, Long>> createQuiz(@Body QuizEditorModel quiz);
 
     @POST(Refs.QUIZ_URL + "update")
