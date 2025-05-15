@@ -21,6 +21,7 @@ import com.example.quizflow.respones.LobbyResponse;
 import com.example.quizflow.respones.LoginResponse;
 import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.respones.UserResponse;
+import com.example.quizflow.respones.RankingResponse;
 import com.example.quizflow.utils.Refs;
 
 import java.util.List;
@@ -135,4 +136,7 @@ public interface APIService {
 
     @GET(Refs.QUIZ_URL + "{uid}/attempted")
     Call<List<QuizModel>> getQuizzesAttemptedByUid(@Path("uid") Long uid);
+
+    @GET(Refs.AUTH_URL + "rankings")
+    Call<List<RankingResponse>> getRankings(@Query("period") String period);
 }

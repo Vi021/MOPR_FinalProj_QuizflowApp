@@ -1,5 +1,6 @@
 package com.example.quizflow.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
 import com.example.quizflow.models.UserModel;
+import com.example.quizflow.utils.Refs;
 
 import java.util.List;
 
@@ -47,8 +50,21 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
             UserModel user = rankings.get(position);
             holder.txt_rank.setText("#" + (position+4));    // from 4th rank downwards
             holder.txt_username.setText(user.getUsername());
-            holder.cImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear); // TODO: glide with context!
             holder.txt_coinCount.setText(String.valueOf(user.getCoins()));
+            loadProfileImage(holder.cImg_pfp, user.getPfp(), holder.itemView.getContext());
+        }
+    }
+    
+    private void loadProfileImage(CircleImageView imageView, String imagePath, Context context) {
+        if (imagePath != null && !imagePath.isEmpty()) {
+            String imageUrl = Refs.BASE_URL + "uploads/" + imagePath;
+            Glide.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.ic_default_pfp_icebear)
+                    .error(R.drawable.ic_default_pfp_icebear)
+                    .into(imageView);
+        } else {
+            imageView.setImageResource(R.drawable.ic_default_pfp_icebear);
         }
     }
 
