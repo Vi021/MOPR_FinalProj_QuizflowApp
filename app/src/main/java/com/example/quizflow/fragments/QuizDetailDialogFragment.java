@@ -102,7 +102,7 @@ public class QuizDetailDialogFragment extends DialogFragment {
                 txt_createdDate.setText(quiz.getCreatedDate());
                 txt_attemptCount.setText(String.valueOf(quiz.getAttemptCount()));
 
-                if (quiz.isPublic()) {
+                if (quiz.isMPublic()) {
                     img_availability.setImageResource(R.drawable.ic_globe_white);
                     txt_availability.setText("Public");
                 } else {

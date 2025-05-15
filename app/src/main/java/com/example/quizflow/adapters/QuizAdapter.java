@@ -97,7 +97,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         holder.txt_desc.setText(quiz.getDescription());
         holder.txt_questionCount.setText(String.valueOf(quiz.getQuestionCount()));
         holder.txt_quizDuration.setText(quiz.getDurationString());
-        if (quiz.isPublic()) {
+        if (quiz.isMPublic()) {
             holder.img_availability.setImageResource(R.drawable.ic_globe_white);
         } else {
             holder.img_availability.setImageResource(R.drawable.ic_lock_white);

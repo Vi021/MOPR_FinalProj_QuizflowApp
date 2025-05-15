@@ -3,6 +3,7 @@ package com.example.quizflow.activities;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
 import com.example.quizflow.Retrofit2Client;
-import com.example.quizflow.adapters.QuestAdapter;
 import com.example.quizflow.adapters.QuestAdapter2;
 import com.example.quizflow.models.AnswerModel;
 import com.example.quizflow.models.QuestionModel;
@@ -50,7 +50,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
     private EditText eTxt_hour, eTxt_minute, eTxt_second, eTxt_quizTitle, eTxt_quizDesc;
     private TextView txt_questions;
     private RecyclerView recy_questions;
-    private LinearLayout lineL_addQuestion;
+    private LinearLayout lineL_availability, lineL_addQuestion;
     private Button btn_done;
 
     private List<QuestionModel> questions = new ArrayList<>();
@@ -76,15 +76,16 @@ public class QuizEditor2Activity extends AppCompatActivity {
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
         quiz = (QuizModel) getIntent().getSerializableExtra("quiz");
+        quiz = new QuizModel();
+        quiz.setQid(200702);
         if (quiz != null) {
             loadQuiz();
         } else {
             quiz = new QuizModel();
+            initViews();
+
+            if (questions.isEmpty()) lineL_addQuestion.performClick();
         }
-
-        initViews();
-
-        if (questions.isEmpty()) lineL_addQuestion.performClick();
     }
 
     private void initViews() {
@@ -149,10 +150,11 @@ public class QuizEditor2Activity extends AppCompatActivity {
 
         ImageView img_availability = findViewById(R.id.img_availability);
         TextView txt_availability = findViewById(R.id.txt_availability);
-        LinearLayout lineL_availability = findViewById(R.id.lineL_availability);
+        lineL_availability = findViewById(R.id.lineL_availability);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             lineL_availability.setTooltipText("Quiz's availability to everyone");
         }
+        isPublic[0] = quiz.isMPublic();
         lineL_availability.setOnClickListener(v -> {
             isPublic[0] = !isPublic[0];
 
@@ -212,8 +214,40 @@ public class QuizEditor2Activity extends AppCompatActivity {
     }
 
     private void loadQuiz() {
-        isPublic[0] = quiz.isPublic();
-        //questions = fetch via API with quiz.getQid()
+        try {
+            new Retrofit2Client().getAPI().getQuizEditor(quiz.getQid(), Utilities.getUID(this))
+                    .enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(Call<QuizEditorModel> call, Response<QuizEditorModel> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                QuizEditorModel quizEditorModel = response.body();
+                                quiz = quizEditorModel.getQuiz();
+                                questions = quizEditorModel.getQuestions();
+
+                                runOnUiThread(() -> initViews());   // cus Android requires all UI updates to run on the main thread (includes UI thread)
+
+                                Log.i("QF_LOAD_QUIZ", "Quiz loaded: " + quiz.getQid());
+                            } else {
+                                String msg = "Unknown error";
+                                if (response.errorBody() != null) {
+                                    try {
+                                        msg = response.errorBody().string();
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                                Utilities.showError(QuizEditor2Activity.this, "QF_LOAD_QUIZ", "Error: " + msg);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<QuizEditorModel> call, Throwable t) {
+                            Utilities.showError(QuizEditor2Activity.this, "QF_LOAD_QUIZ", "Failure: " + t.getMessage());
+                        }
+                    });
+        } catch (Exception e) {
+            Utilities.showError(this, "QF_LOAD_QUIZ", "Exception: " + e.getMessage());
+        }
     }
 
     private boolean validateQuiz() {
@@ -244,6 +278,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
                 break;
             }
 
+            boolean hasCorrect = false;
             for (AnswerModel answer : question.getAnswers()) {
                 if (answer.getText().isEmpty()) {
                     Toast t = Toast.makeText(this, "All answers of all questions must not be empty", Toast.LENGTH_SHORT);
@@ -253,6 +288,19 @@ public class QuizEditor2Activity extends AppCompatActivity {
                     passed = false;
                     break;
                 }
+
+                if (answer.isCorrect()) {
+                    hasCorrect = true;
+                }
+            }
+
+            if (!hasCorrect) {
+                Toast t = Toast.makeText(this, "Each question must have a correct answer", Toast.LENGTH_SHORT);
+                t.show();
+                new Handler().postDelayed(t::cancel, 1200);
+
+                passed = false;
+                break;
             }
         }
 
@@ -267,7 +315,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
         quiz.setDescription(eTxt_quizDesc.getText().toString());
         quiz.setTopic(TYPE.TOPICS.get(spin_topic.getSelectedItemPosition()));
         quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
-        quiz.setPublic(isPublic[0]);
+        quiz.setMPublic(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
         QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditor2Activity.this.questions);
@@ -317,7 +365,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
         quiz.setDescription(eTxt_quizDesc.getText().toString());
         quiz.setTopic(TYPE.TOPICS.get(spin_topic.getSelectedItemPosition()));
         quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
-        quiz.setPublic(isPublic[0]);
+        quiz.setMPublic(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
         QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditor2Activity.this.questions);

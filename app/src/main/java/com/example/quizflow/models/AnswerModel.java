@@ -5,15 +5,15 @@ import java.io.Serializable;
 public class AnswerModel implements Serializable {
     private long aid;
     private String text = "";
-    private boolean isCorrect = false;
+    private boolean correct = false;
     private long qtid;
 
     public AnswerModel() { }
 
-    public AnswerModel(long aid, String text, boolean isCorrect, long qid) {
+    public AnswerModel(long aid, String text, boolean correct, long qid) {
         this.aid = aid;
         this.text = text;
-        this.isCorrect = isCorrect;
+        this.correct = correct;
         this.qtid = qid;
     }
 
@@ -32,10 +32,10 @@ public class AnswerModel implements Serializable {
     }
 
     public boolean isCorrect() {
-        return isCorrect;
+        return correct;
     }
     public void setCorrect(boolean correct) {
-        isCorrect = correct;
+        this.correct = correct;
     }
 
     public long getQtid() {

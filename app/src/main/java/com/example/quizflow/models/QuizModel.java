@@ -7,7 +7,7 @@ public class QuizModel implements Serializable {
     private String title = "";
     private String description = "";
     private String topic = "";   // category
-    private boolean isPublic;
+    private boolean mPublic;
     private String createdDate;
     private int questionCount = 0;
     private long duration = 0;   // in seconds
@@ -18,12 +18,12 @@ public class QuizModel implements Serializable {
 
     public QuizModel() { }
 
-    public QuizModel(Long qid, String title, String description, String topic, boolean isPublic, String createdDate, int questionCount, long duration, long uid, int attemptCount, byte questionType) {
+    public QuizModel(Long qid, String title, String description, String topic, boolean mPublic, String createdDate, int questionCount, long duration, long uid, int attemptCount, byte questionType) {
         this.qid = qid;
         this.title = title;
         this.description = description;
         this.topic = topic;
-        this.isPublic = isPublic;
+        this.mPublic = mPublic;
         this.createdDate = createdDate;
         this.questionCount = questionCount;
         this.duration = duration;
@@ -60,11 +60,15 @@ public class QuizModel implements Serializable {
         this.topic = topic;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public boolean isMPublic() {
+        return mPublic;
     }
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setMPublic(boolean mPublic) {
+        this.mPublic = mPublic;
+    }
+
+    public void setQid(long qid) {
+        this.qid = qid;
     }
 
     public String getCreatedDate() {
@@ -105,6 +109,9 @@ public class QuizModel implements Serializable {
         this.duration = duration;
     }
     public void setDurationFromString(String h, String m, String s) {
+        if (h == null || h.isEmpty()) h = "0";
+        if (m == null || m.isEmpty()) m = "0";
+        if (s == null || s.isEmpty()) s = "0";
         this.duration = Long.parseLong(h) * 3600 + Long.parseLong(m) * 60 + Long.parseLong(s);
     }
 

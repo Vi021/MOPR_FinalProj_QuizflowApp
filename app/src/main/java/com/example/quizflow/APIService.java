@@ -23,6 +23,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface APIService {
     // Register Account
@@ -56,14 +57,9 @@ public interface APIService {
     @POST(Refs.AUTH_URL + "reset-password")
     Call<ResponseBody> resetPassword(@Body ResetPasswordRequest request);
 
-    @POST(Refs.USER_URL)
-    Call<APIResponse> getUser(@Body String username);
-
-    @POST(Refs.USER_URL)
-    Call<APIResponse> getUser(@Body Long uid);
-
     @GET(Refs.AUTH_URL + "users/{uid}")
     Call<UserResponse> getUserByUid(@Path("uid") String uid);
+
     @Multipart
     @POST(Refs.AUTH_URL + "update-profile")
     Call<Map<String, Object>> updateProfileWithUid(
@@ -74,9 +70,18 @@ public interface APIService {
             @Part MultipartBody.Part image
     );
 
+    @POST(Refs.USER_URL)
+    Call<APIResponse> getUser(@Body String username);
+
+    @POST(Refs.USER_URL)
+    Call<APIResponse> getUser(@Body Long uid);
+
     @POST(Refs.QUIZ_URL + "create")
     Call<Map<String, Long>> createQuiz(@Body QuizEditorModel quiz);
 
     @POST(Refs.QUIZ_URL + "update")
     Call<ResponseBody> updateQuiz(@Body QuizEditorModel quiz);
+
+    @GET(Refs.QUIZ_URL + "{qid}/edit") // Use @GET not @POST
+    Call<QuizEditorModel> getQuizEditor(@Path("qid") Long qid, @Query("uid") Long uid);
 }
