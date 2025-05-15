@@ -1,6 +1,8 @@
 package com.example.quizflow.models;
 
-public class AnswerModel {
+import java.io.Serializable;
+
+public class AnswerModel implements Serializable {
     private long aid;
     private String text = "";
     private boolean isCorrect = false;

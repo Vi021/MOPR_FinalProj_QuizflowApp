@@ -54,6 +54,7 @@ public class QuizDetailDialogFragment extends DialogFragment {
         TextView txt_username = view.findViewById(R.id.txt_username);
         TextView txt_topic = view.findViewById(R.id.txt_topic);
 
+        TextView txt_edit = view.findViewById(R.id.txt_edit);
         TextView txt_start = view.findViewById(R.id.txt_start);
         TextView txt_quizTitle = view.findViewById(R.id.txt_quizTitle);
         TextView txt_quizDesc = view.findViewById(R.id.txt_quizDesc);
@@ -100,6 +101,7 @@ public class QuizDetailDialogFragment extends DialogFragment {
                 txt_quizDuration.setText(quiz.getDurationString());
                 txt_createdDate.setText(quiz.getCreatedDate());
                 txt_attemptCount.setText(String.valueOf(quiz.getAttemptCount()));
+
                 if (quiz.isPublic()) {
                     img_availability.setImageResource(R.drawable.ic_globe_white);
                     txt_availability.setText("Public");
@@ -107,9 +109,15 @@ public class QuizDetailDialogFragment extends DialogFragment {
                     img_availability.setImageResource(R.drawable.ic_lock_white);
                     txt_availability.setText("Private");
                 }
+
+                txt_edit.setVisibility((user != null && quiz.getUid() == user.getId()) ? View.VISIBLE : View.GONE);
+                txt_edit.setOnClickListener(v -> {
+                    // TODO: edit quiz
+                });
                 txt_start.setOnClickListener(v -> {
                     // TODO: start quiz
                 });
+
                 img_save.setOnClickListener(v -> {
                     // TODO: add to collection
                 });

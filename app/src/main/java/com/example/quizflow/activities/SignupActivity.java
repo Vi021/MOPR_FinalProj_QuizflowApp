@@ -159,8 +159,7 @@ public class SignupActivity extends AppCompatActivity {
         } else if (Utilities.isNotValidEmail(email)) {
             eTxt_email.setError("Please enter a valid email");
             return true;
-        } // TODO: email availability check
-
+        }
         eTxt_email.setError(null);
         return false;
     }
@@ -173,7 +172,7 @@ public class SignupActivity extends AppCompatActivity {
         } else if (Utilities.isNotValidUsername(username)) {
             eTxt_username.setError("Username must be 3-20 characters long and contain only letters, digits, and underscores");
             return true;
-        } // TODO: username availability check
+        }
 
         eTxt_username.setError(null);
         return false;

@@ -61,7 +61,7 @@ public class SearchActivity extends AppCompatActivity {
 
         CircleImageView cirImg_addQuiz = findViewById(R.id.cirImg_addQuiz);
         cirImg_addQuiz.setOnClickListener(v -> {
-            startActivity(new Intent(this, QuizEditorActivity.class));
+            startActivity(new Intent(this, QuizEditor2Activity.class));
         });
 
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);

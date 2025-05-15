@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizflow.R;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.adapters.QuestAdapter;
+import com.example.quizflow.adapters.QuestAdapter2;
 import com.example.quizflow.models.AnswerModel;
 import com.example.quizflow.models.QuestionModel;
 import com.example.quizflow.models.QuizEditorModel;
@@ -44,8 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// rigged, too many bugs
-public class QuizEditorActivity extends AppCompatActivity {
+public class QuizEditor2Activity extends AppCompatActivity {
     private Spinner spin_topic;
     private EditText eTxt_hour, eTxt_minute, eTxt_second, eTxt_quizTitle, eTxt_quizDesc;
     private TextView txt_questions;
@@ -54,11 +54,10 @@ public class QuizEditorActivity extends AppCompatActivity {
     private Button btn_done;
 
     private List<QuestionModel> questions = new ArrayList<>();
-    private QuestAdapter questionAdapter;
+    private QuestAdapter2 questionAdapter;
+    private QuizModel quiz;
 
-    private QuizModel quiz = new QuizModel();
-
-    private static int MAX_QUESTION = 60;
+    private static int MAX_QUESTION = 30;
     private final boolean[] isPublic = {true};
 
     @Override
@@ -89,7 +88,6 @@ public class QuizEditorActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        // validation? nah!
         ImageView img_back = findViewById(R.id.img_back);
         img_back.setOnClickListener(v -> onBackPressed());
 
@@ -106,7 +104,7 @@ public class QuizEditorActivity extends AppCompatActivity {
 
         btn_done = findViewById(R.id.btn_done);
         btn_done.setOnClickListener(v -> {
-            if (validateThis()) {
+            if (validateQuiz()) {
                 if (quiz.getQid() == -1L) {
                     createQuiz();
                 } else {
@@ -125,10 +123,7 @@ public class QuizEditorActivity extends AppCompatActivity {
         spin_topic.setAdapter(adapter);
         spin_topic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // i dunno
-            }
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 spin_topic.setSelection(0);
@@ -147,7 +142,6 @@ public class QuizEditorActivity extends AppCompatActivity {
             eTxt_minute.setText(String.valueOf((quiz.getDuration() % 3600) / 60));
             eTxt_second.setText(String.valueOf(quiz.getDuration() % 60));
         }
-
         LinearLayout lineL_duration = findViewById(R.id.lineL_duration);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             lineL_duration.setTooltipText("Quiz's duration");
@@ -178,7 +172,7 @@ public class QuizEditorActivity extends AppCompatActivity {
         txt_questions = findViewById(R.id.txt_questions);
         txt_questions.setText("Question(s): " + quiz.getQuestionCount());
 
-        questionAdapter = new QuestAdapter(this, questions, () -> txt_questions.setText("Questions: " + questions.size()));
+        questionAdapter = new QuestAdapter2(this, questions, () -> txt_questions.setText("Questions: " + questions.size()));
         recy_questions = findViewById(R.id.recy_questions);
         recy_questions.setAdapter(questionAdapter);
         recy_questions.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -190,11 +184,42 @@ public class QuizEditorActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             img_upload.setTooltipText("Upload a question file");
         }
-        //img_upload.setOnClickListener(view -> uploadQuestionFile());
     }
 
-    private boolean validateThis() {
+    private void addQuestion() {
+        if (questions.size() >= MAX_QUESTION) {
+            Toast t = Toast.makeText(this, "Sorry, but max " + MAX_QUESTION + " questions per quiz!", Toast.LENGTH_SHORT);
+            t.show();
+            new Handler().postDelayed(t::cancel, 1200);
+
+            return;
+        }
+
+        QuestionModel question = new QuestionModel();
+        question.setQtid((long) -questions.size() - 1);
+        question.setType("MCQ");
+        question.setAnswers(new ArrayList<>());
+        for (int i = 0; i < 4; i++) {
+            question.getAnswers().add(new AnswerModel());
+        }
+
+        questions.add(question);
+
+        questionAdapter.notifyItemInserted(questions.size());
+        //notifyItemChanged(0);
+
+        txt_questions.setText("Question(s): " + (questions != null ? questions.size() : 0));
+    }
+
+    private void loadQuiz() {
+        isPublic[0] = quiz.isPublic();
+        //questions = fetch via API with quiz.getQid()
+    }
+
+    private boolean validateQuiz() {
         boolean passed = true;
+
+        if (quiz == null) quiz = new QuizModel();
 
         if (eTxt_quizTitle.getText().toString().isEmpty()) {
             eTxt_quizTitle.setError("Please enter a quiz title");
@@ -205,13 +230,13 @@ public class QuizEditorActivity extends AppCompatActivity {
         }
 
         if (questions.isEmpty()) {
-            Toast.makeText(this, "Please add at least one question", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "A quiz must have at least 1 question", Toast.LENGTH_SHORT);
             passed = false;
         }
 
         for (QuestionModel question : questions) {
             if (question.getQuestion().isEmpty()) {
-                Toast t = Toast.makeText(this, "Please fill in all questions", Toast.LENGTH_SHORT);
+                Toast t = Toast.makeText(this, "All questions must not be empty", Toast.LENGTH_SHORT);
                 t.show();
                 new Handler().postDelayed(t::cancel, 1200);
 
@@ -219,18 +244,9 @@ public class QuizEditorActivity extends AppCompatActivity {
                 break;
             }
 
-//            if (question.getAnswers().isEmpty()) {
-//                Toast t = Toast.makeText(this, "Please add at least 2 answers for each question", Toast.LENGTH_SHORT);
-//                t.show();
-//                new Handler().postDelayed(t::cancel, 1200);
-//
-//                passed = false;
-//                break;
-//            }
-
             for (AnswerModel answer : question.getAnswers()) {
                 if (answer.getText().isEmpty()) {
-                    Toast t = Toast.makeText(this, "Please provide answers to all questions", Toast.LENGTH_SHORT);
+                    Toast t = Toast.makeText(this, "All answers of all questions must not be empty", Toast.LENGTH_SHORT);
                     t.show();
                     new Handler().postDelayed(t::cancel, 1200);
 
@@ -247,53 +263,14 @@ public class QuizEditorActivity extends AppCompatActivity {
         return passed;
     }
 
-    private void addQuestion() {
-        if (questions.size() >= MAX_QUESTION) {
-            Toast t = Toast.makeText(this, "Sorry, but max 60 questions per quiz!", Toast.LENGTH_SHORT);
-            t.show();
-            new Handler().postDelayed(t::cancel, 1200);
-
-            return;
-        }
-
-        QuestionModel question = new QuestionModel();
-        question.setQtid((long) questions.size() + 1);  //temp
-        question.setType("MCQ");
-        question.setAnswers(new ArrayList<>());
-        for (int i = 0; i < 4; i++) {
-            question.getAnswers().add(new AnswerModel());
-        }
-
-        questions.add(question);
-        questionAdapter.notifyItemInserted(questions.size() - 1);
-        questionAdapter.notifyItemChanged(0);
-        txt_questions.setText("Question(s): " + (questions != null ? questions.size() : 0));
-    }
-
-    private void loadQuiz() {
-        isPublic[0] = quiz.isPublic();
-        //questions = fetch via API with quiz.getQid()
-    }
-
     private void createQuiz() {
-        if (quiz == null) quiz = new QuizModel();
-
-        if (eTxt_quizTitle.getText().toString().isEmpty()) {
-            eTxt_quizTitle.setError("Please enter a quiz title");
-        } else {
-            eTxt_quizTitle.setError(null);
-            quiz.setTitle(eTxt_quizTitle.getText().toString());
-        }
-
         quiz.setDescription(eTxt_quizDesc.getText().toString());
         quiz.setTopic(TYPE.TOPICS.get(spin_topic.getSelectedItemPosition()));
         quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
         quiz.setPublic(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
-        quiz.setUid(-1L);
-
-        QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditorActivity.this.questions);
+        QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditor2Activity.this.questions);
         new Retrofit2Client().getAPI().createQuiz(quizEditorModel).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<Map<String, Long>> call, Response<Map<String, Long>> response) {
@@ -302,11 +279,11 @@ public class QuizEditorActivity extends AppCompatActivity {
                     if (qid != null) {
                         quiz.setQid(qid);
 
-                        Toast t = Toast.makeText(QuizEditorActivity.this, "Quiz created!", Toast.LENGTH_SHORT);
+                        Toast t = Toast.makeText(QuizEditor2Activity.this, "Quiz created!", Toast.LENGTH_SHORT);
                         t.show();
                         new Handler().postDelayed(t::cancel, 1200);
                     } else {
-                        Utilities.showError(QuizEditorActivity.this, "QF_ERR_SAVE_QUIZ", "Error: Quiz ID is null");
+                        Utilities.showError(QuizEditor2Activity.this, "QF_SAVE_QUIZ", "Error: Quiz ID is null");
                     }
                 } else {
                     String msg = "Unknown error";
@@ -317,25 +294,24 @@ public class QuizEditorActivity extends AppCompatActivity {
                             throw new RuntimeException(e);
                         }
                     }
-                    Utilities.showError(QuizEditorActivity.this, "QF_ERR_SAVE_QUIZ", "Error: " + msg);
+                    Utilities.showError(QuizEditor2Activity.this, "QF_SAVE_QUIZ", "Error: " + msg);
                 }
             }
 
             @Override
             public void onFailure(Call<Map<String, Long>> call, Throwable t) {
-                Utilities.showError(QuizEditorActivity.this, "QF_ERR_SAVE_QUIZ", "Failure: " + t.getMessage());
+                Utilities.showError(QuizEditor2Activity.this, "QF_SAVE_QUIZ", "Failure: " + t.getMessage());
             }
         });
     }
 
     private void updateQuiz() {
-        if (quiz.getQid() == null) return;
+        if (quiz.getQid() == null || quiz.getQid() == -1L) {
+            Toast t = Toast.makeText(this, "Quiz not found", Toast.LENGTH_SHORT);
+            t.show();
+            new Handler().postDelayed(t::cancel, 1200);
 
-        if (eTxt_quizTitle.getText().toString().isEmpty()) {
-            eTxt_quizTitle.setError("Please enter a quiz title");
-        } else {
-            eTxt_quizTitle.setError(null);
-            quiz.setTitle(eTxt_quizTitle.getText().toString());
+            return;
         }
 
         quiz.setDescription(eTxt_quizDesc.getText().toString());
@@ -344,12 +320,12 @@ public class QuizEditorActivity extends AppCompatActivity {
         quiz.setPublic(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
-        QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditorActivity.this.questions);
+        QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditor2Activity.this.questions);
         new Retrofit2Client().getAPI().updateQuiz(quizEditorModel).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast t = Toast.makeText(QuizEditorActivity.this, "Quiz updated!", Toast.LENGTH_SHORT);
+                    Toast t = Toast.makeText(QuizEditor2Activity.this, "Quiz updated!", Toast.LENGTH_SHORT);
                     t.show();
                     new Handler().postDelayed(t::cancel, 1200);
                 } else {
@@ -361,13 +337,13 @@ public class QuizEditorActivity extends AppCompatActivity {
                             throw new RuntimeException(e);
                         }
                     }
-                    Utilities.showError(QuizEditorActivity.this, "QF_ERR_UPDATE_QUIZ", "Error: " + msg);
+                    Utilities.showError(QuizEditor2Activity.this, "QF_UPDATE_QUIZ", "Error: " + msg);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Utilities.showError(QuizEditorActivity.this, "QF_ERR_UPDATE_QUIZ", "Failure: " + t.getMessage());
+                Utilities.showError(QuizEditor2Activity.this, "QF_UPDATE_QUIZ", "Failure: " + t.getMessage());
             }
         });
     }

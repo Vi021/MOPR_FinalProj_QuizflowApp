@@ -397,7 +397,7 @@ public class PasswordActivity extends AppCompatActivity {
             if (eTxt_oldPassword.getText().toString().isEmpty()) {
                 eTxt_oldPassword.setError("Old password is required");
                 return true;
-            } // TODO: old password check
+            }
 
             eTxt_oldPassword.setError(null);
         }
@@ -414,7 +414,7 @@ public class PasswordActivity extends AppCompatActivity {
             eTxt_password.setError(null);
             eTxt_retypePassword.setError("Passwords do not match");
             return true;
-        } // TODO: password update
+        }
 
         eTxt_retypePassword.setError(null);
         return false;

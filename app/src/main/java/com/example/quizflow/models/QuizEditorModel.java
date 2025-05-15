@@ -3,23 +3,23 @@ package com.example.quizflow.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class QuestionsModel implements Serializable {
-    private long qid;
+public class QuizEditorModel implements Serializable {
+    private QuizModel quiz;
     private List<QuestionModel> questions;
 
-    public QuestionsModel() {
+    public QuizEditorModel() {
     }
 
-    public QuestionsModel(long qid, List<QuestionModel> questions) {
-        this.qid = qid;
+    public QuizEditorModel(QuizModel quiz, List<QuestionModel> questions) {
+        this.quiz = quiz;
         this.questions = questions;
     }
 
-    public long getQid() {
-        return qid;
+    public QuizModel getQuiz() {
+        return quiz;
     }
-    public void setQid(long qid) {
-        this.qid = qid;
+    public void setQuiz(QuizModel quiz) {
+        this.quiz = quiz;
     }
 
     public List<QuestionModel> getQuestions() {

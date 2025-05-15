@@ -85,9 +85,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
         }
         TextWatcher watcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // TODO: no empty answer
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -95,13 +93,15 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                // TODO: no empty answer
-            }
+            public void afterTextChanged(Editable editable) { }
         };
         holder.eTxt_answer.addTextChangedListener(watcher);
 
-        holder.radBtn_correctAns.setChecked(answer.isCorrect());
+        try {
+            holder.radBtn_correctAns.setChecked(answer.isCorrect());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         holder.radBtn_correctAns.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 for (int i = 0; i < answers.size(); i++) {

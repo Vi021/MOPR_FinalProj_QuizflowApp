@@ -80,7 +80,7 @@ public class TopicActivity extends AppCompatActivity {
         cirImg_addQuiz.setOnClickListener(v -> {
             QuizModel quiz = new QuizModel();
             quiz.setTopic(Utilities.toUpperUnderscore(txt_cateName.getText().toString()));
-            Intent intent = new Intent(this, QuizEditorActivity.class);
+            Intent intent = new Intent(this, QuizEditor2Activity.class);
             intent.putExtra("quiz", quiz);
             startActivity(intent);
         });

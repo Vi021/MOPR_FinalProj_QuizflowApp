@@ -243,7 +243,7 @@ public class SigninActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             eTxt_email.setError("Please enter your email or username");
             return true;
-        } // TODO: email/username existence check
+        }
 
         eTxt_email.setError(null);
         return false;

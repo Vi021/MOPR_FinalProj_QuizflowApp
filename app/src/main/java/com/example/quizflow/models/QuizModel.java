@@ -10,8 +10,8 @@ public class QuizModel implements Serializable {
     private boolean isPublic;
     private String createdDate;
     private int questionCount = 0;
-    private long duration;   // in seconds
-    private long uid = -1;
+    private long duration = 0;   // in seconds
+    private long uid = -1L;
 
     private int attemptCount = 0;
     private int questionType = 0;   //1:mcq, 2:true/false, 3:short answer, 4: mcq + true/false, 5: mcq + short answer, 6: true/false + short answer, 7: all

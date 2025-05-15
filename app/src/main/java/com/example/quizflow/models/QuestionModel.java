@@ -1,8 +1,9 @@
 package com.example.quizflow.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class QuestionModel {
+public class QuestionModel implements Serializable {
     private Long qtid;
     private String question = "";
     private String type = "MCQ";

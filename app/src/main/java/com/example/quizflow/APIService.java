@@ -1,6 +1,6 @@
 package com.example.quizflow;
 
-import com.example.quizflow.models.QuizModel;
+import com.example.quizflow.models.QuizEditorModel;
 import com.example.quizflow.requests.LoginRequest;
 import com.example.quizflow.requests.RegisterRequest;
 import com.example.quizflow.requests.ResendOtpRequest;
@@ -21,7 +21,6 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
@@ -75,9 +74,9 @@ public interface APIService {
             @Part MultipartBody.Part image
     );
 
-    @POST(Refs.QUIZ_URL + "{id}")
-    Call<APIResponse> getQuiz(@Body Long qid);
-
     @POST(Refs.QUIZ_URL + "create")
-    Call<ResponseBody> saveQuiz(@Body QuizModel quiz);
+    Call<Map<String, Long>> createQuiz(@Body QuizEditorModel quiz);
+
+    @POST(Refs.QUIZ_URL + "update")
+    Call<ResponseBody> updateQuiz(@Body QuizEditorModel quiz);
 }

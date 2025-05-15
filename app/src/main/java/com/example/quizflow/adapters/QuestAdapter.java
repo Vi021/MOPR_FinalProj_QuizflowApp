@@ -2,6 +2,7 @@ package com.example.quizflow.adapters;
 
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,11 +26,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHolder> {
-    private Context context;
-    private List<QuestionModel> questions;
+    private static final int MAX_ANSWER = 4;
+    private final Context context;
+    private final List<QuestionModel> questions;
     private Runnable onQuestionChanged;
-
-    private static int MAX_ANSWER = 4;
 
     public QuestAdapter(Context context, List<QuestionModel> questions) {
         this.context = context;
@@ -40,31 +40,6 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
         this.context = context;
         this.questions = questions;
         this.onQuestionChanged = onQuestionChanged;
-    }
-
-    public class QuestVewHolder extends RecyclerView.ViewHolder {
-        private TextView txt_questionNum;
-        private EditText eTxt_question;
-        private ImageView img_mcq, img_tf, img_shortAns, img_up, img_down, img_remove;
-        private RecyclerView recy_answers;
-        private LinearLayout lineL_addAns;
-        private AnswerAdapter adapter;
-
-        public QuestVewHolder(@NonNull View itemView) {
-            super(itemView);
-            txt_questionNum = itemView.findViewById(R.id.txt_questionNum);
-            eTxt_question = itemView.findViewById(R.id.eTxt_question);
-            img_mcq = itemView.findViewById(R.id.img_mcq);
-            img_tf = itemView.findViewById(R.id.img_tf);
-            img_shortAns = itemView.findViewById(R.id.img_shortAns);
-            img_up = itemView.findViewById(R.id.img_up);
-            img_down = itemView.findViewById(R.id.img_down);
-            img_remove = itemView.findViewById(R.id.img_remove);
-            recy_answers = itemView.findViewById(R.id.recy_answers);
-            lineL_addAns = itemView.findViewById(R.id.lineL_addAns);
-
-            recy_answers.setLayoutManager(new LinearLayoutManager(itemView.getContext(), RecyclerView.VERTICAL, false));
-        }
     }
 
     @NonNull
@@ -97,17 +72,15 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // TODO: no empty question
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                question.setQuestion(s.toString());
+                question.setQuestion(s.toString().trim());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // TODO: no empty question
             }
         };
         holder.eTxt_question.addTextChangedListener(watcher);
@@ -198,6 +171,7 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
         }
 
         notifyItemMoved(fromPos, toPos);
+        Handler h = new Handler();
         notifyItemChanged(fromPos);
         notifyItemChanged(toPos);
     }
@@ -255,5 +229,35 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestVewHold
 
         question.setType(type);
         this.notifyItemChanged(pos);
+    }
+
+    public class QuestVewHolder extends RecyclerView.ViewHolder {
+        private final TextView txt_questionNum;
+        private final EditText eTxt_question;
+        private final ImageView img_mcq;
+        private final ImageView img_tf;
+        private final ImageView img_shortAns;
+        private final ImageView img_up;
+        private final ImageView img_down;
+        private final ImageView img_remove;
+        private final RecyclerView recy_answers;
+        private final LinearLayout lineL_addAns;
+        private AnswerAdapter adapter;
+
+        public QuestVewHolder(@NonNull View itemView) {
+            super(itemView);
+            txt_questionNum = itemView.findViewById(R.id.txt_questionNum);
+            eTxt_question = itemView.findViewById(R.id.eTxt_question);
+            img_mcq = itemView.findViewById(R.id.img_mcq);
+            img_tf = itemView.findViewById(R.id.img_tf);
+            img_shortAns = itemView.findViewById(R.id.img_shortAns);
+            img_up = itemView.findViewById(R.id.img_up);
+            img_down = itemView.findViewById(R.id.img_down);
+            img_remove = itemView.findViewById(R.id.img_remove);
+            recy_answers = itemView.findViewById(R.id.recy_answers);
+            lineL_addAns = itemView.findViewById(R.id.lineL_addAns);
+
+            recy_answers.setLayoutManager(new LinearLayoutManager(itemView.getContext(), RecyclerView.VERTICAL, false));
+        }
     }
 }

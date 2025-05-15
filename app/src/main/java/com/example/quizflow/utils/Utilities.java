@@ -131,11 +131,6 @@ public class Utilities {
         return !android.util.Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches();
     }
 
-    public static boolean isEmailAvailable(String email) {
-        // TODO: email availability check
-        return false;
-    }
-
     public static boolean isNotValidPassword(String password) {
         // check if the password contains at least one digit, one lowercase letter, one uppercase letter, and one special character, length of 6+
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{6,}$";
@@ -145,11 +140,6 @@ public class Utilities {
     public static boolean isNotValidUsername(String username) {
         // check if the username contains only letters, digits, underscores, ond 3-20 in length
         return !(username != null && username.trim().matches("^[a-zA-Z0-9_]{3,20}$"));
-    }
-
-    public static boolean isUsernameAvailable(String fullname) {
-        // TODO: username availability check
-        return false;
     }
 
     public static boolean isNotValidFullname(String name) {

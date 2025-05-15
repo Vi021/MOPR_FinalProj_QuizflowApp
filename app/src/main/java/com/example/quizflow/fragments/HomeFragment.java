@@ -27,17 +27,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
-import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SearchActivity;
 import com.example.quizflow.activities.SigninActivity;
-import com.example.quizflow.activities.QuizEditorActivity;
+import com.example.quizflow.activities.QuizEditor2Activity;
 import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.activities.WaitingActivity;
 import com.example.quizflow.adapters.TopicAdapter;
 import com.example.quizflow.QuestionModel;
 import com.example.quizflow.models.AccountModel;
-import com.example.quizflow.respones.UserResponse;
 import com.example.quizflow.utils.Refs;
 import com.example.quizflow.utils.TYPE;
 import com.example.quizflow.utils.Utilities;
@@ -158,7 +156,7 @@ public class HomeFragment extends Fragment {
 
         LinearLayout lineL_createQuiz = view.findViewById(R.id.lineL_createQuiz);
         lineL_createQuiz.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), QuizEditorActivity.class));
+            startActivity(new Intent(requireContext(), QuizEditor2Activity.class));
         });
 
         LinearLayout lineL_singlePlayer = view.findViewById(R.id.lineL_singlePlayer);
