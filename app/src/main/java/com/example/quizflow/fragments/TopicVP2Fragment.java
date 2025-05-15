@@ -66,6 +66,17 @@ public class TopicVP2Fragment extends Fragment {
         });
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            topicViewModel.getTopics().observe(getViewLifecycleOwner(), topics -> {
+                topicAdapter.setCategories(topics);
+                displayNone();
+            });
+        }
+    }
+
     private void displayNone() {
         if (topicAdapter.getItemCount() == 0) {
             txt_none.setVisibility(View.VISIBLE);

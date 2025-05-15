@@ -76,10 +76,10 @@ public class QuizEditor2Activity extends AppCompatActivity {
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
         quiz = (QuizModel) getIntent().getSerializableExtra("quiz");
-        if (quiz != null) {
+        if (quiz.getQid() != -1L) {
             loadQuiz();
         } else {
-            quiz = new QuizModel();
+            if (quiz == null) quiz = new QuizModel();
             initViews();
 
             if (questions.isEmpty()) lineL_addQuestion.performClick();

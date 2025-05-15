@@ -22,19 +22,19 @@ import com.example.quizflow.utils.COLOR;
 import com.example.quizflow.utils.Refs;
 import com.example.quizflow.utils.Utilities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
     private Context context;
-    private final List<QuizModel> quizzes;
+    private List<QuizModel> quizzes;
 
     private AccountModel user;
 
     public void setQuizzes(List<QuizModel> quizzes) {
-        this.quizzes.clear();
-        this.quizzes.addAll(quizzes);
+        this.quizzes = quizzes;
         notifyDataSetChanged();
     }
 

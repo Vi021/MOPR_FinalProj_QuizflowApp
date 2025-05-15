@@ -18,19 +18,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizflow.R;
+import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.adapters.QuizAdapter;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.utils.TYPE;
 import com.example.quizflow.utils.Utilities;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TopicActivity extends AppCompatActivity {
     private RecyclerView recy_cateQuizzes;
     private TextView txt_none;
+    private String category;
+
+    private QuizAdapter quizAdapter;
+    private List<QuizModel> quizzes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,7 @@ public class TopicActivity extends AppCompatActivity {
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
         initViews();
+        getCategoryQuizzes();
     }
 
     private void initViews() {
@@ -57,9 +67,9 @@ public class TopicActivity extends AppCompatActivity {
         ImageView img_cateIcon = findViewById(R.id.img_cateIcon);
 
         TextView txt_cateName = findViewById(R.id.txt_cateName);
-        String category = getIntent().getStringExtra("category");
+        category = getIntent().getStringExtra("category");
         if (category != null) {
-            txt_cateName.setText(Utilities.toUpperUnderscore(category));
+            txt_cateName.setText(Utilities.toTitleCase(category));
 
             if (TYPE.TOPIC.get(category) != null) {
                 img_cateIcon.setImageResource(TYPE.TOPIC.get(category));
@@ -72,14 +82,17 @@ public class TopicActivity extends AppCompatActivity {
             img_cateIcon.setImageTintList(ColorStateList.valueOf(getColor(R.color.xanh_ngoc)));
         }
 
+        quizAdapter = new QuizAdapter(this, quizzes);
         recy_cateQuizzes = findViewById(R.id.recy_cateQuizzes);
+        recy_cateQuizzes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recy_cateQuizzes.setAdapter(quizAdapter);
         txt_none = findViewById(R.id.txt_none);
         getCategoryQuizzes();
 
         CircleImageView cirImg_addQuiz = findViewById(R.id.cirImg_addQuiz);
         cirImg_addQuiz.setOnClickListener(v -> {
             QuizModel quiz = new QuizModel();
-            quiz.setTopic(Utilities.toUpperUnderscore(txt_cateName.getText().toString()));
+            quiz.setTopic(category);
             Intent intent = new Intent(this, QuizEditor2Activity.class);
             intent.putExtra("quiz", quiz);
             startActivity(intent);
@@ -87,70 +100,39 @@ public class TopicActivity extends AppCompatActivity {
     }
 
     private void getCategoryQuizzes() {
-        // TODO: load when getting quizzes by category
-        //       if empty, display text
+        Retrofit2Client.getAPI().getPublicQuizzesByTopic(category).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<List<QuizModel>> call, Response<List<QuizModel>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    quizzes = response.body();
 
-        List<QuizModel> artQuizzes = new ArrayList<>();
+                    runOnUiThread(() -> loadQuizzes());
+                } else {
+                    String msg = "Unknown error";
+                    if (response.errorBody() != null) {
+                        try {
+                            msg = response.errorBody().string();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    Utilities.showError(TopicActivity.this, "QF_CAT_QUIZZES", "Error: " + msg);
+                }
+            }
 
-        artQuizzes.add(new QuizModel(
-                1L,
-                "Famous Paintings Quiz",
-                "Test your knowledge of famous paintings and their artists.",
-                "ART",
-                true,
-                "2025-05-01 14:00:00",
-                10,
-                600,
-                101L,
-                25,
-                (byte) 1
-        ));
+            @Override
+            public void onFailure(Call<List<QuizModel>> call, Throwable t) {
+                Utilities.showError(TopicActivity.this, "QF_CAT_QUIZZES", "Failure: " + t.getMessage());
+            }
+        });
+    }
 
-        artQuizzes.add(new QuizModel(
-                2L,
-                "Modern Art Masterpieces",
-                "A quiz on key figures and works in modern art.",
-                "ART",
-                true,
-                "2025-04-28 09:30:00",
-                8,
-                480,
-                102L,
-                15,
-                (byte) 4
-        ));
-
-        artQuizzes.add(new QuizModel(
-                3L,
-                "Art History Basics",
-                "Covers art history from ancient times to the Renaissance.",
-                "ART",
-                false,
-                "2025-05-02 18:45:00",
-                12,
-                900,
-                103L,
-                5,
-                (byte) 7
-        ));
-
-        artQuizzes.add(new QuizModel(
-                4L,
-                "Sculpture & Statues",
-                "Identify famous sculptures and their creators.",
-                "ART",
-                true,
-                "2025-04-25 12:20:00",
-                7,
-                420,
-                104L,
-                9,
-                (byte) 2
-        ));
-
-        recy_cateQuizzes.setAdapter(new QuizAdapter(this, artQuizzes));
-        recy_cateQuizzes.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        recy_cateQuizzes.setHasFixedSize(true);
-        txt_none.setVisibility(View.GONE);
+    private void loadQuizzes() {
+        if (quizzes == null || quizzes.isEmpty()) {
+            txt_none.setVisibility(View.VISIBLE);
+        } else {
+            txt_none.setVisibility(View.GONE);
+        }
+        quizAdapter.setQuizzes(quizzes);
     }
 }

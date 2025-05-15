@@ -2,6 +2,7 @@ package com.example.quizflow;
 
 import com.example.quizflow.models.QuizEditorModel;
 import com.example.quizflow.models.QuizModel;
+import com.example.quizflow.models.UserModel;
 import com.example.quizflow.requests.CoinHistoryRequest;
 import com.example.quizflow.requests.CoinUpdateRequest;
 import com.example.quizflow.requests.JoinLobbyRequest;
@@ -137,6 +138,15 @@ public interface APIService {
     @GET(Refs.QUIZ_URL + "{uid}/attempted")
     Call<List<QuizModel>> getQuizzesAttemptedByUid(@Path("uid") Long uid);
 
+    @GET(Refs.QUIZ_URL + "{topic}/public")
+    Call<List<QuizModel>> getPublicQuizzesByTopic(@Path("topic") String topic);
+
+    @GET(Refs.QUIZ_URL + "public/{keyword}")
+    Call<List<QuizModel>> getPublicQuizzesByKeyword(@Path("keyword") String keyword);
+
     @GET(Refs.AUTH_URL + "rankings")
     Call<List<RankingResponse>> getRankings(@Query("period") String period);
+
+    @GET(Refs.AUTH_URL + "usrn/{keyword}")
+    Call<List<UserModel>> getUsersByUsername(@Path("keyword") String keyword);
 }

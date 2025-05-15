@@ -52,6 +52,8 @@ public class UserVP2Fragment extends Fragment {
         searchViewModel.getSearchQuery().observe(getViewLifecycleOwner(), query -> {
             if (query != null) {
                 userViewModel.fetchUsers(query.trim());
+            } else {
+                displayNone();
             }
         });
 

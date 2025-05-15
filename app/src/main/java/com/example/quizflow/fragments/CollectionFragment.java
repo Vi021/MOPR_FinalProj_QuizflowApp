@@ -34,7 +34,6 @@ public class CollectionFragment extends Fragment {
     private TextView txt_noHist, txt_noCrea;
 
     private CollectionAdapter historyAdapter, createdAdapter;
-    private Retrofit2Client ret2 = new Retrofit2Client();
     private List<QuizModel> attemptedList = new ArrayList<>();
     private List<QuizModel> createdList = new ArrayList<>();
 
@@ -67,7 +66,7 @@ public class CollectionFragment extends Fragment {
     }
 
     private void getData() {
-       ret2.getAPI().getQuizzesAttemptedByUid(Utilities.getUID(requireContext()))
+       Retrofit2Client.getAPI().getQuizzesAttemptedByUid(Utilities.getUID(requireContext()))
                 .enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<List<QuizModel>> call, Response<List<QuizModel>> response) {
@@ -94,7 +93,7 @@ public class CollectionFragment extends Fragment {
                     }
                 });
 
-       ret2.getAPI().getQuizzesCreatedByUid(Utilities.getUID(requireContext())).enqueue(new Callback<>() {
+       Retrofit2Client.getAPI().getQuizzesCreatedByUid(Utilities.getUID(requireContext())).enqueue(new Callback<>() {
            @Override
            public void onResponse(Call<List<QuizModel>> call, Response<List<QuizModel>> response) {
                if (response.isSuccessful() && response.body() != null) {

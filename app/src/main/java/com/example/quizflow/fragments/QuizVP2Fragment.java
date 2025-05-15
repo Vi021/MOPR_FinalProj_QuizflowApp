@@ -53,6 +53,8 @@ public class QuizVP2Fragment extends Fragment {
         searchViewModel.getSearchQuery().observe(getViewLifecycleOwner(), query -> {
             if (query != null) {
                 quizViewModel.fetchQuizzes(query.trim());
+            } else {
+                displayNone();
             }
         });
 
@@ -60,6 +62,7 @@ public class QuizVP2Fragment extends Fragment {
         quizViewModel.getQuizzes().observe(getViewLifecycleOwner(), quizzes -> {
             quizAdapter.setQuizzes(quizzes);
             displayNone();
+
         });
     }
 

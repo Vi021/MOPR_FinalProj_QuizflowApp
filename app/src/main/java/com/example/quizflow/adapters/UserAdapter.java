@@ -67,9 +67,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
 
         holder.lineL_user.setOnClickListener(v -> {
-            Intent intent = new Intent(context, UserDetailActivity.class);
-            intent.putExtra("USER_DETAIL_ID", user.getId());        // TODO: link
-            context.startActivity(intent);
+//            Intent intent = new Intent(context, UserDetailActivity.class);
+//            intent.putExtra("USER_DETAIL_ID", user.getId());        // TODO: link
+//            context.startActivity(intent);
         });
     }
 
