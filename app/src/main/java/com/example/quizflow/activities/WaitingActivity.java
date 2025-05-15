@@ -103,6 +103,7 @@ public class WaitingActivity extends AppCompatActivity {
                     Intent intent = new Intent(WaitingActivity.this, MultiplayerQuestionActivity.class);
                     intent.putExtra("lid", lid);
                     intent.putExtra("uid", uid);
+                    intent.putExtra("isHost", isHost);
                     
                     // Lấy qid từ lobby hiện tại nếu có
                     Utilities.getLobbyInfoAsync(WaitingActivity.this, lid, new Utilities.LobbyInfoCallback() {
@@ -193,6 +194,7 @@ public class WaitingActivity extends AppCompatActivity {
                                 intent.putExtra("lid", lid);
                                 intent.putExtra("uid", uid);
                                 intent.putExtra("qid", status.getQid());
+                                intent.putExtra("isHost", isHost);
                                 startActivity(intent);
                                 finish();
                             }

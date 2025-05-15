@@ -1,6 +1,6 @@
 package com.example.quizflow;
 
-import com.example.quizflow.models.QuizEditorModel;
+import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.requests.CoinHistoryRequest;
 import com.example.quizflow.requests.CoinUpdateRequest;
 import com.example.quizflow.requests.JoinLobbyRequest;
@@ -32,6 +32,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -110,6 +111,9 @@ public interface APIService {
 
     @POST("api/lobby/join")
     Call<LobbyResponse> joinLobby(@Body JoinLobbyRequest request);
+
+    @GET("api/lobby/check/{code}")
+    Call<Boolean> checkLobbyCode(@Path("code") String code);
 
     @GET("api/lobby/{lid}")
     Call<LobbyResponse> getLobbyInfo(@Path("lid") Long lid);

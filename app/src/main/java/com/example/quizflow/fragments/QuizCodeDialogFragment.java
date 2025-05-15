@@ -2,6 +2,7 @@ package com.example.quizflow.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuizCodeDialogFragment extends DialogFragment {
+    private static final String TAG = "QuizCodeDialogFragment";
     private boolean isSinglePlayer;
 
     public static QuizCodeDialogFragment newInstance(boolean isSinglePlayer) {
@@ -77,75 +79,90 @@ public class QuizCodeDialogFragment extends DialogFragment {
             }
 
             if (isSinglePlayer) {
+                // Single player always uses Quiz ID
                 if (Utilities.isNotValidQuizId(inputCode)) {
                     editQuizCode.setError("Enter a valid Quiz ID");
                     return;
                 }
                 long qid = Long.parseLong(inputCode);
-                Utilities.getQuizByIdAsync(requireContext(), qid, new Utilities.QuizCallback() {
+                loadQuizAndStartGame(qid);
+            } else {
+                // For multiplayer, first try to interpret as a lobby code
+                checkAndJoinLobby(inputCode, uid);
+            }
+        });
+    }
+    
+    private void loadQuizAndStartGame(long qid) {
+        Utilities.getQuizByIdAsync(requireContext(), qid, new Utilities.QuizCallback() {
+            @Override
+            public void onSuccess(QuizResponse quiz) {
+                Intent intent = new Intent(requireContext(), QuestionActivity.class);
+                intent.putExtra("qid", qid);
+                intent.putExtra("isMultiPlayer", false);
+                startActivity(intent);
+                dismiss();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                showError("Invalid Quiz ID: " + error);
+            }
+        });
+    }
+    
+    private void loadQuizAndCreateLobby(long qid, Long uid) {
+        Utilities.getQuizByIdAsync(requireContext(), qid, new Utilities.QuizCallback() {
+            @Override
+            public void onSuccess(QuizResponse quiz) {
+                // Create new lobby with this quiz
+                LobbyRequest request = new LobbyRequest();
+                request.setQid(qid);
+                request.setUid(uid);
+                Utilities.createLobbyAsync(requireContext(), request, new Utilities.LobbyCallback() {
                     @Override
-                    public void onSuccess(QuizResponse quiz) {
-                        Intent intent = new Intent(requireContext(), QuestionActivity.class);
-                        intent.putExtra("qid", qid);
-                        intent.putExtra("isMultiPlayer", false);
+                    public void onSuccess(LobbyResponse lobby) {
+                        Intent intent = new Intent(requireContext(), WaitingActivity.class);
+                        intent.putExtra("lid", lobby.getLid());
+                        intent.putExtra("uid", uid);
+                        intent.putExtra("code", lobby.getCode());
+                        intent.putExtra("isHost", true);
                         startActivity(intent);
                         dismiss();
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        editQuizCode.setError("Invalid Quiz ID");
-                        Utilities.showError(requireContext(), "QuizCodeDialog", error);
+                        showError("Failed to create lobby: " + error);
                     }
                 });
-            } else {
-                // Multiplayer: Kiểm tra xem input là Quiz ID (số) hay Lobby Code (chuỗi)
-                if (inputCode.matches("\\d+")) { // If numeric (Quiz ID)
-                    if (Utilities.isNotValidQuizId(inputCode)) {
-                        editQuizCode.setError("Enter a valid Quiz ID");
-                        return;
-                    }
-                    long qid = Long.parseLong(inputCode);
-                    Utilities.getQuizByIdAsync(requireContext(), qid, new Utilities.QuizCallback() {
-                        @Override
-                        public void onSuccess(QuizResponse quiz) {
-                            // Create new lobby
-                            LobbyRequest request = new LobbyRequest();
-                            request.setQid(qid);
-                            request.setUid(uid);
-                            Utilities.createLobbyAsync(requireContext(), request, new Utilities.LobbyCallback() {
-                                @Override
-                                public void onSuccess(LobbyResponse lobby) { // Sửa Utilities.LobbyResponse thành LobbyResponse
-                                    Intent intent = new Intent(requireContext(), WaitingActivity.class);
-                                    intent.putExtra("lid", lobby.getLid());
-                                    intent.putExtra("uid", uid);
-                                    intent.putExtra("code", lobby.getCode());
-                                    intent.putExtra("isHost", true);
-                                    startActivity(intent);
-                                    dismiss();
-                                }
+            }
 
-                                @Override
-                                public void onFailure(String error) {
-                                    editQuizCode.setError("Failed to create lobby");
-                                    Utilities.showError(requireContext(), "QuizCodeDialog", error);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(String error) {
-                            editQuizCode.setError("Invalid Quiz ID");
-                            Utilities.showError(requireContext(), "QuizCodeDialog", error);
-                        }
-                    });
-                } else { // If string (Lobby Code)
+            @Override
+            public void onFailure(String error) {
+                showError("Invalid Quiz ID: " + error);
+            }
+        });
+    }
+    
+    private void joinLobby(String code, Long uid) {
+        Log.d(TAG, "Checking if lobby code exists: " + code);
+        
+        // First, check if the lobby code exists
+        Utilities.checkLobbyCodeAsync(requireContext(), code, new Utilities.LobbyCodeCallback() {
+            @Override
+            public void onSuccess(boolean exists) {
+                if (exists) {
+                    Log.d(TAG, "Lobby code exists, joining lobby: " + code);
+                    // Lobby code exists, proceed with joining
                     JoinLobbyRequest request = new JoinLobbyRequest();
-                    request.setCode(inputCode);
+                    request.setCode(code);
                     request.setUid(uid);
+                    
                     Utilities.joinLobbyAsync(requireContext(), request, new Utilities.LobbyCallback() {
                         @Override
-                        public void onSuccess(LobbyResponse lobby) { // Sửa Utilities.LobbyResponse thành LobbyResponse
+                        public void onSuccess(LobbyResponse lobby) {
+                            Log.d(TAG, "Successfully joined lobby: lid=" + lobby.getLid() + ", code=" + lobby.getCode() + ", qid=" + lobby.getQid());
                             Intent intent = new Intent(requireContext(), WaitingActivity.class);
                             intent.putExtra("lid", lobby.getLid());
                             intent.putExtra("uid", uid);
@@ -157,12 +174,73 @@ public class QuizCodeDialogFragment extends DialogFragment {
 
                         @Override
                         public void onFailure(String error) {
-                            editQuizCode.setError("Invalid Lobby Code");
-                            Utilities.showError(requireContext(), "QuizCodeDialog", error);
+                            Log.e(TAG, "Failed to join lobby with code: " + code + ", error: " + error);
+                            showError("Error joining lobby: " + error);
                         }
                     });
+                } else {
+                    Log.e(TAG, "Lobby code does not exist: " + code);
+                    showError("Invalid lobby code. Please check and try again.");
                 }
             }
+
+            @Override
+            public void onFailure(String error) {
+                Log.e(TAG, "Failed to check if lobby code exists: " + code + ", error: " + error);
+                showError("Error checking lobby code: " + error);
+            }
         });
+    }
+    
+    private void checkAndJoinLobby(String inputCode, Long uid) {
+        Log.d(TAG, "Checking if code is a valid lobby code: " + inputCode);
+        
+        // First, check if it's a valid lobby code
+        Utilities.checkLobbyCodeAsync(requireContext(), inputCode, new Utilities.LobbyCodeCallback() {
+            @Override
+            public void onSuccess(boolean exists) {
+                if (exists) {
+                    Log.d(TAG, "Code is a valid lobby code, joining: " + inputCode);
+                    // It's a valid lobby code, join it
+                    joinLobby(inputCode, uid);
+                } else {
+                    Log.d(TAG, "Code is not a valid lobby code, trying as a quiz ID: " + inputCode);
+                    // Not a valid lobby code, try as a quiz ID
+                    tryAsQuizId(inputCode, uid);
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Log.e(TAG, "Error checking lobby code: " + error);
+                // Network error, try as quiz ID as fallback
+                tryAsQuizId(inputCode, uid);
+            }
+        });
+    }
+    
+    private void tryAsQuizId(String inputCode, Long uid) {
+        // Check if it looks like a valid quiz ID (numeric and 6+ digits)
+        if (inputCode.matches("\\d+") && inputCode.length() >= 6) {
+            try {
+                long qid = Long.parseLong(inputCode);
+                Log.d(TAG, "Trying code as quiz ID: " + qid);
+                loadQuizAndCreateLobby(qid, uid);
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Error parsing code as quiz ID: " + e.getMessage());
+                showError("Invalid input format. Please enter a valid Lobby Code or Quiz ID.");
+            }
+        } else {
+            Log.e(TAG, "Input is neither a valid lobby code nor a valid quiz ID format: " + inputCode);
+            showError("Invalid input. Please enter a valid Lobby Code or Quiz ID.");
+        }
+    }
+    
+    private void showError(String message) {
+        TextInputEditText editQuizCode = getView().findViewById(R.id.edit_quizCode);
+        if (editQuizCode != null) {
+            editQuizCode.setError(message);
+        }
+        Utilities.showError(requireContext(), TAG, message);
     }
 }
