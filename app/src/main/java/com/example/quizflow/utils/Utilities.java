@@ -5,8 +5,15 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.quizflow.APIService;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.models.AccountModel;
+import com.example.quizflow.requests.CoinHistoryRequest;
+import com.example.quizflow.requests.CoinUpdateRequest;
+import com.example.quizflow.requests.QuizResponseRequest;
+import com.example.quizflow.respones.AttemptRequest;
+import com.example.quizflow.respones.AttemptResponse;
+import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.respones.UserResponse;
 
 import java.util.Locale;
@@ -160,5 +167,131 @@ public class Utilities {
     public static boolean isNotValidPhoneNumber(String phoneNumber) {
         // check if the phone number is valid
         return !android.util.Patterns.PHONE.matcher(phoneNumber).matches();
+    }
+
+    public static boolean isNotValidQuizId(String quizId) {
+        try {
+            Long.parseLong(quizId.trim());
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+        }
+    }
+
+    // Fetch quiz by qid asynchronously from API
+    public static void getQuizByIdAsync(Context context, long qid, QuizCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().getQuizById(qid).enqueue(new Callback<QuizResponse>() {
+            @Override
+            public void onResponse(Call<QuizResponse> call, Response<QuizResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure("Failed to fetch quiz, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuizResponse> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Create attempt asynchronously
+    public static void createAttemptAsync(Context context, AttemptRequest attempt, AttemptCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().createAttempt(attempt).enqueue(new Callback<AttemptResponse>() {
+            @Override
+            public void onResponse(Call<AttemptResponse> call, Response<AttemptResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure("Failed to create attempt, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AttemptResponse> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Create quiz response asynchronously
+    public static void createQuizResponseAsync(Context context, QuizResponseRequest response, GenericCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().createQuizResponse(response).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure("Failed to save response, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Update user coins asynchronously
+    public static void updateUserCoinsAsync(Context context, long uid, int coins, GenericCallback callback) {
+        initRetrofit();
+        CoinUpdateRequest request = new CoinUpdateRequest();
+        request.setCoins(coins);
+        retrofitClient.getAPI().updateUserCoins(uid, request).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure("Failed to update coins, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    // Create coin history asynchronously
+    public static void createCoinHistoryAsync(Context context, CoinHistoryRequest coinHistory, GenericCallback callback) {
+        initRetrofit();
+        retrofitClient.getAPI().createCoinHistory(coinHistory).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure("Failed to save coin history, HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    public interface QuizCallback {
+        void onSuccess(QuizResponse quiz);
+        void onFailure(String error);
+    }
+
+    public interface AttemptCallback {
+        void onSuccess(AttemptResponse attempt);
+        void onFailure(String error);
+    }
+
+    public interface GenericCallback {
+        void onSuccess();
+        void onFailure(String error);
     }
 }

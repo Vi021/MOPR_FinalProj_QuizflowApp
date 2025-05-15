@@ -1,6 +1,7 @@
 package com.example.quizflow.adapters;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,27 +18,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewholder> {
-
+    private static final String TAG = "QuestionAdapter";
     private final String correctAnswer;
-    private final List<String> users;
+    private final List<String> answers; // Thêm biến answers
+    private final List<String> aids;
     private final Score returnScore;
-    private ViewholderQuestionBinding binding;
+    private String clickedAnswer = null;
 
     public interface Score {
         void amount(int number, String clickedAnswer);
     }
 
-    public QuestionAdapter(String correctAnswer, List<String> users, Score returnScore) {
+    public QuestionAdapter(String correctAnswer, List<String> answers, List<String> aids, Score returnScore) {
         this.correctAnswer = correctAnswer;
-        this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
+        this.answers = answers != null ? new ArrayList<>(answers) : new ArrayList<>();
+        this.aids = aids != null ? new ArrayList<>(aids) : new ArrayList<>();
         this.returnScore = returnScore;
+        Log.d(TAG, "Initialized: correctAnswer=" + correctAnswer + ", answers=" + answers + ", aids=" + aids);
     }
 
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        binding = ViewholderQuestionBinding.inflate(inflater, parent, false);
+        ViewholderQuestionBinding binding = ViewholderQuestionBinding.inflate(inflater, parent, false);
         return new Viewholder(binding);
     }
 
@@ -45,50 +49,19 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         ViewholderQuestionBinding binding = holder.binding;
-        binding.answerTxt.setText(differ.getCurrentList().get(position));
+        String answer = differ.getCurrentList().get(position);
+        String aid = aids.get(position);
+        binding.answerTxt.setText(answer);
+        Log.d(TAG, "Binding position=" + position + ", answer=" + answer + ", aid=" + aid);
 
-        final int currentPos = getCurrentPosition(correctAnswer);
+        // Reset giao diện
+        binding.answerTxt.setBackgroundResource(R.drawable.answer_white);
+        binding.answerTxt.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
 
-        if (differ.getCurrentList().size() == 5 && currentPos == position) {
-            binding.answerTxt.setBackgroundResource(R.drawable.green_bg);
-            binding.answerTxt.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    null,
-                    null,
-                    ContextCompat.getDrawable(binding.getRoot().getContext(), R.drawable.tick),
-                    null
-            );
-        }
-
-        if (differ.getCurrentList().size() == 5) {
-            int clickedPos = getCurrentPosition(differ.getCurrentList().get(4));
-
-            if (clickedPos == position && clickedPos != currentPos) {
-                binding.answerTxt.setBackgroundResource(R.drawable.red_bg);
-                binding.answerTxt.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        null,
-                        null,
-                        ContextCompat.getDrawable(binding.getRoot().getContext(), R.drawable.thieves),
-                        null
-                );
-            }
-        }
-
-        if (position == 4) {
-            binding.getRoot().setVisibility(View.GONE);
-        }
-
-        final int finalPosition = position;
-        holder.itemView.setOnClickListener(v -> {
-            String str = getAnswerString(finalPosition);
-
-            if (users.size() > 4) {
-                users.set(4, str);
-            } else {
-                users.add(str);
-            }
-            notifyDataSetChanged();
-
-            if (currentPos == finalPosition) {
+        // Nếu đã có lựa chọn (clickedAnswer), cập nhật giao diện
+        if (clickedAnswer != null) {
+            if (aid.equals(correctAnswer)) {
+                // Đáp án đúng
                 binding.answerTxt.setBackgroundResource(R.drawable.green_bg);
                 binding.answerTxt.setCompoundDrawablesRelativeWithIntrinsicBounds(
                         null,
@@ -96,8 +69,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
                         ContextCompat.getDrawable(binding.getRoot().getContext(), R.drawable.tick),
                         null
                 );
-                returnScore.amount(5, str);
-            } else {
+            } else if (aid.equals(clickedAnswer)) {
+                // Đáp án sai đã chọn
                 binding.answerTxt.setBackgroundResource(R.drawable.red_bg);
                 binding.answerTxt.setCompoundDrawablesRelativeWithIntrinsicBounds(
                         null,
@@ -105,31 +78,19 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
                         ContextCompat.getDrawable(binding.getRoot().getContext(), R.drawable.thieves),
                         null
                 );
-                returnScore.amount(0, str);
             }
-        });
-
-        if (differ.getCurrentList().size() == 5) {
+            // Vô hiệu hóa click sau khi đã chọn
             holder.itemView.setOnClickListener(null);
-        }
-    }
-
-    private int getCurrentPosition(String answer) {
-        switch (answer) {
-            case "b": return 1;
-            case "c": return 2;
-            case "d": return 3;
-            default: return 0;
-        }
-    }
-
-    private String getAnswerString(int position) {
-        switch (position) {
-            case 0: return "a";
-            case 1: return "b";
-            case 2: return "c";
-            case 3: return "d";
-            default: return "";
+        } else {
+            // Xử lý click để chọn đáp án
+            holder.itemView.setOnClickListener(v -> {
+                Log.d(TAG, "Clicked position=" + position + ", answer=" + answer + ", aid=" + aid);
+                clickedAnswer = aid;
+                int score = aid.equals(correctAnswer) ? 5 : 0;
+                returnScore.amount(score, aid);
+                Log.d(TAG, "Score for aid=" + aid + ": " + score + ", correctAnswer=" + correctAnswer);
+                notifyDataSetChanged(); // Cập nhật giao diện
+            });
         }
     }
 

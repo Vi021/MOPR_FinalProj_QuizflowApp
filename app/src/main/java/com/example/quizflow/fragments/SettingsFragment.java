@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
 import com.example.quizflow.activities.AccountActivity;
 import com.example.quizflow.activities.SigninActivity;
+import com.example.quizflow.models.AccountModel;
+import com.example.quizflow.utils.Refs;
 import com.example.quizflow.utils.Utilities;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsFragment extends Fragment {
     ConstraintLayout consL_profileCenter;
     private TextView txt_username, txt_EN, txt_VI, txt_soundOn, txt_soundOff, txt_vibrateOn, txt_vibrateOff, txt_notifyOn, txt_notifyOff, txt_ver;
     private LinearLayout lineL_languageSwitch, lineL_soundSwitch, lineL_vibrateSwitch, lineL_notifySwitch;
     private ImageView img_logout;
+    private CircleImageView profileImage;
 
     private final boolean[] isEnglish = {true}; // default language is English
     private final boolean[] isSoundOn = {false}; // default sound is OFF
@@ -60,12 +67,43 @@ public class SettingsFragment extends Fragment {
         lineL_vibrateSwitch = view.findViewById(R.id.lineL_vibrateSwitch);
         lineL_notifySwitch = view.findViewById(R.id.lineL_notifySwitch);
         img_logout = view.findViewById(R.id.img_logout);
+        profileImage = view.findViewById(R.id.cirImg_pfp);
+
+        Long uid = Utilities.getUID(requireContext());
+        if (uid != null) {
+            Utilities.getUserByUidAsync(requireContext(), uid, new Utilities.AccountCallback() {
+                @Override
+                public void onSuccess(AccountModel user) {
+                    txt_username.setText(user.getUsername());
+                    if (user.getImage() != null && !user.getImage().isEmpty()) {
+                        String imageUrl = Refs.BASE_IMAGE_URL + user.getImage();
+                        Log.d("SettingsFragment", "Loading image URL: " + imageUrl);
+                        Glide.with(SettingsFragment.this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_default_pfp_icebear)
+                                .error(R.drawable.ic_default_pfp_icebear)
+                                .into(profileImage);
+                    } else {
+                        profileImage.setImageResource(R.drawable.ic_default_pfp_icebear);
+                    }
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    txt_username.setText("Guest");
+                    profileImage.setImageResource(R.drawable.ic_default_pfp_icebear);
+                    Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            txt_username.setText("Guest");
+            profileImage.setImageResource(R.drawable.ic_default_pfp_icebear);
+        }
 
         // profile center
         consL_profileCenter.setOnClickListener(v -> {
             startActivity(new Intent(requireContext(), AccountActivity.class));
         });
-        txt_username.setText(requireActivity().getIntent().getStringExtra("username")); //temp
 
         // language
         toggleLanguage();

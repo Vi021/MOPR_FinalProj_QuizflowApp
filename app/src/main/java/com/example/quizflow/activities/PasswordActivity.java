@@ -40,7 +40,7 @@ import com.example.quizflow.R;
 import com.example.quizflow.Retrofit2Client;
 import com.example.quizflow.requests.RegisterRequest;
 import com.example.quizflow.requests.ResendOtpRequest;
-import com.example.quizflow.requests.ResetPasswordRequest;
+import com.example.quizflow.requests.ForgetPasswordRequest;
 import com.example.quizflow.requests.VerifyOtpRequest;
 import com.example.quizflow.utils.Utilities;
 
@@ -229,7 +229,7 @@ public class PasswordActivity extends AppCompatActivity {
                 });
             }
             if (isForget) {
-                retrofit2Client.getAPI().updatePassword(new ResetPasswordRequest(user.getEmail(), user.getPassword())).enqueue(new Callback<>() {
+                retrofit2Client.getAPI().updatePassword(new ForgetPasswordRequest(user.getEmail(), user.getPassword())).enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {

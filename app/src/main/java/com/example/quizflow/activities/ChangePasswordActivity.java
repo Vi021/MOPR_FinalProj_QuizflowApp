@@ -1,5 +1,7 @@
 package com.example.quizflow.activities;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -18,7 +20,16 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.quizflow.R;
+import com.example.quizflow.Retrofit2Client;
+import com.example.quizflow.requests.ResetPasswordRequest;
 import com.example.quizflow.utils.Utilities;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     private ImageView img_back, img_odlEye, img_eye, img_retypeEye;
@@ -26,6 +37,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private TextView txt_decorPassword, txt_btnDone;
 
     private boolean isOldPasswordVisible = false, isPasswordVisible = false, isRetypePasswordVisible = false;
+
+    private boolean signedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +55,21 @@ public class ChangePasswordActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
+        initViews();
     }
 
     private void initViews() {
+        Long uid = Utilities.getUID(this);
+        signedIn = (uid != null);
+
+        ImageView img_back = findViewById(R.id.img_back);
+        img_back.setOnClickListener(v -> onBackPressed());
+
+        // password inputs
+        eTxt_oldPassword = findViewById(R.id.eTxt_oldPassword);
+        eTxt_password = findViewById(R.id.eTxt_password);
+        eTxt_retypePassword = findViewById(R.id.eTxt_retypePassword);
+
         // old password visibility toggle
         img_odlEye = findViewById(R.id.img_odlEye);
         img_odlEye.setOnClickListener(v -> {
@@ -106,11 +131,32 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            // TODO: update password
+            new Retrofit2Client().getAPI().resetPassword(new ResetPasswordRequest(uid, eTxt_oldPassword.getText().toString(), eTxt_password.getText().toString()))
+                    .enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Toast t = Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT);
+                                t.show();
+                                new Handler().postDelayed(t::cancel, 1200);
+                            } else {
+                                String error = null;
+                                try {
+                                    assert response.errorBody() != null;
+                                    error = "Error: " + response.errorBody().string();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                Utilities.showError(ChangePasswordActivity.this, "Change Password", error);
+                            }
+                        }
 
-            Toast t = Toast.makeText(this, "You can sign in now", Toast.LENGTH_SHORT);
-            t.show();
-            finish();
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            String error = "Network error: " + t.getMessage();
+                            Utilities.showError(ChangePasswordActivity.this, "Change Password", error);
+                        }
+                    });
         });
     }
 
@@ -118,7 +164,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         if (eTxt_oldPassword.getText().toString().isEmpty()) {
             eTxt_oldPassword.setError("Old password is required");
             return true;
-        } // TODO: old password check
+        }
         eTxt_oldPassword.setError(null);
 
         if (eTxt_password.getText().toString().isEmpty()) {
@@ -134,7 +180,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             eTxt_password.setError(null);
             eTxt_retypePassword.setError("Passwords do not match");
             return true;
-        } // TODO: password update
+        }
 
         eTxt_retypePassword.setError(null);
         return false;
