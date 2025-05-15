@@ -42,6 +42,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionAdapt
     private boolean isMultiPlayer = false;
     private long qid;
     private List<String> selectedAnswers = new ArrayList<>();
+    private long quizDuration = 600; // Default duration, will be updated from API
 
     private static class Player {
         private String name;
@@ -100,6 +101,9 @@ public class QuestionActivity extends AppCompatActivity implements QuestionAdapt
             @Override
             public void onSuccess(QuizResponse quiz) {
                 Log.d(TAG, "QuizResponse: qid=" + quiz.getQid() + ", title=" + quiz.getTitle());
+                quizDuration = quiz.getDuration(); // Store the quiz duration
+                Log.d(TAG, "Quiz duration: " + quizDuration + " seconds");
+                
                 for (QuestionResponse q : quiz.getQuestions()) {
                     Log.d(TAG, "Question qtid=" + q.getQtid() + ", text=" + q.getQuestion());
                     for (AnswerResponse a : q.getAnswers()) {
@@ -283,6 +287,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionAdapt
         Intent scoreIntent = new Intent(QuestionActivity.this, ScoreActivity.class);
         scoreIntent.putExtra("score", allScore);
         scoreIntent.putExtra("qid", qid);
+        scoreIntent.putExtra("duration", quizDuration); // Pass the stored quiz duration
         scoreIntent.putParcelableArrayListExtra("questions", new ArrayList<>(questionList));
         scoreIntent.putStringArrayListExtra("selectedAnswers", new ArrayList<>(selectedAnswers));
         startActivity(scoreIntent);

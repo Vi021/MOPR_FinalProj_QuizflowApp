@@ -50,6 +50,9 @@
             android:name=".activities.QuestionActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.MultiplayerQuestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AccountActivity"
             android:exported="false" />
         <activity

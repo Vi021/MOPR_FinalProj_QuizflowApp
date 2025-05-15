@@ -3,16 +3,20 @@ package com.example.quizflow;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.requests.CoinHistoryRequest;
 import com.example.quizflow.requests.CoinUpdateRequest;
+import com.example.quizflow.requests.JoinLobbyRequest;
+import com.example.quizflow.requests.LobbyRequest;
 import com.example.quizflow.requests.LoginRequest;
 import com.example.quizflow.requests.QuizResponseRequest;
 import com.example.quizflow.requests.RegisterRequest;
 import com.example.quizflow.requests.ResendOtpRequest;
 import com.example.quizflow.requests.ForgetPasswordRequest;
 import com.example.quizflow.requests.ResetPasswordRequest;
+import com.example.quizflow.requests.StartLobbyRequest;
 import com.example.quizflow.requests.VerifyOtpRequest;
 import com.example.quizflow.respones.APIResponse;
 import com.example.quizflow.respones.AttemptRequest;
 import com.example.quizflow.respones.AttemptResponse;
+import com.example.quizflow.respones.LobbyResponse;
 import com.example.quizflow.respones.LoginResponse;
 import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.respones.UserResponse;
@@ -102,4 +106,19 @@ public interface APIService {
 
     @POST(Refs.QUIZ_URL + "coinHistory")
     Call<Void> createCoinHistory(@Body CoinHistoryRequest coinHistory);
+
+    @POST("api/lobby/create")
+    Call<LobbyResponse> createLobby(@Body LobbyRequest request);
+
+    @POST("api/lobby/join")
+    Call<LobbyResponse> joinLobby(@Body JoinLobbyRequest request);
+
+    @GET("api/lobby/{lid}")
+    Call<LobbyResponse> getLobbyInfo(@Path("lid") Long lid);
+
+    @POST("api/lobby/{lid}/start")
+    Call<Void> startLobby(@Path("lid") Long lid, @Body StartLobbyRequest request);
+
+    @GET("api/quiz/{qid}")
+    Call<QuizResponse> getQuizById(@Path("qid") Long qid);
 }

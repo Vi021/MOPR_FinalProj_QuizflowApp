@@ -49,6 +49,10 @@ dependencies {
     implementation(libs.chipNavbar)
     implementation(libs.retrofit2)
     implementation(libs.retrofit2ConverterGson)
+    implementation(libs.okhttp3)
+    implementation(libs.stompClient)
+    implementation(libs.rxjava2)
+    implementation(libs.rxandroid2)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

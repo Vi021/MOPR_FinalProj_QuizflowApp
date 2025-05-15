@@ -5,6 +5,7 @@ import java.util.List;
 public class QuizResponse {
     private long qid;
     private String title;
+    private long duration;
     private List<QuestionResponse> questions;
 
     public long getQid() {
@@ -21,6 +22,14 @@ public class QuizResponse {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public List<QuestionResponse> getQuestions() {

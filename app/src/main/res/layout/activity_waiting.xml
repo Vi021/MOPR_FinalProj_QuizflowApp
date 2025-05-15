@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <!-- Quiz Code Display -->
     <TextView
@@ -33,15 +33,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_waitingTitle" />
 
-    <!-- Number of Participants -->
-    <TextView
-        android:id="@+id/txt_participants"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!-- Participants List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/participantList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:text="Participants: 1/4"
-        android:textColor="@color/white"
-        android:textSize="18sp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_quizCode" />
@@ -51,10 +50,11 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_participants" />
+        app:layout_constraintTop_toBottomOf="@id/participantList" />
 
     <!-- Start Button (only for host) -->
     <Button

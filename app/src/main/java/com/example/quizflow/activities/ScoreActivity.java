@@ -34,6 +34,7 @@ public class ScoreActivity extends AppCompatActivity {
     private List<QuestionsModel> questions;
     private List<String> selectedAnswers;
     private Long uid;
+    private long quizDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class ScoreActivity extends AppCompatActivity {
         qid = intent.getLongExtra("qid", -1);
         questions = intent.getParcelableArrayListExtra("questions");
         selectedAnswers = intent.getStringArrayListExtra("selectedAnswers");
+        quizDuration = intent.getLongExtra("duration", 600); // Default to 600 if not found
 
         uid = Utilities.getUID(this);
         if (uid == null) {
@@ -88,7 +90,7 @@ public class ScoreActivity extends AppCompatActivity {
         AttemptRequest attempt = new AttemptRequest();
         attempt.setScore(score);
         attempt.setSubmitTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(new Date()));
-        attempt.setAttemptTime(600); // Assume 10 minutes
+        attempt.setAttemptTime((int) quizDuration); // Cast to int since AttemptRequest expects an int
         attempt.setUid(uid);
         attempt.setQid(qid);
 
@@ -135,32 +137,23 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     private void updateCoinsAndHistory(int coins) {
-        Utilities.updateUserCoinsAsync(this, uid, coins, new Utilities.GenericCallback() {
+        // Chỉ gọi createCoinHistory trực tiếp, không gọi updateUserCoins
+        CoinHistoryRequest history = new CoinHistoryRequest();
+        history.setUid(uid);
+        history.setCoins(coins);
+        history.setDescription("Earned from quiz " + qid);
+        String transactionTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(new Date());
+        history.setTransactionTime(transactionTime);
+
+        Utilities.createCoinHistoryAsync(ScoreActivity.this, history, new Utilities.GenericCallback() {
             @Override
             public void onSuccess() {
-                CoinHistoryRequest history = new CoinHistoryRequest();
-                history.setUid(uid);
-                history.setCoins(coins);
-                history.setDescription("Earned from quiz " + qid);
-                String transactionTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(new Date());
-                history.setTransactionTime(transactionTime);
-
-                Utilities.createCoinHistoryAsync(ScoreActivity.this, history, new Utilities.GenericCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Toast.makeText(ScoreActivity.this, "Earned " + coins + " coins!", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(String error) {
-                        Utilities.showError(ScoreActivity.this, "ScoreActivity", "Failed to save coin history: " + error);
-                    }
-                });
+                Toast.makeText(ScoreActivity.this, "Earned " + coins + " coins!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(String error) {
-                Utilities.showError(ScoreActivity.this, "ScoreActivity", "Failed to update coins: " + error);
+                Utilities.showError(ScoreActivity.this, "ScoreActivity", "Failed to save coin history: " + error);
             }
         });
     }
