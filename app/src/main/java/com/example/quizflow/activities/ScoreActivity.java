@@ -3,6 +3,7 @@ package com.example.quizflow.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,9 @@ public class ScoreActivity extends AppCompatActivity {
     private List<String> selectedAnswers;
     private Long uid;
     private long quizDuration;
+    private boolean isMultiPlayer = false;
+    private Long lid; // Lobby ID for multiplayer games
+    private boolean coinHistoryCreated = false; // Flag to prevent duplicate coin history entries
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,15 @@ public class ScoreActivity extends AppCompatActivity {
         questions = intent.getParcelableArrayListExtra("questions");
         selectedAnswers = intent.getStringArrayListExtra("selectedAnswers");
         quizDuration = intent.getLongExtra("duration", 600); // Default to 600 if not found
+        
+        // Check if it's a multiplayer game
+        isMultiPlayer = intent.getBooleanExtra("isMultiPlayer", false);
+        lid = intent.getLongExtra("lid", -1);
+        boolean isHost = intent.getBooleanExtra("isHost", false);
+        
+        Log.d(TAG, "Created with score=" + score + ", qid=" + qid + 
+              ", isMultiPlayer=" + isMultiPlayer + ", lid=" + lid + 
+              ", isHost=" + isHost);
 
         uid = Utilities.getUID(this);
         if (uid == null) {
@@ -74,6 +87,7 @@ public class ScoreActivity extends AppCompatActivity {
         scoreTxt.setText(String.valueOf(score));
 
         if (qid != -1 && questions != null && selectedAnswers != null) {
+            Log.d(TAG, "Saving quiz attempt and responses for player uid=" + uid);
             saveQuizResults();
         }
 
@@ -85,6 +99,7 @@ public class ScoreActivity extends AppCompatActivity {
             finish();
         });
     }
+    
     private void saveQuizResults() {
         // Create attempt
         AttemptRequest attempt = new AttemptRequest();
@@ -94,25 +109,36 @@ public class ScoreActivity extends AppCompatActivity {
         attempt.setUid(uid);
         attempt.setQid(qid);
 
+        Log.d(TAG, "Creating attempt: score=" + score + ", uid=" + uid + ", qid=" + qid + 
+              ", isMultiPlayer=" + isMultiPlayer);
+
         Utilities.createAttemptAsync(this, attempt, new Utilities.AttemptCallback() {
             @Override
             public void onSuccess(AttemptResponse attemptResponse) {
                 long atid = attemptResponse.getAtid();
+                Log.d(TAG, "Attempt created successfully with atid=" + atid);
+                
+                // Lưu chi tiết câu trả lời cho tất cả người chơi
+                Log.d(TAG, "Saving detailed question responses for player uid=" + uid);
                 saveQuizResponses(atid);
-                int coinsEarned = score; // 1 coin per 10 points
-                if (coinsEarned > 0) {
-                    updateCoinsAndHistory(coinsEarned);
+                
+                // Only award coins once
+                if (score > 0) {
+                    updateCoinsAndHistory(score);
                 }
             }
 
             @Override
             public void onFailure(String error) {
+                Log.e(TAG, "Failed to save attempt: " + error);
                 Utilities.showError(ScoreActivity.this, "ScoreActivity", "Failed to save attempt: " + error);
             }
         });
     }
 
     private void saveQuizResponses(long atid) {
+        Log.d(TAG, "Saving " + questions.size() + " question responses for atid=" + atid);
+        
         for (int i = 0; i < questions.size(); i++) {
             String selectedAnswer = selectedAnswers.get(i);
             if (selectedAnswer != null) {
@@ -121,14 +147,16 @@ public class ScoreActivity extends AppCompatActivity {
                 response.setQtid(questions.get(i).getQtid());
                 response.setAnswer(selectedAnswer);
 
+                final int questionIndex = i;
                 Utilities.createQuizResponseAsync(this, response, new Utilities.GenericCallback() {
                     @Override
                     public void onSuccess() {
-                        // Response saved
+                        Log.d(TAG, "Successfully saved response for question " + questionIndex);
                     }
 
                     @Override
                     public void onFailure(String error) {
+                        Log.e(TAG, "Failed to save response for question " + questionIndex + ": " + error);
                         Utilities.showError(ScoreActivity.this, "ScoreActivity", "Failed to save response: " + error);
                     }
                 });
@@ -137,22 +165,46 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     private void updateCoinsAndHistory(int coins) {
-        // Chỉ gọi createCoinHistory trực tiếp, không gọi updateUserCoins
+        if (coins <= 0) {
+            Log.d(TAG, "No coins to award (score is 0 or negative)");
+            return;
+        }
+        
+        // Prevent duplicate coin history entries
+        if (coinHistoryCreated) {
+            Log.d(TAG, "Coin history already created, skipping duplicate");
+            return;
+        }
+        
+        // Generate descriptive text based on game mode
+        String description = isMultiPlayer ? 
+            "Earned from multiplayer quiz " + qid + " (lobby " + lid + ")" : 
+            "Earned from quiz " + qid;
+        
+        Log.d(TAG, "Updating coins for uid=" + uid + ", adding " + coins + " coins, " + 
+              "isMultiPlayer=" + isMultiPlayer + ", lid=" + lid);
+              
+        // Create coin history record
         CoinHistoryRequest history = new CoinHistoryRequest();
         history.setUid(uid);
         history.setCoins(coins);
-        history.setDescription("Earned from quiz " + qid);
+        history.setDescription(description);
         String transactionTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(new Date());
         history.setTransactionTime(transactionTime);
+
+        Log.d(TAG, "Creating coin history: uid=" + uid + ", coins=" + coins + ", desc=" + description);
 
         Utilities.createCoinHistoryAsync(ScoreActivity.this, history, new Utilities.GenericCallback() {
             @Override
             public void onSuccess() {
+                coinHistoryCreated = true; // Mark as created to prevent duplicates
+                Log.d(TAG, "Successfully created coin history");
                 Toast.makeText(ScoreActivity.this, "Earned " + coins + " coins!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(String error) {
+                Log.e(TAG, "Failed to save coin history: " + error);
                 Utilities.showError(ScoreActivity.this, "ScoreActivity", "Failed to save coin history: " + error);
             }
         });

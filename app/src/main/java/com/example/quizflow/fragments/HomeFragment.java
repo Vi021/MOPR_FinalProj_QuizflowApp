@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
-    private ConstraintLayout consL_home, consL_accountBar, consL_profileBar, consL_earncoinsBar;
+    private ConstraintLayout consL_home, consL_accountBar, consL_profileBar;
     private LinearLayout lineL_actionBar;
     private TextView txt_hello, txt_coins;
     private CircleImageView cirImg_pfp;
@@ -93,7 +94,6 @@ public class HomeFragment extends Fragment {
         consL_accountBar = view.findViewById(R.id.consL_accountBar);
         consL_profileBar = view.findViewById(R.id.consL_profileBar);
         lineL_actionBar = view.findViewById(R.id.lineL_actionBar);
-        consL_earncoinsBar = view.findViewById(R.id.consL_earncoinsBar);
 
         /// Check if user is signed in by UID
         Long uid = Utilities.getUID(requireContext());
@@ -147,9 +147,6 @@ public class HomeFragment extends Fragment {
         recy_categories.setAdapter(new TopicAdapter(requireContext(), TYPE.TOPICS));
         recy_categories.setHasFixedSize(true);
         recy_categories.setLayoutManager(new GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false));
-
-        TextView txt_startNow = view.findViewById(R.id.txt_startNow);
-        txt_startNow.setOnClickListener(this::noService);
     }
 
     private void loadUser(Long uid) {
@@ -256,11 +253,13 @@ public class HomeFragment extends Fragment {
             }
 
             if (isSinglePlayer) {
+                // Single player always uses Quiz ID
                 if (Utilities.isNotValidQuizId(inputCode)) {
                     editQuizCode.setError("Enter a valid Quiz ID");
                     return;
                 }
                 long qid = Long.parseLong(inputCode);
+                // Start single player game
                 Utilities.getQuizByIdAsync(context, qid, new Utilities.QuizCallback() {
                     @Override
                     public void onSuccess(QuizResponse quiz) {
@@ -278,69 +277,8 @@ public class HomeFragment extends Fragment {
                     }
                 });
             } else {
-                // Multiplayer: Kiểm tra xem input là Quiz ID (số) hay Lobby Code (chuỗi)
-                if (inputCode.matches("\\d+")) { // Nếu là số (Quiz ID)
-                    if (Utilities.isNotValidQuizId(inputCode)) {
-                        editQuizCode.setError("Enter a valid Quiz ID");
-                        return;
-                    }
-                    long qid = Long.parseLong(inputCode);
-                    Utilities.getQuizByIdAsync(context, qid, new Utilities.QuizCallback() {
-                        @Override
-                        public void onSuccess(QuizResponse quiz) {
-                            // Create new lobby
-                            LobbyRequest request = new LobbyRequest();
-                            request.setQid(qid);
-                            request.setUid(uid);
-                            Utilities.createLobbyAsync(context, request, new Utilities.LobbyCallback() {
-                                @Override
-                                public void onSuccess(LobbyResponse lobby) {
-                                    Intent intent = new Intent(context, WaitingActivity.class);
-                                    intent.putExtra("lid", lobby.getLid());
-                                    intent.putExtra("uid", uid);
-                                    intent.putExtra("code", lobby.getCode());
-                                    intent.putExtra("isHost", true);
-                                    context.startActivity(intent);
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void onFailure(String error) {
-                                    editQuizCode.setError("Failed to create lobby");
-                                    Utilities.showError(context, "HomeFragment", error);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(String error) {
-                            editQuizCode.setError("Invalid Quiz ID");
-                            Utilities.showError(context, "HomeFragment", error);
-                        }
-                    });
-                } else { // Nếu là chuỗi (Lobby Code)
-                    JoinLobbyRequest request = new JoinLobbyRequest();
-                    request.setCode(inputCode);
-                    request.setUid(uid);
-                    Utilities.joinLobbyAsync(context, request, new Utilities.LobbyCallback() {
-                        @Override
-                        public void onSuccess(LobbyResponse lobby) {
-                            Intent intent = new Intent(context, WaitingActivity.class);
-                            intent.putExtra("lid", lobby.getLid());
-                            intent.putExtra("uid", uid);
-                            intent.putExtra("code", lobby.getCode());
-                            intent.putExtra("isHost", false);
-                            context.startActivity(intent);
-                            dialog.dismiss();
-                        }
-
-                        @Override
-                        public void onFailure(String error) {
-                            editQuizCode.setError("Invalid Lobby Code");
-                            Utilities.showError(context, "HomeFragment", error);
-                        }
-                    });
-                }
+                // For multiplayer, first check if it's a valid lobby code
+                checkAndJoinLobby(context, inputCode, uid, editQuizCode, dialog);
             }
         });
 
@@ -348,14 +286,117 @@ public class HomeFragment extends Fragment {
         int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.8);
         dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
+    
+    private void checkAndJoinLobby(Context context, String inputCode, Long uid, TextInputEditText editQuizCode, AlertDialog dialog) {
+        Log.d("HomeFragment", "Checking if code is a valid lobby code: " + inputCode);
+        
+        // First try as a lobby code
+        Utilities.checkLobbyCodeAsync(context, inputCode, new Utilities.LobbyCodeCallback() {
+            @Override
+            public void onSuccess(boolean exists) {
+                if (exists) {
+                    Log.d("HomeFragment", "Code is a valid lobby code, joining: " + inputCode);
+                    // It's a valid lobby code, join it
+                    joinLobby(context, inputCode, uid, editQuizCode, dialog);
+                } else {
+                    Log.d("HomeFragment", "Code is not a valid lobby code, trying as a quiz ID: " + inputCode);
+                    // Not a valid lobby code, try as a quiz ID
+                    tryAsQuizId(context, inputCode, uid, editQuizCode, dialog);
+                }
+            }
 
+            @Override
+            public void onFailure(String error) {
+                Log.e("HomeFragment", "Error checking lobby code: " + error);
+                // Network error, try as quiz ID as fallback
+                tryAsQuizId(context, inputCode, uid, editQuizCode, dialog);
+            }
+        });
+    }
+    
+    private void joinLobby(Context context, String code, Long uid, TextInputEditText editQuizCode, AlertDialog dialog) {
+        JoinLobbyRequest request = new JoinLobbyRequest();
+        request.setCode(code);
+        request.setUid(uid);
+        
+        Utilities.joinLobbyAsync(context, request, new Utilities.LobbyCallback() {
+            @Override
+            public void onSuccess(LobbyResponse lobby) {
+                Log.d("HomeFragment", "Successfully joined lobby: lid=" + lobby.getLid() + ", code=" + lobby.getCode() + ", qid=" + lobby.getQid());
+                Intent intent = new Intent(context, WaitingActivity.class);
+                intent.putExtra("lid", lobby.getLid());
+                intent.putExtra("uid", uid);
+                intent.putExtra("code", lobby.getCode());
+                intent.putExtra("isHost", false);
+                context.startActivity(intent);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Log.e("HomeFragment", "Failed to join lobby with code: " + code + ", error: " + error);
+                editQuizCode.setError("Error joining lobby");
+                Utilities.showError(context, "HomeFragment", error);
+            }
+        });
+    }
+    
+    private void tryAsQuizId(Context context, String inputCode, Long uid, TextInputEditText editQuizCode, AlertDialog dialog) {
+        // Check if it looks like a valid quiz ID (numeric and 6+ digits)
+        if (inputCode.matches("\\d+") && inputCode.length() >= 6) {
+            try {
+                long qid = Long.parseLong(inputCode);
+                Log.d("HomeFragment", "Trying code as quiz ID: " + qid);
+                // Try to create a lobby with this quiz ID
+                Utilities.getQuizByIdAsync(context, qid, new Utilities.QuizCallback() {
+                    @Override
+                    public void onSuccess(QuizResponse quiz) {
+                        LobbyRequest request = new LobbyRequest();
+                        request.setQid(qid);
+                        request.setUid(uid);
+                        Utilities.createLobbyAsync(context, request, new Utilities.LobbyCallback() {
+                            @Override
+                            public void onSuccess(LobbyResponse lobby) {
+                                Intent intent = new Intent(context, WaitingActivity.class);
+                                intent.putExtra("lid", lobby.getLid());
+                                intent.putExtra("uid", uid);
+                                intent.putExtra("code", lobby.getCode());
+                                intent.putExtra("isHost", true);
+                                context.startActivity(intent);
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(String error) {
+                                editQuizCode.setError("Failed to create lobby");
+                                Utilities.showError(context, "HomeFragment", error);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        editQuizCode.setError("Invalid Quiz ID");
+                        Utilities.showError(context, "HomeFragment", error);
+                    }
+                });
+            } catch (NumberFormatException e) {
+                Log.e("HomeFragment", "Error parsing code as quiz ID: " + e.getMessage());
+                editQuizCode.setError("Invalid input format. Please enter a valid Lobby Code or Quiz ID.");
+                Utilities.showError(context, "HomeFragment", "Invalid number format: " + e.getMessage());
+            }
+        } else {
+            Log.e("HomeFragment", "Input is neither a valid lobby code nor a valid quiz ID format: " + inputCode);
+            editQuizCode.setError("Invalid input. Please enter a valid Lobby Code or Quiz ID.");
+            Utilities.showError(context, "HomeFragment", "Invalid input format");
+        }
+    }
 
     private void validate() {
         if (!signedIn) {
             consL_accountBar.setVisibility(View.VISIBLE);
             consL_profileBar.setVisibility(View.GONE);
             lineL_actionBar.setVisibility(View.GONE);
-            consL_earncoinsBar.setVisibility(View.GONE);
 
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(consL_home);
@@ -365,7 +406,6 @@ public class HomeFragment extends Fragment {
             consL_accountBar.setVisibility(View.GONE);
             consL_profileBar.setVisibility(View.VISIBLE);
             lineL_actionBar.setVisibility(View.VISIBLE);
-            consL_earncoinsBar.setVisibility(View.VISIBLE);
         }
         updateUserInfo();
     }

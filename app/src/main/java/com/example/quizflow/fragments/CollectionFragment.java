@@ -27,18 +27,15 @@ public class CollectionFragment extends Fragment {
 
         recyHistory = view.findViewById(R.id.recy_history);
         recySaved = view.findViewById(R.id.recy_saved);
-        recyCreated = view.findViewById(R.id.recy_created);
 
         // Thiết lập GridLayoutManager với 2 cột
         recyHistory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recySaved.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyCreated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         // Thiết lập Adapter với dữ liệu mẫu
         List<QuizModel> sampleData = getSampleData();
         recyHistory.setAdapter(new CollectionAdapter(getContext(), sampleData));
         recySaved.setAdapter(new CollectionAdapter(getContext(), sampleData));
-        recyCreated.setAdapter(new CollectionAdapter(getContext(), sampleData));
 
         return view;
     }

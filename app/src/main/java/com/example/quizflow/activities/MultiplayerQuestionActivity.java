@@ -30,6 +30,7 @@ import com.example.quizflow.utils.Refs;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ua.naiksoftware.stomp.Stomp;
@@ -58,6 +59,7 @@ public class MultiplayerQuestionActivity extends AppCompatActivity implements Qu
     private long questionTime = 30000; // Giá trị mặc định: 30 giây mỗi câu hỏi 
     private long quizDuration = 600; // Default duration in seconds
     private APIService apiService;
+    private boolean isHost = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,10 @@ public class MultiplayerQuestionActivity extends AppCompatActivity implements Qu
         lid = intent.getLongExtra("lid", -1);
         uid = intent.getLongExtra("uid", -1);
         qid = intent.getLongExtra("qid", -1);
+        isHost = intent.getBooleanExtra("isHost", false);
+
+        Log.d(TAG, "Started with lid=" + lid + ", uid=" + uid + ", qid=" + qid + 
+              ", isHost=" + isHost);
 
         if (lid == -1 || uid == -1 || qid == -1) {
             Toast.makeText(this, "Invalid game data", Toast.LENGTH_SHORT).show();
@@ -340,7 +346,6 @@ public class MultiplayerQuestionActivity extends AppCompatActivity implements Qu
               
         Gson gson = new Gson();
         String json = gson.toJson(request);
-        Log.d(TAG, "Answer JSON payload: " + json);
         
         if (stompClient != null && stompClient.isConnected()) {
             stompClient.send("/app/submitAnswer", json)
@@ -350,9 +355,6 @@ public class MultiplayerQuestionActivity extends AppCompatActivity implements Qu
                     () -> Log.d(TAG, "Answer sent successfully"),
                     throwable -> Log.e(TAG, "Error sending answer", throwable)
                 );
-                
-            // Hiển thị thông báo nhỏ cho người dùng biết đã gửi câu trả lời
-            Toast.makeText(this, "Đã gửi câu trả lời", Toast.LENGTH_SHORT).show();
         } else {
             Log.e(TAG, "STOMP client not connected, cannot send answer");
             Toast.makeText(this, "Không thể gửi câu trả lời: Mất kết nối", Toast.LENGTH_SHORT).show();
@@ -360,24 +362,44 @@ public class MultiplayerQuestionActivity extends AppCompatActivity implements Qu
     }
 
     private void updateRanking(LobbyStatus status) {
+        if (status == null || status.getParticipants() == null) {
+            Log.e(TAG, "Received null status or participants list");
+            return;
+        }
+        
+        // Sort participants by score in descending order
+        List<ParticipantStatus> sortedParticipants = new ArrayList<>(status.getParticipants());
+        Collections.sort(sortedParticipants, (p1, p2) -> p2.getScore() - p1.getScore());
+        
         int rank = 1;
         int yourScore = 0;
-        for (ParticipantStatus p : status.getParticipants()) {
+        String yourUsername = "";
+        
+        // Find your position in the sorted list
+        for (int i = 0; i < sortedParticipants.size(); i++) {
+            ParticipantStatus p = sortedParticipants.get(i);
             if (p.getUid().equals(uid)) {
                 yourScore = p.getScore();
+                yourUsername = p.getUsername();
+                rank = i + 1; // Position is 1-based
                 break;
             }
-            rank++;
         }
+        
         allScore = yourScore;
-        binding.txtRankingPosition.setText("Rank: " + rank);
-        binding.txtCurrentScore.setText("Score: " + allScore);
+        
+        // Display detailed ranking info
+        binding.txtRankingPosition.setText(String.format("Rank: %d/%d", rank, sortedParticipants.size()));
+        binding.txtCurrentScore.setText(String.format("Score: %d", allScore));
     }
 
     private void proceedToScoreActivity() {
         Intent scoreIntent = new Intent(MultiplayerQuestionActivity.this, ScoreActivity.class);
         scoreIntent.putExtra("score", allScore);
         scoreIntent.putExtra("qid", qid);
+        scoreIntent.putExtra("lid", lid);
+        scoreIntent.putExtra("isMultiPlayer", true);
+        scoreIntent.putExtra("isHost", isHost);
         scoreIntent.putExtra("duration", quizDuration); // Pass the quiz duration
         scoreIntent.putParcelableArrayListExtra("questions", new ArrayList<>(questionList));
         scoreIntent.putStringArrayListExtra("selectedAnswers", new ArrayList<>(selectedAnswers));

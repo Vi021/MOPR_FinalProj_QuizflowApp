@@ -175,8 +175,9 @@ public class Utilities {
 
     public static boolean isNotValidQuizId(String quizId) {
         try {
-            Long.parseLong(quizId.trim());
-            return false;
+            long id = Long.parseLong(quizId.trim());
+            // Quiz IDs should be 6 digits or longer (100000+)
+            return id < 100000;
         } catch (NumberFormatException e) {
             return true;
         }
@@ -311,13 +312,25 @@ public class Utilities {
     // Join lobby asynchronously
     public static void joinLobbyAsync(Context context, JoinLobbyRequest request, LobbyCallback callback) {
         initRetrofit();
+        Log.d("Utilities", "Sending join lobby request with code: " + request.getCode() + ", uid: " + request.getUid());
         retrofitClient.getAPI().joinLobby(request).enqueue(new Callback<LobbyResponse>() {
             @Override
             public void onResponse(Call<LobbyResponse> call, Response<LobbyResponse> response) {
+                Log.d("Utilities", "Join lobby response code: " + response.code());
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body());
+                    LobbyResponse lobby = response.body();
+                    Log.d("Utilities", "Join lobby successful: lid=" + lobby.getLid() + ", code=" + lobby.getCode() + ", qid=" + lobby.getQid());
+                    callback.onSuccess(lobby);
                 } else {
-                    String error = "Failed to join lobby, HTTP " + response.code();
+                    String errorBody = "";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorBody = response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        Log.e("Utilities", "Error reading error body: " + e.getMessage());
+                    }
+                    String error = "Failed to join lobby, HTTP " + response.code() + ": " + errorBody;
                     Log.e("Utilities", error);
                     callback.onFailure(error);
                 }
@@ -326,7 +339,8 @@ public class Utilities {
             @Override
             public void onFailure(Call<LobbyResponse> call, Throwable t) {
                 String error = "Network error: " + t.getMessage();
-                Log.e("Utilities", error);
+                Log.e("Utilities", "Join lobby network error: " + t.getMessage());
+                t.printStackTrace();
                 callback.onFailure(error);
             }
         });
@@ -430,5 +444,47 @@ public class Utilities {
     public interface LobbyInfoCallback {
         void onSuccess(Long qid);
         void onFailure(String error);
+    }
+
+    // Check if lobby code exists asynchronously
+    public interface LobbyCodeCallback {
+        void onSuccess(boolean exists);
+        void onFailure(String error);
+    }
+    
+    public static void checkLobbyCodeAsync(Context context, String code, LobbyCodeCallback callback) {
+        initRetrofit();
+        Log.d("Utilities", "Checking if lobby code exists: " + code);
+        retrofitClient.getAPI().checkLobbyCode(code).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.d("Utilities", "Check lobby code response code: " + response.code());
+                if (response.isSuccessful() && response.body() != null) {
+                    boolean exists = response.body();
+                    Log.d("Utilities", "Lobby code " + code + " exists: " + exists);
+                    callback.onSuccess(exists);
+                } else {
+                    String errorBody = "";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorBody = response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        Log.e("Utilities", "Error reading error body: " + e.getMessage());
+                    }
+                    String error = "Failed to check lobby code, HTTP " + response.code() + ": " + errorBody;
+                    Log.e("Utilities", error);
+                    callback.onFailure(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                String error = "Network error: " + t.getMessage();
+                Log.e("Utilities", "Check lobby code network error: " + t.getMessage());
+                t.printStackTrace();
+                callback.onFailure(error);
+            }
+        });
     }
 }

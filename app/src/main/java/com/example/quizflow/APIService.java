@@ -113,12 +113,12 @@ public interface APIService {
     @POST("api/lobby/join")
     Call<LobbyResponse> joinLobby(@Body JoinLobbyRequest request);
 
+    @GET("api/lobby/check/{code}")
+    Call<Boolean> checkLobbyCode(@Path("code") String code);
+
     @GET("api/lobby/{lid}")
     Call<LobbyResponse> getLobbyInfo(@Path("lid") Long lid);
 
     @POST("api/lobby/{lid}/start")
     Call<Void> startLobby(@Path("lid") Long lid, @Body StartLobbyRequest request);
-
-    @GET("api/quiz/{qid}")
-    Call<QuizResponse> getQuizById(@Path("qid") Long qid);
 }
