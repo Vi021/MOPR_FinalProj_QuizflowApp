@@ -44,4 +44,11 @@ public class UserModel implements Serializable {
     public void setCoins(long coins) {
         this.coins = coins;
     }
+
+    public void get(AccountModel user) {
+        this.id = user.getUid();
+        this.username = user.getUsername();
+        this.pfp = user.getImage();
+        this.coins = user.getCoins();
+    }
 }

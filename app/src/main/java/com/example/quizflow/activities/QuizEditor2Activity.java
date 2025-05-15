@@ -76,8 +76,6 @@ public class QuizEditor2Activity extends AppCompatActivity {
         new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
 
         quiz = (QuizModel) getIntent().getSerializableExtra("quiz");
-        quiz = new QuizModel();
-        quiz.setQid(200702);
         if (quiz != null) {
             loadQuiz();
         } else {
@@ -154,10 +152,8 @@ public class QuizEditor2Activity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             lineL_availability.setTooltipText("Quiz's availability to everyone");
         }
-        isPublic[0] = quiz.isMPublic();
         lineL_availability.setOnClickListener(v -> {
             isPublic[0] = !isPublic[0];
-
             if (isPublic[0]) {
                 img_availability.setImageResource(R.drawable.ic_globe_white);
                 txt_availability.setText("Public");
@@ -166,6 +162,14 @@ public class QuizEditor2Activity extends AppCompatActivity {
                 txt_availability.setText("Private");
             }
         });
+        isPublic[0] = quiz.isVisible();
+        if (isPublic[0]) {
+            img_availability.setImageResource(R.drawable.ic_globe_white);
+            txt_availability.setText("Public");
+        } else {
+            img_availability.setImageResource(R.drawable.ic_lock_white);
+            txt_availability.setText("Private");
+        }
 
         eTxt_quizTitle = findViewById(R.id.eTxt_quizTitle);
         eTxt_quizTitle.setText(quiz.getTitle());
@@ -315,7 +319,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
         quiz.setDescription(eTxt_quizDesc.getText().toString());
         quiz.setTopic(TYPE.TOPICS.get(spin_topic.getSelectedItemPosition()));
         quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
-        quiz.setMPublic(isPublic[0]);
+        quiz.setVisible(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
         QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditor2Activity.this.questions);
@@ -353,6 +357,12 @@ public class QuizEditor2Activity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        quiz = null;
+        super.onBackPressed();
+    }
+
     private void updateQuiz() {
         if (quiz.getQid() == null || quiz.getQid() == -1L) {
             Toast t = Toast.makeText(this, "Quiz not found", Toast.LENGTH_SHORT);
@@ -365,7 +375,7 @@ public class QuizEditor2Activity extends AppCompatActivity {
         quiz.setDescription(eTxt_quizDesc.getText().toString());
         quiz.setTopic(TYPE.TOPICS.get(spin_topic.getSelectedItemPosition()));
         quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
-        quiz.setMPublic(isPublic[0]);
+        quiz.setVisible(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
         QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditor2Activity.this.questions);

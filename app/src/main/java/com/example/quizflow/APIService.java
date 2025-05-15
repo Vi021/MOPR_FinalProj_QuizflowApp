@@ -1,5 +1,6 @@
 package com.example.quizflow;
 
+import com.example.quizflow.models.QuizEditorModel;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.requests.CoinHistoryRequest;
 import com.example.quizflow.requests.CoinUpdateRequest;
@@ -22,6 +23,7 @@ import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.respones.UserResponse;
 import com.example.quizflow.utils.Refs;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -88,9 +90,6 @@ public interface APIService {
     @POST(Refs.USER_URL)
     Call<APIResponse> getUser(@Body Long uid);
 
-    @POST(Refs.QUIZ_URL + "create")
-    Call<ResponseBody> saveQuiz(@Body QuizModel quiz);
-
     @GET(Refs.QUIZ_URL + "{qid}")
     Call<QuizResponse> getQuizById(@Path("qid") long qid);
 
@@ -130,4 +129,10 @@ public interface APIService {
 
     @GET("api/quiz/{qid}")
     Call<QuizResponse> getQuizById(@Path("qid") Long qid);
+
+    @GET(Refs.QUIZ_URL + "{uid}/quizzes")
+    Call<List<QuizModel>> getQuizzesCreatedByUid(@Path("uid") Long uid);
+
+    @GET(Refs.QUIZ_URL + "{uid}/attempted")
+    Call<List<QuizModel>> getQuizzesAttemptedByUid(@Path("uid") Long uid);
 }

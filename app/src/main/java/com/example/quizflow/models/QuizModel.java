@@ -7,7 +7,7 @@ public class QuizModel implements Serializable {
     private String title = "";
     private String description = "";
     private String topic = "";   // category
-    private boolean mPublic;
+    private boolean visible;
     private String createdDate;
     private int questionCount = 0;
     private long duration = 0;   // in seconds
@@ -18,12 +18,12 @@ public class QuizModel implements Serializable {
 
     public QuizModel() { }
 
-    public QuizModel(Long qid, String title, String description, String topic, boolean mPublic, String createdDate, int questionCount, long duration, long uid, int attemptCount, byte questionType) {
+    public QuizModel(Long qid, String title, String description, String topic, boolean visible, String createdDate, int questionCount, long duration, long uid, int attemptCount, byte questionType) {
         this.qid = qid;
         this.title = title;
         this.description = description;
         this.topic = topic;
-        this.mPublic = mPublic;
+        this.visible = visible;
         this.createdDate = createdDate;
         this.questionCount = questionCount;
         this.duration = duration;
@@ -60,11 +60,11 @@ public class QuizModel implements Serializable {
         this.topic = topic;
     }
 
-    public boolean isMPublic() {
-        return mPublic;
+    public boolean isVisible() {
+        return visible;
     }
-    public void setMPublic(boolean mPublic) {
-        this.mPublic = mPublic;
+    public void setVisible(boolean mPublic) {
+        this.visible = mPublic;
     }
 
     public void setQid(long qid) {

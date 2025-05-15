@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
 import com.example.quizflow.fragments.QuizDetailDialogFragment;
+import com.example.quizflow.models.AccountModel;
 import com.example.quizflow.models.QuizModel;
-import com.example.quizflow.models.UserModel;
 import com.example.quizflow.utils.COLOR;
+import com.example.quizflow.utils.Refs;
+import com.example.quizflow.utils.Utilities;
 
 import java.util.List;
 
@@ -27,6 +29,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
     private Context context;
     private final List<QuizModel> quizzes;
+
+    private AccountModel user;
+
     public void setQuizzes(List<QuizModel> quizzes) {
         this.quizzes.clear();
         this.quizzes.addAll(quizzes);
@@ -83,13 +88,32 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         QuizModel quiz = quizzes.get(position);
 
         // user part
-        UserModel user = null; // TODO: getUser(quiz.getUid());
-        if (user != null) {
-            holder.txt_username.setText(user.getUsername());
-            Glide.with(context).load(user.getPfp()).into(holder.cirImg_pfp);
-        } else {
-            holder.txt_username.setText("Unknown");
-        }
+        Utilities.getUserByUidAsync(context, Utilities.getUID(context), new Utilities.AccountCallback() {
+            @Override
+            public void onSuccess(AccountModel user) {
+                QuizAdapter.this.user = user;
+
+                holder.txt_username.setText(user.getUsername());
+                String image = user.getImage();
+                if (image != null && !image.isEmpty()) {
+                    String imageUrl = Refs.BASE_IMAGE_URL + image;
+                    Glide.with(context)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.ic_default_pfp_icebear)
+                            .error(R.drawable.ic_default_pfp_icebear)
+                            .into(holder.cirImg_pfp);
+                } else {
+                    holder.txt_username.setText("Unknown");
+                    holder.cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                holder.txt_username.setText("Unknown");
+                holder.cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+            }
+        });
 
         // quiz part
         holder.txt_topic.setText(quiz.getTopic());
@@ -97,7 +121,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         holder.txt_desc.setText(quiz.getDescription());
         holder.txt_questionCount.setText(String.valueOf(quiz.getQuestionCount()));
         holder.txt_quizDuration.setText(quiz.getDurationString());
-        if (quiz.isMPublic()) {
+        if (quiz.isVisible()) {
             holder.img_availability.setImageResource(R.drawable.ic_globe_white);
         } else {
             holder.img_availability.setImageResource(R.drawable.ic_lock_white);

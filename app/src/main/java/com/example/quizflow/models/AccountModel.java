@@ -62,4 +62,8 @@ public class AccountModel implements Serializable {
     public void setCoins(int coins) {
         this.coins = coins;
     }
+
+    public UserModel toUserModel() {
+        return new UserModel(uid, username, image, coins);
+    }
 }

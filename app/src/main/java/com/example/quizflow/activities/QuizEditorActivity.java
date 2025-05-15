@@ -271,7 +271,7 @@ public class QuizEditorActivity extends AppCompatActivity {
     }
 
     private void loadQuiz() {
-        isPublic[0] = quiz.isMPublic();
+        isPublic[0] = quiz.isVisible();
         //questions = fetch via API with quiz.getQid()
     }
 
@@ -288,7 +288,7 @@ public class QuizEditorActivity extends AppCompatActivity {
         quiz.setDescription(eTxt_quizDesc.getText().toString());
         quiz.setTopic(TYPE.TOPICS.get(spin_topic.getSelectedItemPosition()));
         quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
-        quiz.setMPublic(isPublic[0]);
+        quiz.setVisible(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
         quiz.setUid(-1L);
@@ -341,7 +341,7 @@ public class QuizEditorActivity extends AppCompatActivity {
         quiz.setDescription(eTxt_quizDesc.getText().toString());
         quiz.setTopic(TYPE.TOPICS.get(spin_topic.getSelectedItemPosition()));
         quiz.setDurationFromString(eTxt_hour.getText().toString(), eTxt_minute.getText().toString(), eTxt_second.getText().toString());
-        quiz.setMPublic(isPublic[0]);
+        quiz.setVisible(isPublic[0]);
         quiz.setQuestionCount(questions.size());
 
         QuizEditorModel quizEditorModel = new QuizEditorModel(quiz, QuizEditorActivity.this.questions);

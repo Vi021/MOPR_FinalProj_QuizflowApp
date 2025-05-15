@@ -3,6 +3,7 @@ package com.example.quizflow.fragments;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
+import com.example.quizflow.activities.QuizEditor2Activity;
+import com.example.quizflow.models.AccountModel;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.models.UserModel;
 import com.example.quizflow.utils.COLOR;
@@ -30,8 +33,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class QuizDetailDialogFragment extends DialogFragment {
     private static QuizModel quiz;
-    private static UserModel user;
+    private static UserModel user = new UserModel();
     private static int position;
+
+    public static QuizDetailDialogFragment newInstance(QuizModel quiz, AccountModel user, int position) {
+        QuizDetailDialogFragment fragment = new QuizDetailDialogFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("quiz", quiz);
+        args.putSerializable("user", user.toUserModel());
+        args.putInt("position", position);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static QuizDetailDialogFragment newInstance(QuizModel quiz, UserModel user, int position) {
         QuizDetailDialogFragment fragment = new QuizDetailDialogFragment();
@@ -54,8 +67,8 @@ public class QuizDetailDialogFragment extends DialogFragment {
         TextView txt_username = view.findViewById(R.id.txt_username);
         TextView txt_topic = view.findViewById(R.id.txt_topic);
 
-        TextView txt_edit = view.findViewById(R.id.txt_edit);
         TextView txt_start = view.findViewById(R.id.txt_start);
+        TextView txt_edit = view.findViewById(R.id.txt_edit);
         TextView txt_quizTitle = view.findViewById(R.id.txt_quizTitle);
         TextView txt_quizDesc = view.findViewById(R.id.txt_quizDesc);
         TextView txt_questionCount = view.findViewById(R.id.txt_questionCount);
@@ -89,7 +102,7 @@ public class QuizDetailDialogFragment extends DialogFragment {
                 user = (UserModel) args.getSerializable("user");
                 if (user != null) {
                     txt_username.setText(user.getUsername());
-                    Glide.with(requireContext()).load(user.getPfp()).into(cirImg_pfp);
+                    Glide.with(requireContext()).load(user.getPfp()).placeholder(R.drawable.ic_default_pfp_icebear).into(cirImg_pfp);
                 } else {
                     txt_username.setText("Unknown");
                 }
@@ -102,7 +115,7 @@ public class QuizDetailDialogFragment extends DialogFragment {
                 txt_createdDate.setText(quiz.getCreatedDate());
                 txt_attemptCount.setText(String.valueOf(quiz.getAttemptCount()));
 
-                if (quiz.isMPublic()) {
+                if (quiz.isVisible()) {
                     img_availability.setImageResource(R.drawable.ic_globe_white);
                     txt_availability.setText("Public");
                 } else {
@@ -110,12 +123,14 @@ public class QuizDetailDialogFragment extends DialogFragment {
                     txt_availability.setText("Private");
                 }
 
-                txt_edit.setVisibility((user != null && quiz.getUid() == user.getId()) ? View.VISIBLE : View.GONE);
-                txt_edit.setOnClickListener(v -> {
-                    // TODO: edit quiz
-                });
                 txt_start.setOnClickListener(v -> {
                     // TODO: start quiz
+                });
+                txt_edit.setVisibility((user != null && quiz.getUid() == user.getId()) ? View.VISIBLE : View.GONE);
+                txt_edit.setOnClickListener(v -> {
+                    Intent intent = new Intent(requireContext(), QuizEditor2Activity.class);
+                    intent.putExtra("quiz", quiz);
+                    startActivity(intent);
                 });
 
                 img_save.setOnClickListener(v -> {
@@ -150,6 +165,8 @@ public class QuizDetailDialogFragment extends DialogFragment {
                 txt_quizTitle.setTextColor(ContextCompat.getColorStateList(requireContext(), color1));
 
                 txt_start.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_edit.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
+                txt_edit.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), color2));
                 txt_quizDesc.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
                 txt_questionCount.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));
                 txt_questionType.setTextColor(ContextCompat.getColorStateList(requireContext(), color2));

@@ -42,6 +42,18 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/txt_noHist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No quizzes found.."
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/recy_history"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recy_history" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_history"
         android:layout_width="match_parent"
@@ -54,7 +66,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
     
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/consL_savedBar"
+        android:id="@+id/consL_createdBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -67,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="2dp"
-            android:text="Saved"
+            android:text="Created"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -76,14 +88,26 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/txt_noCrea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No quizzes found.."
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/recy_created"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recy_created" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recy_saved"
+        android:id="@+id/recy_created"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/consL_savedBar"
+        app:layout_constraintTop_toBottomOf="@id/consL_createdBar"
         tools:ignore="SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

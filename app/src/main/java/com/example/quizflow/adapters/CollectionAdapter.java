@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
 import com.example.quizflow.fragments.QuizDetailDialogFragment;
+import com.example.quizflow.models.AccountModel;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.models.UserModel;
+import com.example.quizflow.utils.Utilities;
 
 import java.util.List;
 
@@ -23,6 +25,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.ViewHolder> {
     private Context context;
     private List<QuizModel> quizItems;
+    private UserModel user = new UserModel();
+
+    public void setData(List<QuizModel> quizItems) {
+        this.quizItems = quizItems;
+        notifyDataSetChanged();
+    }
 
     public CollectionAdapter(Context context, List<QuizModel> quizItems) {
         this.context = context;
@@ -46,22 +54,34 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
 
         // Bind quiz data
         holder.txtQuizTitle.setText(item.getTitle());
-        holder.txtCategory.setText(item.getTopic().toUpperCase());
+        holder.txtCategory.setText(Utilities.toTitleCase(item.getTopic()));
         holder.txtDuration.setText(item.getDurationString());
         holder.txtQuestionCount.setText(String.valueOf(item.getQuestionCount()));
 
         // Bind user data
-        UserModel user = getUserFromUid(item.getUid());
-        if (user != null) {
-            holder.txtUser.setText(user.getUsername());
-            Glide.with(context)
-                    .load(user.getPfp())
-                    .placeholder(R.drawable.ic_default_pfp_icebear)
-                    .into(holder.cirImgPfp);
-        } else {
-            holder.txtUser.setText("Unknown");
-            holder.cirImgPfp.setImageResource(R.drawable.ic_default_pfp_icebear);
-        }
+        Utilities.getUserByUidAsync(context, item.getUid(), new Utilities.AccountCallback() {
+            @Override
+            public void onSuccess(AccountModel account) {
+                if (account == null) {
+                    return;
+                }
+
+                CollectionAdapter.this.user.get(account);
+
+                holder.txtUser.setText(account.getUsername());
+                Glide.with(context)
+                        .load(account.getImage())
+                        .placeholder(R.drawable.ic_default_pfp_icebear)
+                        .into(holder.cirImgPfp);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                holder.txtUser.setText("Unknown");
+                holder.cirImgPfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+                Utilities.showError(context, "QF_COLLECTION_ADAPTER", error);
+            }
+        });
 
         // Handle item click to show QuizDetailDialogFragment
         holder.itemView.setOnClickListener(v -> {
