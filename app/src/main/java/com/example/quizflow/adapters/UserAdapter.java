@@ -61,7 +61,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         holder.txt_username.setText(user.getUsername());
 
-        if (user.getPfp() != null || user.getPfp().isEmpty()) {
+        if (user.getPfp() != null && !user.getPfp().isEmpty()) {
             String imageUrl = Refs.BASE_IMAGE_URL + user.getPfp();
             Glide.with(context)
                     .load(imageUrl)
