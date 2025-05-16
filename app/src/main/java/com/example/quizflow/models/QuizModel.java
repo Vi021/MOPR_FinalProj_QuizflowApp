@@ -11,14 +11,33 @@ public class QuizModel implements Serializable {
     private String createdDate;
     private int questionCount = 0;
     private long duration = 0;   // in seconds
+
     private long uid = -1L;
+    private String username;
+    private String pfp;
 
     private int attemptCount = 0;
     private int questionType = 0;   //1:mcq, 2:true/false, 3:short answer, 4: mcq + true/false, 5: mcq + short answer, 6: true/false + short answer, 7: all
 
     public QuizModel() { }
 
-    public QuizModel(Long qid, String title, String description, String topic, boolean visible, String createdDate, int questionCount, long duration, long uid, int attemptCount, byte questionType) {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPfp() {
+        return pfp;
+    }
+
+    public void setPfp(String pfp) {
+        this.pfp = pfp;
+    }
+
+    public QuizModel(Long qid, String title, String description, String topic, boolean visible, String createdDate, int questionCount, long duration, long uid, String username, String pfp, int attemptCount, byte questionType) {
         this.qid = qid;
         this.title = title;
         this.description = description;
@@ -28,6 +47,8 @@ public class QuizModel implements Serializable {
         this.questionCount = questionCount;
         this.duration = duration;
         this.uid = uid;
+        this.username = username;
+        this.pfp = pfp;
         this.attemptCount = attemptCount;
         this.questionType = questionType;
     }

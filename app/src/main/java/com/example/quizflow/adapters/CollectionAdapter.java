@@ -16,6 +16,7 @@ import com.example.quizflow.fragments.QuizDetailDialogFragment;
 import com.example.quizflow.models.AccountModel;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.models.UserModel;
+import com.example.quizflow.utils.Refs;
 import com.example.quizflow.utils.Utilities;
 
 import java.util.List;
@@ -58,30 +59,17 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
         holder.txtDuration.setText(item.getDurationString());
         holder.txtQuestionCount.setText(String.valueOf(item.getQuestionCount()));
 
-        // Bind user data
-        Utilities.getUserByUidAsync(context, item.getUid(), new Utilities.AccountCallback() {
-            @Override
-            public void onSuccess(AccountModel account) {
-                if (account == null) {
-                    return;
-                }
-
-                CollectionAdapter.this.user.get(account);
-
-                holder.txtUser.setText(account.getUsername());
-                Glide.with(context)
-                        .load(account.getImage())
-                        .placeholder(R.drawable.ic_default_pfp_icebear)
-                        .into(holder.cirImgPfp);
-            }
-
-            @Override
-            public void onFailure(String error) {
-                holder.txtUser.setText("Unknown");
-                holder.cirImgPfp.setImageResource(R.drawable.ic_default_pfp_icebear);
-                Utilities.showError(context, "QF_COLLECTION_ADAPTER", error);
-            }
-        });
+        if (item.getUid() == -1L || item.getUsername() == null || item.getPfp() == null) {
+            holder.txtUser.setText("Unknown");
+            holder.cirImgPfp.setImageResource(R.drawable.ic_default_pfp_icebear);
+        } else {
+            holder.txtUser.setText(item.getUsername());
+            Glide.with(context)
+                    .load(Refs.BASE_IMAGE_URL + item.getPfp())
+                    .placeholder(R.drawable.ic_default_pfp_icebear)
+                    .into(holder.cirImgPfp);
+            user = new UserModel(item.getUid(), item.getUsername(), item.getPfp(), -1);
+        }
 
         // Handle item click to show QuizDetailDialogFragment
         holder.itemView.setOnClickListener(v -> {

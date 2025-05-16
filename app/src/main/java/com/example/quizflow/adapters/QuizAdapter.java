@@ -88,7 +88,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         QuizModel quiz = quizzes.get(position);
 
         // user part
-        Utilities.getUserByUidAsync(context, Utilities.getUID(context), new Utilities.AccountCallback() {
+        Utilities.getUserByUidAsync(context, quiz.getUid(), new Utilities.AccountCallback() {
             @Override
             public void onSuccess(AccountModel user) {
                 QuizAdapter.this.user = user;

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
 import com.example.quizflow.activities.UserDetailActivity;
 import com.example.quizflow.models.UserModel;
+import com.example.quizflow.utils.Refs;
 
 import java.util.List;
 
@@ -60,10 +61,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         holder.txt_username.setText(user.getUsername());
 
-        if (user.getPfp() == null || user.getPfp().isEmpty()) {
-            holder.cirImg_pfp.setImageResource(R.drawable.ic_default_pfp_icebear);
-        } else {
-            Glide.with(context).load(user.getPfp()).into(holder.cirImg_pfp);
+        if (user.getPfp() != null || user.getPfp().isEmpty()) {
+            String imageUrl = Refs.BASE_IMAGE_URL + user.getPfp();
+            Glide.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.ic_default_pfp_icebear)
+                    .error(R.drawable.ic_default_pfp_icebear)
+                    .into(holder.cirImg_pfp);
         }
 
         holder.lineL_user.setOnClickListener(v -> {

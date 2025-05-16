@@ -23,11 +23,15 @@ import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
 import com.example.quizflow.R;
+import com.example.quizflow.activities.QuestionActivity;
 import com.example.quizflow.activities.QuizEditor2Activity;
 import com.example.quizflow.models.AccountModel;
 import com.example.quizflow.models.QuizModel;
 import com.example.quizflow.models.UserModel;
+import com.example.quizflow.respones.QuizResponse;
 import com.example.quizflow.utils.COLOR;
+import com.example.quizflow.utils.Refs;
+import com.example.quizflow.utils.Utilities;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,6 +39,15 @@ public class QuizDetailDialogFragment extends DialogFragment {
     private static QuizModel quiz;
     private static UserModel user = new UserModel();
     private static int position;
+
+    public static QuizDetailDialogFragment newInstance(QuizModel quiz, int position) {
+        QuizDetailDialogFragment fragment = new QuizDetailDialogFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("quiz", quiz);
+        args.putInt("position", position);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static QuizDetailDialogFragment newInstance(QuizModel quiz, AccountModel user, int position) {
         QuizDetailDialogFragment fragment = new QuizDetailDialogFragment();
@@ -99,13 +112,30 @@ public class QuizDetailDialogFragment extends DialogFragment {
             quiz = (QuizModel) args.getSerializable("quiz");
             if (quiz != null) {
                 // user part
-                user = (UserModel) args.getSerializable("user");
-                if (user != null) {
-                    txt_username.setText(user.getUsername());
-                    Glide.with(requireContext()).load(user.getPfp()).placeholder(R.drawable.ic_default_pfp_icebear).into(cirImg_pfp);
+//                user = (UserModel) args.getSerializable("user");
+//                if (user != null) {
+//                    txt_username.setText(user.getUsername());
+//                    Glide.with(requireContext()).load(user.getPfp()).placeholder(R.drawable.ic_default_pfp_icebear).into(cirImg_pfp);
+//                } else {
+//                    txt_username.setText("Unknown");
+//                }
+                if (quiz.getUid() != -1L && quiz.getUsername() != null && !quiz.getUsername().isEmpty()) {
+                    txt_username.setText(quiz.getUsername());
+                    String image = quiz.getPfp();
+                    if (image != null && !image.isEmpty()) {
+                        String imageUrl = Refs.BASE_IMAGE_URL + image;
+                        Glide.with(requireContext())
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_default_pfp_icebear)
+                                .error(R.drawable.ic_default_pfp_icebear)
+                                .into(cirImg_pfp);
+                    } else {
+                        txt_username.setText("Unknown");
+                    }
                 } else {
                     txt_username.setText("Unknown");
                 }
+
                 txt_topic.setText(quiz.getTopic());
 
                 txt_quizTitle.setText(quiz.getTitle());
@@ -124,7 +154,28 @@ public class QuizDetailDialogFragment extends DialogFragment {
                 }
 
                 txt_start.setOnClickListener(v -> {
-                    // TODO: start quiz
+                    if (Utilities.isNotValidQuizId(quiz.getQid().toString())) {
+                        Toast t = Toast.makeText(requireContext(), "Unable to obtain this quiz code", Toast.LENGTH_SHORT);
+                        t.show();
+                        new Handler().postDelayed(t::cancel, 1200);
+                        return;
+                    }
+                    // Start single player game
+                    Utilities.getQuizByIdAsync(requireContext(), quiz.getQid(), new Utilities.QuizCallback() {
+                        @Override
+                        public void onSuccess(QuizResponse quiz) {
+                            Intent intent = new Intent(requireContext(), QuestionActivity.class);
+                            intent.putExtra("qid", quiz.getQid());
+                            intent.putExtra("isMultiPlayer", false);
+                            requireContext().startActivity(intent);
+                            dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            Utilities.showError(requireContext(), "HomeFragment", error);
+                        }
+                    });
                 });
                 txt_edit.setVisibility((user != null && quiz.getUid() == user.getId()) ? View.VISIBLE : View.GONE);
                 txt_edit.setOnClickListener(v -> {
